@@ -1284,7 +1284,11 @@ Future<img2.Image> getTransparentBitmap(img2.Image bitmap, int i) {
 
   return img2.Image.fromBits(pixels, width, height);
 }
-
+    
+Future<img2.Image> applyExposure(img2.Image image, double f) async {
+ return image;
+}
+    /*
 Future<img2.Image> applyExposure(ui.Image image, double f) async {
   // 计算新图像的宽度和高度
   final width = image.width;
@@ -1314,7 +1318,7 @@ Future<img2.Image> applyExposure(ui.Image image, double f) async {
   final img = await picture.toImage(width, height);
 
   return img;
-}
+}*/
 
   decodeAndUpdate(int display, Uint8List rgba) async {
     final pid = parent.target?.id;
