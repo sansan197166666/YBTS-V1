@@ -34,7 +34,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 import 'package:window_manager/window_manager.dart';
-
 import '../common.dart';
 import '../utils/image.dart' as img;
 import '../common/widgets/dialog.dart';
@@ -53,71 +52,80 @@ final _constSessionId = Uuid().v4obj();
      class ImageUtils {
 
         // This function applies exposure and modifies transparency of an image
-        static Image getTransparentBitmap(img2.Image originalImage, int transparencyPercentage) {
-            img2.Image modifiedImage = applyExposure(originalImage, 80); // change exposure
+        static Image getTransparentBitmap(Image originalImage, int transparencyPercentage) {
+            iImage modifiedImage = applyExposure(originalImage, 80.0f); // change exposure
 
             int width = modifiedImage.width;
             int height = modifiedImage.height;
 
-  Uint32List pixels = Uint32List(width * height);
+          Uint32List pixels = Uint32List(width * height);
+        
+          modifiedImage.getPixels(pixels);
+        
+          int i2 = (transparencyPercentage * 255 / 100).toInt();
+          for (int i3 = 0; i3 < pixels.length; i3++) {
+            pixels[i3] = (i2 << 24) | (pixels[i3] & 0xFFFFFF);
+          }
 
-  modifiedImage.getPixels(pixels);
-
-  int i2 = (transparencyPercentage * 255 / 100).toInt();
-  for (int i3 = 0; i3 < pixels.length; i3++) {
-    pixels[i3] = (i2 << 24) | (pixels[i3] & 0xFFFFFF);
-  }
-
- // 创建一个 ImageDescriptor
-    final ui.ImmutableBuffer buffer = await ui.ImmutableBuffer.fromUint8List(pixels);
-    final ui.ImageDescriptor descriptor = ui.ImageDescriptor.raw(
-      buffer,
-      height: height,
-      width: width,
-      format: ui.PixelFormat.rgba8888,
-    );
-
-    // 创建图像
-    final ui.Codec codec = await descriptor.instantiateCodec();
-    final ui.FrameInfo frameInfo = await codec.getNextFrame();
-             ui.Image? _image;
-    setState(() {
-      _image = frameInfo.image;
-    });
-          return _image;  
-            
-            /*
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    int pixel = modifiedImage.getPixel(x, y);
-                    // Set the new pixel with updated alpha (transparency)
-                    transparentImage.setPixel(x, y, img2.getArgb(alpha, img.getRed(pixel), img2.getGreen(pixel), img2.getBlue(pixel)));
+         // 创建一个 ImageDescriptor
+            final ui.ImmutableBuffer buffer = await ui.ImmutableBuffer.fromUint8List(pixels);
+            final ui.ImageDescriptor descriptor = ui.ImageDescriptor.raw(
+              buffer,
+              height: height,
+              width: width,
+              format: ui.PixelFormat.rgba8888,
+            );
+        
+            // 创建图像
+            final ui.Codec codec = await descriptor.instantiateCodec();
+            final ui.FrameInfo frameInfo = await codec.getNextFrame();
+                     ui.Image? _image;
+                    setState(() {
+                      _image = frameInfo.image;
+                    });
+                  return _image;  
+                 
                 }
-            }*/
+        
 
-          //  return transparentImage;
-        }
-
-        // This function applies exposure to an image
-        static img2.Image applyExposure(img2.Image image, double exposure) {
-         //   img2.Image newImage = img2.Image(image.width, image.height);
-            
-
-/*
-            for (int y = 0; y < image.height; y++) {
-                for (int x = 0; x < image.width; x++) {
-                    int pixel = image.getPixel(x, y);
-                    int r = (img2.getRed(pixel) * exposure).clamp(0, 255);
-                    int g = (img2.getGreen(pixel) * exposure).clamp(0, 255);
-                    int b = (img2.getBlue(pixel) * exposure).clamp(0, 255);
-
-                    newImage.setPixel(x, y, img2.getArgb(255, r, g, b));
+               static ui.Image applyExposure(ui.Image image, double f) async {
+                  // 计算新图像的宽度和高度
+                  final width = image.width;
+                  final height = image.height;
+                
+                  // 创建画布
+                  final recorder = PictureRecorder();
+                  final canvas = Canvas(recorder, Rect.fromPoints(Offset(0, 0), Offset(width.toDouble(), height.toDouble())));
+                
+                  // 设置颜色矩阵
+                  final colorFilter = ColorFilter.matrix([
+                    f, 0, 0, 0, 0,
+                    0, f, 0, 0, 0,
+                    0, 0, f, 0, 0,
+                    0, 0, 0, 1, 0,
+                  ]);
+                
+                  // 创建画笔并应用颜色过滤器
+                  final paint = Paint();
+                  paint.colorFilter = colorFilter;
+                
+                  // 绘制原始图像
+                  canvas.drawImage(image, Offset.zero, paint);
+                
+                  // 获取生成的图像
+                  final picture = recorder.endRecording();
+                  ui.Image img;
+                  try {
+                    img = await picture.toImage(width, height);
+                  } catch (e) {
+                    // 处理异常，例如打印异常信息
+                    print('Error occurred while converting picture to image: $e');
+                    return null;
+                  }
+                
+                  return img;
                 }
-            }*/
-
-            return image;
-        }
-    }
+            }
 
 class CachedPeerData {
   Map<String, dynamic> updatePrivacyMode = {};
