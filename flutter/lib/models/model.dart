@@ -50,70 +50,41 @@ typedef ReconnectHandle = Function(OverlayDialogManager, SessionID, bool);
 final _constSessionId = Uuid().v4obj();
 
      class ImageUtils {
-static Future<ui.Image> getTransparentImage(
-  ui.Image originalImage, 
-  int transparencyPercentage, 
-  double exposure,
-) async {
-  // Apply exposure adjustment
-  ui.Image modifiedImage = await applyExposure(originalImage, exposure);
-
-  int width = modifiedImage.width;
-  int height = modifiedImage.height;
-
-  // Get the pixels of the modified image
-  Uint32List pixels = Uint32List(width * height);
-  modifiedImage.toByteData(format: ui.ImageByteFormat.png).then((byteData) {
-    pixels.setRange(0, width * height, byteData!.buffer.asUint32List());
-  });
-
-  // Apply transparency
-  int i2 = (transparencyPercentage * 255 / 100).toInt();
-  for (int i3 = 0; i3 < pixels.length; i3++) {
-    pixels[i3] = (i2 << 24) | (pixels[i3] & 0xFFFFFF);
-  }
-
-  // Create a new image from the modified pixels
-  ui.Codec codec = await ui.instantiateImageCodec(
-    Uint8List.fromList(pixels.buffer.asUint8List()),
-    targetWidth: width,
-    targetHeight: height,
-  );
-  ui.FrameInfo frame = await codec.getNextFrame();
-  return frame.image;
-}
-         /*
-      static Image getTransparentBitmap(Image originalImage, int transparencyPercentage) async {
-              Image modifiedImage = await applyExposure(originalImage, 80.0); // change exposure
+            static Future<ui.Image> getTransparentImage(
+              ui.Image originalImage, 
+              int transparencyPercentage, 
+              double exposure,
+            ) async {
+              // Apply exposure adjustment
+              ui.Image modifiedImage = await applyExposure(originalImage, exposure);
             
               int width = modifiedImage.width;
               int height = modifiedImage.height;
             
+              // Get the pixels of the modified image
               Uint32List pixels = Uint32List(width * height);
-              modifiedImage.getPixels(pixels);
+              modifiedImage.toByteData(format: ui.ImageByteFormat.png).then((byteData) {
+                pixels.setRange(0, width * height, byteData!.buffer.asUint32List());
+              });
             
+              // Apply transparency
               int i2 = (transparencyPercentage * 255 / 100).toInt();
               for (int i3 = 0; i3 < pixels.length; i3++) {
                 pixels[i3] = (i2 << 24) | (pixels[i3] & 0xFFFFFF);
               }
             
-              // Create an Image from pixels
-              final ui.ImmutableBuffer buffer = await ui.ImmutableBuffer.fromUint32List(pixels);
-              final ui.ImageDescriptor descriptor = ui.ImageDescriptor.raw(
-                buffer,
-                height: height,
-                width: width,
-                pixelFormat: ui.PixelFormat.rgba8888,
+              // Create a new image from the modified pixels
+              ui.Codec codec = await ui.instantiateImageCodec(
+                Uint8List.fromList(pixels.buffer.asUint8List()),
+                targetWidth: width,
+                targetHeight: height,
               );
-            
-              final ui.Codec codec = await descriptor.instantiateCodec(targetWidth: width, targetHeight: height);
-              final ui.FrameInfo frameInfo = await codec.getNextFrame();
-              
-              return frameInfo.image; // returns the final image
+              ui.FrameInfo frame = await codec.getNextFrame();
+              return frame.image;
             }
-*/
+
                static Future<ui.Image> applyExposure(ui.Image image, double f) async {
-                   /*
+                 
                   // 计算新图像的宽度和高度
                   final width = image.width;
                   final height = image.height;
@@ -149,8 +120,8 @@ static Future<ui.Image> getTransparentImage(
                   }
                 
                   return img;
-                  */
-                   return image;
+                  
+                  
                 }
             }
 
