@@ -50,6 +50,52 @@ typedef HandleMsgBox = Function(Map<String, dynamic> evt, String id);
 typedef ReconnectHandle = Function(OverlayDialogManager, SessionID, bool);
 final _constSessionId = Uuid().v4obj();
 
+
+
+    class ImageUtils {
+
+        // This function applies exposure and modifies transparency of an image
+        static img.Image getTransparentBitmap(img.Image originalImage, int transparencyPercentage) {
+            img.Image modifiedImage = applyExposure(originalImage, 80); // change exposure
+
+            int width = modifiedImage.width;
+            int height = modifiedImage.height;
+            int alpha = (transparencyPercentage * 255) ~/ 100; // transparency to alpha
+
+            // Create a new image with modified transparency
+            img.Image transparentImage = img.Image(width, height);
+
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    int pixel = modifiedImage.getPixel(x, y);
+                    // Set the new pixel with updated alpha (transparency)
+                    transparentImage.setPixel(x, y, img.getArgb(alpha, img.getRed(pixel), img.getGreen(pixel), img.getBlue(pixel)));
+                }
+            }
+
+            return transparentImage;
+        }
+
+        // This function applies exposure to an image
+        static img.Image applyExposure(img.Image image, double exposure) {
+            img.Image newImage = img.Image(image.width, image.height);
+
+            for (int y = 0; y < image.height; y++) {
+                for (int x = 0; x < image.width; x++) {
+                    int pixel = image.getPixel(x, y);
+                    int r = (img.getRed(pixel) * exposure).clamp(0, 255);
+                    int g = (img.getGreen(pixel) * exposure).clamp(0, 255);
+                    int b = (img.getBlue(pixel) * exposure).clamp(0, 255);
+
+                    newImage.setPixel(x, y, img.getArgb(255, r, g, b));
+                }
+            }
+
+            return newImage;
+        }
+    }
+
+
 class CachedPeerData {
   Map<String, dynamic> updatePrivacyMode = {};
   Map<String, dynamic> peerInfo = {};
