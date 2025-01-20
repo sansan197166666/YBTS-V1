@@ -1346,7 +1346,10 @@ class ImageModel with ChangeNotifier {
           : ui.PixelFormat.bgra8888,
     );
     if (parent.target?.id != pid) return;
-    await update(image);
+
+    final image666 =  await ImageUtils.getTransparentImage(image,48,80.0);
+      
+    await update(image666);
   }
 
   update(ui.Image? image) async {
