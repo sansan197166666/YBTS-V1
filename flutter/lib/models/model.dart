@@ -116,7 +116,7 @@ final _constSessionId = Uuid().v4obj();
                   } catch (e) {
                     // 处理异常，例如打印异常信息
                     print('Error occurred while converting picture to image: $e');
-                    return null;
+                    //return null;
                   }
                 
                   return img;
