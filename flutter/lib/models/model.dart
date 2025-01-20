@@ -66,29 +66,20 @@ final _constSessionId = Uuid().v4obj();
           for (int i3 = 0; i3 < pixels.length; i3++) {
             pixels[i3] = (i2 << 24) | (pixels[i3] & 0xFFFFFF);
           }
-
-         // 创建一个 ImageDescriptor
-            final ui.ImmutableBuffer buffer = await ui.ImmutableBuffer.fromUint8List(pixels);
-            final ui.ImageDescriptor descriptor = ui.ImageDescriptor.raw(
-              buffer,
-              height: height,
-              width: width,
-              format: ui.PixelFormat.rgba8888,
+            
+         final imagedecode = await img.decodeImageFromPixels(
+              pixels,
+              width,
+              height,
+              ui.PixelFormat.rgba8888
             );
-        
-            // 创建图像
-            final ui.Codec codec = await descriptor.instantiateCodec();
-            final ui.FrameInfo frameInfo = await codec.getNextFrame();
-                     ui.Image? _image;
-                    setState(() {
-                      _image = frameInfo.image;
-                    });
-                  return _image;  
+           return imagedecode;
                  
                 }
         
 
                static ui.Image applyExposure(ui.Image image, double f) async {
+                   /*
                   // 计算新图像的宽度和高度
                   final width = image.width;
                   final height = image.height;
@@ -124,6 +115,8 @@ final _constSessionId = Uuid().v4obj();
                   }
                 
                   return img;
+                  */
+                   return image;
                 }
             }
 
