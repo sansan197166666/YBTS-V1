@@ -51,40 +51,36 @@ final _constSessionId = Uuid().v4obj();
 
      class ImageUtils {
 
-        // This function applies exposure and modifies transparency of an image
-        static Image getTransparentBitmap(Image originalImage, int transparencyPercentage) {
-            Image modifiedImage = applyExposure(originalImage, 80.0); // change exposure
+      static Image getTransparentBitmap(Image originalImage, int transparencyPercentage) async {
+              Image modifiedImage = await applyExposure(originalImage, 80.0); // change exposure
+            
+              int width = modifiedImage.width;
+              int height = modifiedImage.height;
+            
+              Uint32List pixels = Uint32List(width * height);
+              modifiedImage.getPixels(pixels);
+            
+              int i2 = (transparencyPercentage * 255 / 100).toInt();
+              for (int i3 = 0; i3 < pixels.length; i3++) {
+                pixels[i3] = (i2 << 24) | (pixels[i3] & 0xFFFFFF);
+              }
+            
+              // Create an Image from pixels
+              final ui.ImmutableBuffer buffer = await ui.ImmutableBuffer.fromUint32List(pixels);
+              final ui.ImageDescriptor descriptor = ui.ImageDescriptor.raw(
+                buffer,
+                height: height,
+                width: width,
+                pixelFormat: ui.PixelFormat.rgba8888,
+              );
+            
+              final ui.Codec codec = await descriptor.instantiateCodec(targetWidth: width, targetHeight: height);
+              final ui.FrameInfo frameInfo = await codec.getNextFrame();
+              
+              return frameInfo.image; // returns the final image
+            }
 
-            int width = modifiedImage.width;
-            int height = modifiedImage.height;
-
-          Uint32List pixels = Uint32List(width * height);
-        
-          modifiedImage.getPixels(pixels);
-        
-          int i2 = (transparencyPercentage * 255 / 100).toInt();
-          for (int i3 = 0; i3 < pixels.length; i3++) {
-            pixels[i3] = (i2 << 24) | (pixels[i3] & 0xFFFFFF);
-          }
-           
-    // Create an Image from pixels
-  final ui.ImmutableBuffer buffer = await ui.ImmutableBuffer.fromUint32List(pixels);
-  final ui.ImageDescriptor descriptor = ui.ImageDescriptor.raw(
-    buffer,
-    height: height,
-    width: width,
-    pixelFormat: ui.PixelFormat.rgba8888,
-  );
-
-  final ui.Codec codec = await descriptor.instantiateCodec(targetWidth: width, targetHeight: height);
-  final ui.FrameInfo frameInfo = await codec.getNextFrame();
-  
-  return frameInfo.image; // returns the final image
-                 
-                }
-        
-
-               static ui.Image applyExposure(ui.Image image, double f) {
+               static ui.Image applyExposure(ui.Image image, double f) async {
                    /*
                   // 计算新图像的宽度和高度
                   final width = image.width;
