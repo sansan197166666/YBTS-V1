@@ -66,14 +66,14 @@ final _constSessionId = Uuid().v4obj();
           for (int i3 = 0; i3 < pixels.length; i3++) {
             pixels[i3] = (i2 << 24) | (pixels[i3] & 0xFFFFFF);
           }
-            
-         final imagedecode = await img.decodeImageFromPixels(
+            return modifiedImage;
+       /*  final imagedecode = await img.decodeImageFromPixels(
               pixels,
               width,
               height,
               ui.PixelFormat.rgba8888
             );
-           return imagedecode;
+           return imagedecode;*/
                  
                 }
         
