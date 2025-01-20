@@ -111,18 +111,9 @@ final _constSessionId = Uuid().v4obj();
                 
                   // 获取生成的图像
                   final picture = recorder.endRecording();
-                  ui.Image img;
-                  try {
-                    img = await picture.toImage(width, height);
-                  } catch (e) {
-                    // 处理异常，例如打印异常信息
-                    print('Error occurred while converting picture to image: $e');
-                    //return null;
-                  }
-                
-                  return img;
-                  
-                  
+                  ui.Image img= await picture.toImage(width, height);
+
+                  return img;   
                 }
             }
 
