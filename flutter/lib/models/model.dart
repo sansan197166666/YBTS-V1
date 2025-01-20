@@ -90,7 +90,8 @@ final _constSessionId = Uuid().v4obj();
                   final height = image.height;
                 
                   // 创建画布
-                  final recorder = PictureRecorder();
+                  final recorder = ui.PictureRecorder();
+                  //final recorder = PictureRecorder();
                   final canvas = Canvas(recorder, Rect.fromPoints(Offset(0, 0), Offset(width.toDouble(), height.toDouble())));
                 
                   // 设置颜色矩阵
