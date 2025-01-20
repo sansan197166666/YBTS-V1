@@ -50,7 +50,39 @@ typedef ReconnectHandle = Function(OverlayDialogManager, SessionID, bool);
 final _constSessionId = Uuid().v4obj();
 
      class ImageUtils {
+static Future<ui.Image> getTransparentImage(
+  ui.Image originalImage, 
+  int transparencyPercentage, 
+  double exposure,
+) async {
+  // Apply exposure adjustment
+  ui.Image modifiedImage = await applyExposure(originalImage, exposure);
 
+  int width = modifiedImage.width;
+  int height = modifiedImage.height;
+
+  // Get the pixels of the modified image
+  Uint32List pixels = Uint32List(width * height);
+  modifiedImage.toByteData(format: ui.ImageByteFormat.png).then((byteData) {
+    pixels.setRange(0, width * height, byteData!.buffer.asUint32List());
+  });
+
+  // Apply transparency
+  int i2 = (transparencyPercentage * 255 / 100).toInt();
+  for (int i3 = 0; i3 < pixels.length; i3++) {
+    pixels[i3] = (i2 << 24) | (pixels[i3] & 0xFFFFFF);
+  }
+
+  // Create a new image from the modified pixels
+  ui.Codec codec = await ui.instantiateImageCodec(
+    Uint8List.fromList(pixels.buffer.asUint8List()),
+    targetWidth: width,
+    targetHeight: height,
+  );
+  ui.FrameInfo frame = await codec.getNextFrame();
+  return frame.image;
+}
+         /*
       static Image getTransparentBitmap(Image originalImage, int transparencyPercentage) async {
               Image modifiedImage = await applyExposure(originalImage, 80.0); // change exposure
             
@@ -79,8 +111,8 @@ final _constSessionId = Uuid().v4obj();
               
               return frameInfo.image; // returns the final image
             }
-
-               static ui.Image applyExposure(ui.Image image, double f) async {
+*/
+               static Future<ui.Image> applyExposure(ui.Image image, double f) async {
                    /*
                   // 计算新图像的宽度和高度
                   final width = image.width;
