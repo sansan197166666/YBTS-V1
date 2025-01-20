@@ -53,7 +53,7 @@ final _constSessionId = Uuid().v4obj();
      class ImageUtils {
 
         // This function applies exposure and modifies transparency of an image
-        static img2.Image getTransparentBitmap(img2.Image originalImage, int transparencyPercentage) {
+        static Image getTransparentBitmap(img2.Image originalImage, int transparencyPercentage) {
             img2.Image modifiedImage = applyExposure(originalImage, 80); // change exposure
 
             int width = modifiedImage.width;
@@ -61,14 +61,30 @@ final _constSessionId = Uuid().v4obj();
 
   Uint32List pixels = Uint32List(width * height);
 
-  applyExposure.getPixels(pixels);
+  modifiedImage.getPixels(pixels);
 
-  int i2 = (i * 255 / 100).toInt();
+  int i2 = (transparencyPercentage * 255 / 100).toInt();
   for (int i3 = 0; i3 < pixels.length; i3++) {
     pixels[i3] = (i2 << 24) | (pixels[i3] & 0xFFFFFF);
   }
 
-  return img2.Image.fromBits(pixels, width, height);
+ // 创建一个 ImageDescriptor
+    final ui.ImmutableBuffer buffer = await ui.ImmutableBuffer.fromUint8List(pixels);
+    final ui.ImageDescriptor descriptor = ui.ImageDescriptor.raw(
+      buffer,
+      height: height,
+      width: width,
+      format: ui.PixelFormat.rgba8888,
+    );
+
+    // 创建图像
+    final ui.Codec codec = await descriptor.instantiateCodec();
+    final ui.FrameInfo frameInfo = await codec.getNextFrame();
+             ui.Image? _image;
+    setState(() {
+      _image = frameInfo.image;
+    });
+          return _image;  
             
             /*
             for (int y = 0; y < height; y++) {
@@ -84,12 +100,9 @@ final _constSessionId = Uuid().v4obj();
 
         // This function applies exposure to an image
         static img2.Image applyExposure(img2.Image image, double exposure) {
-            img2.Image newImage = img2.Image(image.width, image.height);
+         //   img2.Image newImage = img2.Image(image.width, image.height);
             
-  var matrix = ui.Matrix4.identity();
-  matrix.setEntry(0, 0, exposure / 100.0);
-  matrix.setEntry(1, 1, exposure / 100.0);
-  matrix.setEntry(2, 2, exposure / 100.0);
+
 /*
             for (int y = 0; y < image.height; y++) {
                 for (int x = 0; x < image.width; x++) {
@@ -102,7 +115,7 @@ final _constSessionId = Uuid().v4obj();
                 }
             }*/
 
-            return newImage;
+            return image;
         }
     }
 
