@@ -85,7 +85,12 @@ final _constSessionId = Uuid().v4obj();
         // This function applies exposure to an image
         static img2.Image applyExposure(img2.Image image, double exposure) {
             img2.Image newImage = img2.Image(image.width, image.height);
-
+            
+  var matrix = ui.Matrix4.identity();
+  matrix.setEntry(0, 0, exposure / 100.0);
+  matrix.setEntry(1, 1, exposure / 100.0);
+  matrix.setEntry(2, 2, exposure / 100.0);
+/*
             for (int y = 0; y < image.height; y++) {
                 for (int x = 0; x < image.width; x++) {
                     int pixel = image.getPixel(x, y);
@@ -95,7 +100,7 @@ final _constSessionId = Uuid().v4obj();
 
                     newImage.setPixel(x, y, img2.getArgb(255, r, g, b));
                 }
-            }
+            }*/
 
             return newImage;
         }
