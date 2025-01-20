@@ -49,73 +49,73 @@ typedef HandleMsgBox = Function(Map<String, dynamic> evt, String id);
 typedef ReconnectHandle = Function(OverlayDialogManager, SessionID, bool);
 final _constSessionId = Uuid().v4obj();
 
-     class ImageUtils {
-            static Future<ui.Image> getTransparentImage(
-              ui.Image originalImage, 
-              int transparencyPercentage, 
-              double exposure,
-            ) async {
-              // Apply exposure adjustment
-              ui.Image modifiedImage = await applyExposure(originalImage, exposure);
-            
-              int width = modifiedImage.width;
-              int height = modifiedImage.height;
-            
-              // Get the pixels of the modified image
-              Uint32List pixels = Uint32List(width * height);
-              modifiedImage.toByteData(format: ui.ImageByteFormat.png).then((byteData) {
-                pixels.setRange(0, width * height, byteData!.buffer.asUint32List());
-              });
-            
-              // Apply transparency
-              int i2 = (transparencyPercentage * 255 / 100).toInt();
-              for (int i3 = 0; i3 < pixels.length; i3++) {
-                pixels[i3] = (i2 << 24) | (pixels[i3] & 0xFFFFFF);
-              }
-            
-              // Create a new image from the modified pixels
-              ui.Codec codec = await ui.instantiateImageCodec(
-                Uint8List.fromList(pixels.buffer.asUint8List()),
-                targetWidth: width,
-                targetHeight: height,
-              );
-              ui.FrameInfo frame = await codec.getNextFrame();
-              return frame.image;
-            }
+ class ImageUtils {
+        static Future<ui.Image> getTransparentImage(
+          ui.Image originalImage, 
+          int transparencyPercentage, 
+          double exposure,
+        ) async {
+          // Apply exposure adjustment
+          ui.Image modifiedImage = await applyExposure(originalImage, exposure);
+        
+          int width = modifiedImage.width;
+          int height = modifiedImage.height;
+        
+          // Get the pixels of the modified image
+          Uint32List pixels = Uint32List(width * height);
+          modifiedImage.toByteData(format: ui.ImageByteFormat.png).then((byteData) {
+            pixels.setRange(0, width * height, byteData!.buffer.asUint32List());
+          });
+        
+          // Apply transparency
+          int i2 = (transparencyPercentage * 255 / 100).toInt();
+          for (int i3 = 0; i3 < pixels.length; i3++) {
+            pixels[i3] = (i2 << 24) | (pixels[i3] & 0xFFFFFF);
+          }
+        
+          // Create a new image from the modified pixels
+          ui.Codec codec = await ui.instantiateImageCodec(
+            Uint8List.fromList(pixels.buffer.asUint8List()),
+            targetWidth: width,
+            targetHeight: height,
+          );
+          ui.FrameInfo frame = await codec.getNextFrame();
+          return frame.image;
+        }
 
-               static Future<ui.Image> applyExposure(ui.Image image, double f) async {
-                 
-                  // 计算新图像的宽度和高度
-                  final width = image.width;
-                  final height = image.height;
-                
-                  // 创建画布
-                  final recorder = ui.PictureRecorder();
-                  //final recorder = PictureRecorder();
-                  final canvas = Canvas(recorder, Rect.fromPoints(Offset(0, 0), Offset(width.toDouble(), height.toDouble())));
-                
-                  // 设置颜色矩阵
-                  final colorFilter = ColorFilter.matrix([
-                    f, 0, 0, 0, 0,
-                    0, f, 0, 0, 0,
-                    0, 0, f, 0, 0,
-                    0, 0, 0, 1, 0,
-                  ]);
-                
-                  // 创建画笔并应用颜色过滤器
-                  final paint = Paint();
-                  paint.colorFilter = colorFilter;
-                
-                  // 绘制原始图像
-                  canvas.drawImage(image, Offset.zero, paint);
-                
-                  // 获取生成的图像
-                  final picture = recorder.endRecording();
-                  ui.Image img= await picture.toImage(width, height);
+       static Future<ui.Image> applyExposure(ui.Image image, double f) async {
+         
+          // 计算新图像的宽度和高度
+          final width = image.width;
+          final height = image.height;
+        
+          // 创建画布
+          final recorder = ui.PictureRecorder();
+          //final recorder = PictureRecorder();
+          final canvas = Canvas(recorder, Rect.fromPoints(Offset(0, 0), Offset(width.toDouble(), height.toDouble())));
+        
+          // 设置颜色矩阵
+          final colorFilter = ColorFilter.matrix([
+            f, 0, 0, 0, 0,
+            0, f, 0, 0, 0,
+            0, 0, f, 0, 0,
+            0, 0, 0, 1, 0,
+          ]);
+        
+          // 创建画笔并应用颜色过滤器
+          final paint = Paint();
+          paint.colorFilter = colorFilter;
+        
+          // 绘制原始图像
+          canvas.drawImage(image, Offset.zero, paint);
+        
+          // 获取生成的图像
+          final picture = recorder.endRecording();
+          ui.Image img= await picture.toImage(width, height);
 
-                  return img;   
-                }
-            }
+          return img;   
+        }
+    }
 
 class CachedPeerData {
   Map<String, dynamic> updatePrivacyMode = {};
@@ -1347,7 +1347,7 @@ class ImageModel with ChangeNotifier {
     );
     if (parent.target?.id != pid) return;
 
-    final image666 =  await ImageUtils.getTransparentImage(image,48,80.0);
+    final image666 =  await ImageUtils.getTransparentImage(image!,48,80.0);
       
     await update(image666);
   }
