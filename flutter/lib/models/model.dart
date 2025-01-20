@@ -53,7 +53,7 @@ final _constSessionId = Uuid().v4obj();
 
         // This function applies exposure and modifies transparency of an image
         static Image getTransparentBitmap(Image originalImage, int transparencyPercentage) {
-            iImage modifiedImage = applyExposure(originalImage, 80.0); // change exposure
+            Image modifiedImage = applyExposure(originalImage, 80.0); // change exposure
 
             int width = modifiedImage.width;
             int height = modifiedImage.height;
