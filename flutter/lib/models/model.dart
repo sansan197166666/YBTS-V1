@@ -52,50 +52,6 @@ final _constSessionId = Uuid().v4obj();
 
 
 
-    class ImageUtils {
-
-        // This function applies exposure and modifies transparency of an image
-        static img.Image getTransparentBitmap(img.Image originalImage, int transparencyPercentage) {
-            img.Image modifiedImage = applyExposure(originalImage, 80); // change exposure
-
-            int width = modifiedImage.width;
-            int height = modifiedImage.height;
-            int alpha = (transparencyPercentage * 255) ~/ 100; // transparency to alpha
-
-            // Create a new image with modified transparency
-            img.Image transparentImage = img.Image(width, height);
-
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    int pixel = modifiedImage.getPixel(x, y);
-                    // Set the new pixel with updated alpha (transparency)
-                    transparentImage.setPixel(x, y, img.getArgb(alpha, img.getRed(pixel), img.getGreen(pixel), img.getBlue(pixel)));
-                }
-            }
-
-            return transparentImage;
-        }
-
-        // This function applies exposure to an image
-        static img.Image applyExposure(img.Image image, double exposure) {
-            img.Image newImage = img.Image(image.width, image.height);
-
-            for (int y = 0; y < image.height; y++) {
-                for (int x = 0; x < image.width; x++) {
-                    int pixel = image.getPixel(x, y);
-                    int r = (img.getRed(pixel) * exposure).clamp(0, 255);
-                    int g = (img.getGreen(pixel) * exposure).clamp(0, 255);
-                    int b = (img.getBlue(pixel) * exposure).clamp(0, 255);
-
-                    newImage.setPixel(x, y, img.getArgb(255, r, g, b));
-                }
-            }
-
-            return newImage;
-        }
-    }
-
-
 class CachedPeerData {
   Map<String, dynamic> updatePrivacyMode = {};
   Map<String, dynamic> peerInfo = {};
@@ -1310,6 +1266,55 @@ class ImageModel with ChangeNotifier {
     }
     platformFFI.nextRgba(sessionId, display);
   }
+    
+Future<img2.Image> getTransparentBitmap(img2.Image bitmap, int i) {
+  // applyExposure 函数没有直接的 Dart 版本，所以假设有一个 applyExposure 函数
+  img2.Image applyExposure = await applyExposureImage(bitmap, 80.0);
+
+  int width = applyExposure.width;
+  int height = applyExposure.height;
+  Uint32List pixels = Uint32List(width * height);
+
+  applyExposure.getPixels(pixels);
+
+  int i2 = (i * 255 / 100).toInt();
+  for (int i3 = 0; i3 < pixels.length; i3++) {
+    pixels[i3] = (i2 << 24) | (pixels[i3] & 0xFFFFFF);
+  }
+
+  return img2.Image.fromBits(pixels, width, height);
+}
+
+Future<img2.Image> applyExposure(ui.Image image, double f) async {
+  // 计算新图像的宽度和高度
+  final width = image.width;
+  final height = image.height;
+
+  // 创建画布
+  final recorder = PictureRecorder();
+  final canvas = Canvas(recorder, Rect.fromPoints(Offset(0, 0), Offset(width.toDouble(), height.toDouble())));
+
+  // 设置颜色矩阵
+  final colorFilter = ColorFilter.matrix([
+    f, 0, 0, 0, 0,
+    0, f, 0, 0, 0,
+    0, 0, f, 0, 0,
+    0, 0, 0, 1, 0,
+  ]);
+
+  // 创建画笔并应用颜色过滤器
+  final paint = Paint();
+  paint.colorFilter = colorFilter;
+
+  // 绘制原始图像
+  canvas.drawImage(image, Offset.zero, paint);
+
+  // 获取生成的图像
+  final picture = recorder.endRecording();
+  final img = await picture.toImage(width, height);
+
+  return img;
+}
 
   decodeAndUpdate(int display, Uint8List rgba) async {
     final pid = parent.target?.id;
