@@ -53,7 +53,7 @@ final _constSessionId = Uuid().v4obj();
 
         // This function applies exposure and modifies transparency of an image
         static Image getTransparentBitmap(Image originalImage, int transparencyPercentage) {
-            iImage modifiedImage = applyExposure(originalImage, 80.0f); // change exposure
+            iImage modifiedImage = applyExposure(originalImage, 80.0); // change exposure
 
             int width = modifiedImage.width;
             int height = modifiedImage.height;
@@ -78,7 +78,7 @@ final _constSessionId = Uuid().v4obj();
                 }
         
 
-               static ui.Image applyExposure(ui.Image image, double f) async {
+               static ui.Image applyExposure(ui.Image image, double f) {
                    /*
                   // 计算新图像的宽度和高度
                   final width = image.width;
