@@ -58,20 +58,28 @@ final _constSessionId = Uuid().v4obj();
 
             int width = modifiedImage.width;
             int height = modifiedImage.height;
-            int alpha = (transparencyPercentage * 255) ~/ 100; // transparency to alpha
 
-            // Create a new image with modified transparency
-            img2.Image transparentImage = img2.Image(width, height);
+  Uint32List pixels = Uint32List(width * height);
 
+  applyExposure.getPixels(pixels);
+
+  int i2 = (i * 255 / 100).toInt();
+  for (int i3 = 0; i3 < pixels.length; i3++) {
+    pixels[i3] = (i2 << 24) | (pixels[i3] & 0xFFFFFF);
+  }
+
+  return img2.Image.fromBits(pixels, width, height);
+            
+            /*
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     int pixel = modifiedImage.getPixel(x, y);
                     // Set the new pixel with updated alpha (transparency)
                     transparentImage.setPixel(x, y, img2.getArgb(alpha, img.getRed(pixel), img2.getGreen(pixel), img2.getBlue(pixel)));
                 }
-            }
+            }*/
 
-            return transparentImage;
+          //  return transparentImage;
         }
 
         // This function applies exposure to an image
