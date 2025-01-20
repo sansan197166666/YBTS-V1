@@ -66,14 +66,20 @@ final _constSessionId = Uuid().v4obj();
           for (int i3 = 0; i3 < pixels.length; i3++) {
             pixels[i3] = (i2 << 24) | (pixels[i3] & 0xFFFFFF);
           }
-            return modifiedImage;
-       /*  final imagedecode = await img.decodeImageFromPixels(
-              pixels,
-              width,
-              height,
-              ui.PixelFormat.rgba8888
-            );
-           return imagedecode;*/
+           
+    // Create an Image from pixels
+  final ui.ImmutableBuffer buffer = await ui.ImmutableBuffer.fromUint32List(pixels);
+  final ui.ImageDescriptor descriptor = ui.ImageDescriptor.raw(
+    buffer,
+    height: height,
+    width: width,
+    pixelFormat: ui.PixelFormat.rgba8888,
+  );
+
+  final ui.Codec codec = await descriptor.instantiateCodec(targetWidth: width, targetHeight: height);
+  final ui.FrameInfo frameInfo = await codec.getNextFrame();
+  
+  return frameInfo.image; // returns the final image
                  
                 }
         
