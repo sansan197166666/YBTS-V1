@@ -86,9 +86,16 @@ final _constSessionId = Uuid().v4obj();
             // Change the alpha component while keeping the RGB values
             pixels[j] = (pixels[j] & 0x00FFFFFF) | (alpha << 24);
           }
-        
+            
+           ui.Codec codec = await ui.instantiateImageCodec(
+            Uint8List.fromList(pixels.buffer.asUint8List()),
+            targetWidth: width,
+            targetHeight: height,
+          );
+          ui.FrameInfo frame = await codec.getNextFrame();
+          return frame.image;
           // From the modified pixel data, create and return a new Bitmap
-          return modifiedImage.fromRawPixels(pixels, width, height);
+          //return modifiedImage.fromRawPixels(pixels, width, height);
         
             /*
           int width = modifiedImage.width;
