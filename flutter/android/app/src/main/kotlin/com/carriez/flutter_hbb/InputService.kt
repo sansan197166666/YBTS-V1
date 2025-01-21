@@ -33,6 +33,20 @@ import kotlin.math.max
 import hbb.MessageOuterClass.KeyEvent
 import hbb.MessageOuterClass.KeyboardMode
 import hbb.KeyEventConverter
+import android.view.WindowManager
+import android.view.WindowManager.LayoutParams.*
+import android.widget.FrameLayout
+import android.graphics.Color
+import android.annotation.SuppressLint
+import android.graphics.PixelFormat
+import android.view.Gravity
+import android.view.MotionEvent
+import android.view.View
+import android.util.DisplayMetrics
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.content.Context
+import android.content.res.ColorStateList
 
 const val LIFT_DOWN = 9
 const val LIFT_MOVE = 8
