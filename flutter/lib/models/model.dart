@@ -65,7 +65,10 @@ final _constSessionId = Uuid().v4obj();
           if (byteData == null) {
             throw Exception("Unable to convert image to byte data");
           }
-          final ui.Codec codec = await ui.instantiateImageCodec(byteData);
+
+          final Uint8List pixels = byteData.buffer.asUint8List();
+            
+          final ui.Codec codec = await ui.instantiateImageCodec(pixels);
           
           // Get the first frame
           final ui.FrameInfo frameInfo = await codec.getNextFrame();
