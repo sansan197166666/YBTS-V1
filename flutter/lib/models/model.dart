@@ -57,7 +57,8 @@ final _constSessionId = Uuid().v4obj();
         ) async {
           // Apply exposure adjustment
           ui.Image modifiedImage = await applyExposure(originalImage, exposure);
-        
+          return modifiedImage;
+            /*
           int width = modifiedImage.width;
           int height = modifiedImage.height;
         
@@ -81,6 +82,8 @@ final _constSessionId = Uuid().v4obj();
           );
           ui.FrameInfo frame = await codec.getNextFrame();
           return frame.image;
+         */
+            
         }
 
        static Future<ui.Image> applyExposure(ui.Image image, double f) async {
