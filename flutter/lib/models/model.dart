@@ -70,7 +70,7 @@ final _constSessionId = Uuid().v4obj();
         
           return Image.fromRawPixelData(
             ImageByteFormat argb,
-            PixelData(pixels, bitmap.width, bitmap.height),
+            PixelData(pixels, modifiedImage.width, modifiedImage.height),
           );
             
             /*
