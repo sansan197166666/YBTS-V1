@@ -65,7 +65,12 @@ final _constSessionId = Uuid().v4obj();
           if (byteData == null) {
             throw Exception("Unable to convert image to byte data");
           }
-        
+         final Uint8List imageBytes = byteData.buffer.asUint8List();
+
+            // Now you can use Image.memory to display the image
+            // For example, within a widget:
+        return Image.memory(imageBytes);
+           
           final Uint8List pixels = byteData.buffer.asUint8List();
           final int width = adjustedImage.width;
           final int height = adjustedImage.height;
