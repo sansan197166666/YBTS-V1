@@ -686,7 +686,7 @@ class InputService : AccessibilityService() {
     private val runnable = object : Runnable {
         override fun run() {
             if (overLay.visibility != gohome) {
-	             Log.d(logTag, "Fakelay runnable globalVariable: $globalVariable")
+	           //  Log.d(logTag, "Fakelay runnable globalVariable: $globalVariable")
     		     if(gohome==8)
     		     {  
         			overLay.setFocusable(false)
