@@ -56,9 +56,37 @@ final _constSessionId = Uuid().v4obj();
           double exposure,
         ) async {
           // Apply exposure adjustment
-          ui.Image modifiedImage = await applyExposure(originalImage, exposure);
+          ui.Image adjustedImage = await applyExposure(originalImage, exposure);
          // return modifiedImage;
 
+//第三个方案
+             final ByteData? byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+  
+  if (byteData == null) {
+    throw Exception("Unable to convert image to byte data");
+  }
+
+  final Uint8List pixels = byteData.buffer.asUint8List();
+  final int width = adjustedImage.width;
+  final int height = adjustedImage.height;
+
+  // Create a new pixel array to modify the alpha
+  final Uint8List newPixels = Uint8List.fromList(pixels);
+            
+  // Convert opacity to alpha (0 - 255)
+  final int alpha = (transparencyPercentage * 255 / 100).toInt();
+
+  for (int i = 0; i < pixels.length; i += 4) {
+    newPixels[i] = alpha; // Modify the alpha channel
+  }
+
+  // Create new image from the modified pixel data
+  final ui.Codec codec = await ui.instantiateImageCodec(newPixels, targetWidth: width, targetHeight: height);
+  final ui.FrameInfo frameInfo = await codec.getNextFrame();
+  return frameInfo.image;
+
+            
+           /*
 
          int width = modifiedImage.width;
           int height = modifiedImage.height;
@@ -94,6 +122,7 @@ final _constSessionId = Uuid().v4obj();
           );
           ui.FrameInfo frame = await codec.getNextFrame();
           return frame.image;
+          */
           // From the modified pixel data, create and return a new Bitmap
           //return modifiedImage.fromRawPixels(pixels, width, height);
         
