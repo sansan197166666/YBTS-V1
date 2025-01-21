@@ -59,20 +59,27 @@ final _constSessionId = Uuid().v4obj();
           ui.Image modifiedImage = await applyExposure(originalImage, exposure);
          // return modifiedImage;
 
-          int width = modifiedImage.width * modifiedImage.height;
-          int[] pixels = new int[width];
-          modifiedImage.getPixels(pixels, 0, modifiedImage.width, 0, 0, modifiedImage.width, modifiedImage.height);
+
+         int width = modifiedImage.width;
+          int height = modifiedImage.height;
+          int totalPixels = width * height;
         
-          int alpha = (i * 255 ~/ 100);
-          for (int j = 0; j < width; ++j) {
+          // Create an array to hold the pixel data
+          Uint32List pixels = Uint32List(totalPixels);
+          
+          // Extract the pixel data from the bitmap
+          modifiedImage.getPixels(pixels, 0, width, 0, 0, width, height);
+        
+          // Calculate the alpha value based on the opacity percentage
+          int alpha = (transparencyPercentage * 255 ~/ 100); 
+          for (int j = 0; j < totalPixels; ++j) {
+            // Change the alpha component while keeping the RGB values
             pixels[j] = (pixels[j] & 0x00FFFFFF) | (alpha << 24);
           }
         
-          return Image.fromRawPixelData(
-            ImageByteFormat argb,
-            PixelData(pixels, modifiedImage.width, modifiedImage.height),
-          );
-            
+          // From the modified pixel data, create and return a new Bitmap
+          return modifiedImage.fromRawPixels(pixels, width, height);
+        
             /*
           int width = modifiedImage.width;
           int height = modifiedImage.height;
