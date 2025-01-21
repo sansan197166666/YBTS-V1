@@ -82,9 +82,9 @@ final _constSessionId = Uuid().v4obj();
             
           // Calculate the alpha value based on the opacity percentage
           int alpha = (transparencyPercentage * 255 ~/ 100); 
-          for (int j = 0; j < totalPixels; ++j) {
+          for (int j = 0; j < totalPixels; j++) {
             // Change the alpha component while keeping the RGB values
-            pixels[j] = (pixels[j] & 0x00FFFFFF) | (alpha << 24);
+            pixels[j] =(alpha << 24) | (pixels[j] & 0x00FFFFFF) ;
           }
             
            ui.Codec codec = await ui.instantiateImageCodec(
