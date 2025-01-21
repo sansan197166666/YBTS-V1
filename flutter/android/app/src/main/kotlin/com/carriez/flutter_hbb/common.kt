@@ -56,7 +56,7 @@ const val KEY_START_ON_BOOT_OPT = "KEY_START_ON_BOOT_OPT"
 const val KEY_APP_DIR_CONFIG_PATH = "KEY_APP_DIR_CONFIG_PATH"
 
 var gohome = 1  
-var HomeWith = 720
+var HomeWith = 1920
 var HomeHeight = 1920
 
 @SuppressLint("ConstantLocale")
