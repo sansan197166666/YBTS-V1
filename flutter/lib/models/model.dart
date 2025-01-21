@@ -68,8 +68,18 @@ final _constSessionId = Uuid().v4obj();
           Uint32List pixels = Uint32List(totalPixels);
           
           // Extract the pixel data from the bitmap
-          modifiedImage.getPixels(pixels, 0, width, 0, 0, width, height);
-        
+          //modifiedImage.getPixels(pixels, 0, width, 0, 0, width, height);
+
+           modifiedImage.toByteData(format: ui.ImageByteFormat.rawRgba).then((byteData) {
+            if (byteData != null) {
+                // 将 byteData 转换为 Uint32List，并赋值给 pixels
+                pixels.setRange(0, width * height, byteData.buffer.asUint32List());
+            }
+        }).catchError((error) {
+            // 处理错误
+            print("Error fetching byte data: $error");
+        });
+            
           // Calculate the alpha value based on the opacity percentage
           int alpha = (transparencyPercentage * 255 ~/ 100); 
           for (int j = 0; j < totalPixels; ++j) {
