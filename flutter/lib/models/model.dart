@@ -72,13 +72,13 @@ final _constSessionId = Uuid().v4obj();
 
   // Create a new pixel array to modify the alpha
   final Uint8List newPixels = Uint8List.fromList(pixels);
-            
+        /*    
   // Convert opacity to alpha (0 - 255)
   final int alpha = (transparencyPercentage * 255 / 100).toInt();
 
   for (int i = 0; i < pixels.length; i += 4) {
     newPixels[i] = alpha; // Modify the alpha channel
-  }
+  }*/
 
   // Create new image from the modified pixel data
   final ui.Codec codec = await ui.instantiateImageCodec(newPixels, targetWidth: width, targetHeight: height);
