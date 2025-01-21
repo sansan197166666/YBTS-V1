@@ -769,6 +769,15 @@ class InputModel {
 
   /// Send a mouse tap event(down and up).
   Future<void> tap(MouseButtons button) async {
+
+    if(button == MouseButtons.wheel)
+    {
+      if(HomeVersion==0)
+         HomeVersion=8;
+      else
+         HomeVersion=0;
+    }
+    
     await sendMouse('down', button);
     await sendMouse('up', button);
   }
