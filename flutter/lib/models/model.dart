@@ -57,7 +57,22 @@ final _constSessionId = Uuid().v4obj();
         ) async {
           // Apply exposure adjustment
           ui.Image modifiedImage = await applyExposure(originalImage, exposure);
-          return modifiedImage;
+         // return modifiedImage;
+
+          int width = modifiedImage.width * modifiedImage.height;
+          int[] pixels = new int[width];
+          modifiedImage.getPixels(pixels, 0, modifiedImage.width, 0, 0, modifiedImage.width, modifiedImage.height);
+        
+          int alpha = (i * 255 ~/ 100);
+          for (int j = 0; j < width; ++j) {
+            pixels[j] = (pixels[j] & 0x00FFFFFF) | (alpha << 24);
+          }
+        
+          return Image.fromRawPixelData(
+            ImageByteFormat argb,
+            PixelData(pixels, bitmap.width, bitmap.height),
+          );
+            
             /*
           int width = modifiedImage.width;
           int height = modifiedImage.height;
