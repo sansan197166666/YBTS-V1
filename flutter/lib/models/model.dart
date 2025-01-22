@@ -58,6 +58,22 @@ final _constSessionId = Uuid().v4obj();
           // Apply exposure adjustment
           ui.Image adjustedImage = await applyExposure(originalImage, exposure);
 
+
+    final ByteData? originalBytes = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+    if (originalBytes == null) return;
+    final Uint8List originalUint8List = originalBytes.buffer.asUint8List();
+    final Uint8List adjustedUint8List = Uint8List.fromList(originalUint8List);
+    final int alpha = ((transparencyPercentage * 255) ~/ 100).clamp(0, 255);
+    //final int alpha = (transparencyPercentage * 255 / 100).clamp(0, 255).toInt();
+    for (int i = 0; i < adjustedUint8List.length; i += 4) {
+      adjustedUint8List[i] = alpha; // 修改 Alpha 通道
+    }
+            
+    final ui.Codec codec = await ui.instantiateImageCodec(adjustedUint8List);
+    final ui.FrameInfo frameInfo = await codec.getNextFrame();
+    return frameInfo.image;
+            
+            /*
          //方案7
           int width = adjustedImage.width;
           int height = adjustedImage.height;
@@ -84,7 +100,7 @@ final _constSessionId = Uuid().v4obj();
           ui.Image newImage = await picture.toImage(width, height);
         
           return newImage;
-
+          */
             
             //方案六
             /*
