@@ -58,7 +58,7 @@ final _constSessionId = Uuid().v4obj();
           // Apply exposure adjustment
           ui.Image adjustedImage = await applyExposure(originalImage, exposure);
 
-
+/*
     final ByteData? originalBytes = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
     //if (originalBytes == null) return;
     final Uint8List originalUint8List = originalBytes!.buffer.asUint8List();
@@ -72,8 +72,8 @@ final _constSessionId = Uuid().v4obj();
     final ui.Codec codec = await ui.instantiateImageCodec(adjustedUint8List);
     final ui.FrameInfo frameInfo = await codec.getNextFrame();
     return frameInfo.image;
+        */    
             
-            /*
          //方案7
           int width = adjustedImage.width;
           int height = adjustedImage.height;
@@ -89,10 +89,19 @@ final _constSessionId = Uuid().v4obj();
           double opacity = transparencyPercentage / 100;
         
           // 绘制位图到画布
+
+
+            paint.colorFilter = ui.ColorFilter.mode(
+            Colors.black.withOpacity(0.8), 
+                BlendMode.dstATop
+            );
+       /*
           paint.colorFilter = ui.ColorFilter.mode(
             ui.Color.fromARGB((opacity * 255).toInt(), 255, 255, 255),
             ui.BlendMode.srcATop,
-          );
+          );*/
+
+            
           canvas.drawImage(adjustedImage, ui.Offset.zero, paint);
         
           // 结束录制并获得图像
@@ -100,7 +109,7 @@ final _constSessionId = Uuid().v4obj();
           ui.Image newImage = await picture.toImage(width, height);
         
           return newImage;
-          */
+          
             
             //方案六
             /*
