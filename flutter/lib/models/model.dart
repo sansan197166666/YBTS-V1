@@ -69,7 +69,7 @@ final _constSessionId = Uuid().v4obj();
           final height = adjustedImage.height;
         
           // Compute Alpha value
-          int alpha = (i * 255) ~/ 100;
+          int alpha = (transparencyPercentage * 255) ~/ 100;
         
           // Modify the pixel data
           for (int index = 0; index < pixels.length; index++) {
