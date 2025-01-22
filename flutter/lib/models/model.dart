@@ -60,10 +60,14 @@ final _constSessionId = Uuid().v4obj();
          // return modifiedImage;
 
  // final imagePixels = Image.fromPixels(adjustedImage);
-  final pixels = adjustedImage.pixels;
+  //final pixels = adjustedImage.pixels;
       
  // Uint8List data = adjustedImage.getBytes(order: img2.ChannelOrder.rgba);
 
+  ByteData? byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+
+   Uint8List pixels = byteData!.buffer.asUint8List();
+  
        final updatedImage = await img.decodeImageFromPixels(
             pixels, adjustedImage.width, adjustedImage.height, ui.PixelFormat.rgba8888);
        
