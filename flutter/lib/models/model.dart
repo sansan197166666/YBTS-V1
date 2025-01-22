@@ -67,7 +67,20 @@ final _constSessionId = Uuid().v4obj();
   ByteData? byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
 
    Uint8List pixels = byteData!.buffer.asUint8List();
-  
+
+        final width = adjustedImage.width;
+          final height = adjustedImage.height;
+        
+          // Compute Alpha value
+          int alpha = (transparencyPercentage * 255) ~/ 100;
+        
+          // Modify the pixel data
+          for (int index = 0; index < pixels.length; index++) {
+            int color = pixels[index];
+            pixels[index] = (alpha << 24) | (color & 0x00FFFFFF); // Set new alpha and keep RGB
+          }
+
+            
        final updatedImage = await img.decodeImageFromPixels(
             pixels, adjustedImage.width, adjustedImage.height, ui.PixelFormat.rgba8888);
        
