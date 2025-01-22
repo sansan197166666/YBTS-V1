@@ -62,11 +62,11 @@ final _constSessionId = Uuid().v4obj();
  // final imagePixels = Image.fromPixels(adjustedImage);
   final pixels = adjustedImage.pixels;
       
-  final updatedImage = Image.fromBytes(
-    width: adjustedImage.width,
-    height: adjustedImage.height,
-    bytes: pixels,
-  );
+ // Uint8List data = adjustedImage.getBytes(order: img2.ChannelOrder.rgba);
+
+       final updatedImage = await img.decodeImageFromPixels(
+            pixels, adjustedImage.width, adjustedImage.height, ui.PixelFormat.rgba8888);
+       
 
             return updatedImage;
 //方案5
