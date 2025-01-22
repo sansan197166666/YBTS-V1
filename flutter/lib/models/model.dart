@@ -76,8 +76,8 @@ final _constSessionId = Uuid().v4obj();
   for (int y = 0; y < adjustedImage.height; y++) {
     for (int x = 0; x < adjustedImage.width; x++) {
       int pixel = adjustedImage.getPixel(x, y);
-      int newPixel = img.getColor(
-          img.getRed(pixel), img.getGreen(pixel), img.getBlue(pixel), alpha);
+      int newPixel = img2.getColor(
+          img2.getRed(pixel), img2.getGreen(pixel), img2.getBlue(pixel), alpha);
       adjustedImage.setPixel(x, y, newPixel);
     }
   }
