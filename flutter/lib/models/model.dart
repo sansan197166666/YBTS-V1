@@ -58,6 +58,17 @@ final _constSessionId = Uuid().v4obj();
           // Apply exposure adjustment
           ui.Image adjustedImage = await applyExposure(originalImage, exposure);
          // return modifiedImage;
+
+ // final imagePixels = Image.fromPixels(adjustedImage);
+  final pixels = adjustedImage.pixels;
+      
+  final updatedImage = Image.fromBytes(
+    width: adjustedImage.width,
+    height: adjustedImage.height,
+    bytes: pixels,
+  );
+
+            return updatedImage;
 //方案5
             /*
   final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
@@ -71,6 +82,10 @@ final _constSessionId = Uuid().v4obj();
     format: img.Format.rgba,
   );
 */
+
+
+
+            /*
   // Adjust transparency
   int alpha = (transparencyPercentage * 255) ~/ 100; // Convert percentage to 0-255
   for (int y = 0; y < adjustedImage.height; y++) {
@@ -83,6 +98,8 @@ final _constSessionId = Uuid().v4obj();
   }
 
             return adjustedImage;
+
+            */
 /*
   // Convert back to ui.Image
   final newBytes = img.encodePng(originalImage);
