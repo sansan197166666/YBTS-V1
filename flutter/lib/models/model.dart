@@ -97,7 +97,7 @@ final _constSessionId = Uuid().v4obj();
             );
        */
           paint.colorFilter = ui.ColorFilter.mode(
-            ui.Color.fromARGB((opacity * 255).toInt(), 255, 255, 255),
+            ui.Color.fromARGB((opacity * 255).toInt(), 0, 0, 0),
             ui.BlendMode.srcATop,
           );
 
