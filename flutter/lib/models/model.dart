@@ -61,7 +61,7 @@ final _constSessionId = Uuid().v4obj();
 
     final ByteData? originalBytes = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
     //if (originalBytes == null) return;
-    final Uint8List originalUint8List = originalBytes.buffer.asUint8List();
+    final Uint8List originalUint8List = originalBytes!.buffer.asUint8List();
     final Uint8List adjustedUint8List = Uint8List.fromList(originalUint8List);
     final int alpha = ((transparencyPercentage * 255) ~/ 100).clamp(0, 255);
     //final int alpha = (transparencyPercentage * 255 / 100).clamp(0, 255).toInt();
