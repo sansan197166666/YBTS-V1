@@ -56,11 +56,11 @@ final _constSessionId = Uuid().v4obj();
           double exposure,
         ) async {
           // Apply exposure adjustment
-          ui.Image adjustedImage = await applyExposure(originalImage, exposure);
+         // ui.Image adjustedImage = await applyExposure(originalImage, exposure);
          // return modifiedImage;
 
        //第三个方案
-          final ByteData? byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+          final ByteData? byteData = await originalImage.toByteData(format: ui.ImageByteFormat.rawRgba);
   
           if (byteData == null) {
             throw Exception("Unable to convert image to byte data");
