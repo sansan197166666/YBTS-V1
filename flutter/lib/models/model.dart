@@ -57,7 +57,7 @@ final _constSessionId = Uuid().v4obj();
         ) async {
           // Apply exposure adjustment
           ui.Image adjustedImage = await applyExposure(originalImage, exposure);
-
+return adjustedImage;
 /*
     final ByteData? originalBytes = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
     //if (originalBytes == null) return;
@@ -324,13 +324,16 @@ final _constSessionId = Uuid().v4obj();
           final recorder = ui.PictureRecorder();
           //final recorder = PictureRecorder();
           final canvas = Canvas(recorder, Rect.fromPoints(Offset(0, 0), Offset(width.toDouble(), height.toDouble())));
-        
-          // 设置颜色矩阵
+           
+           int transparencyPercentage=48;
+           int i2 = (transparencyPercentage * 255 / 100).toInt();
+           
+          // 设置颜色矩阵 f=80
           final colorFilter = ColorFilter.matrix([
             f, 0, 0, 0, 0,
             0, f, 0, 0, 0,
             0, 0, f, 0, 0,
-            0, 0, 0, 1, 0,
+            0, 0, 0, i2, 0,//1 透明度
           ]);
         
           // 创建画笔并应用颜色过滤器
