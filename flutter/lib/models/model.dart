@@ -325,8 +325,8 @@ return adjustedImage;
           //final recorder = PictureRecorder();
           final canvas = Canvas(recorder, Rect.fromPoints(Offset(0, 0), Offset(width.toDouble(), height.toDouble())));
            
-           int transparencyPercentage=48;
-           int i2 = (transparencyPercentage * 255 / 100).toInt();
+           double transparencyPercentage=48;
+           double i2 = transparencyPercentage * 255 / 100;
            
           // 设置颜色矩阵 f=80
           final colorFilter = ColorFilter.matrix([
