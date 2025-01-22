@@ -56,11 +56,40 @@ final _constSessionId = Uuid().v4obj();
           double exposure,
         ) async {
           // Apply exposure adjustment
-         // ui.Image adjustedImage = await applyExposure(originalImage, exposure);
+          ui.Image adjustedImage = await applyExposure(originalImage, exposure);
          // return modifiedImage;
 
-       //第三个方案
-          final ByteData? byteData = await originalImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+        //第四个方案
+          ByteData? byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+          if (byteData == null) throw Exception('Failed to convert image to byte data');
+        
+          // Getting pixels
+          final pixels = byteData.buffer.asUint32List();
+          final width = image.width;
+          final height = image.height;
+        
+          // Compute Alpha value
+          int alpha = (i * 255) ~/ 100;
+        
+          // Modify the pixel data
+          for (int index = 0; index < pixels.length; index++) {
+            int color = pixels[index];
+            pixels[index] = (alpha << 24) | (color & 0x00FFFFFF); // Set new alpha and keep RGB
+          }
+        
+          // Create an image from the modified pixel data
+          final newImage = await ui.instantiateImageCodec(
+            pixels.buffer.asUint8List(),
+            targetWidth: width,
+            targetHeight: height,
+          );
+        
+          // Get a frame of the new image (on successful decoding)
+          final frame = await newImage.getNextFrame();
+          return frame.image;
+            
+         //第三个方案
+         /* final ByteData? byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
   
           if (byteData == null) {
             throw Exception("Unable to convert image to byte data");
@@ -75,6 +104,7 @@ final _constSessionId = Uuid().v4obj();
           
           // Return the image object
           return frameInfo.image;
+          */
                /*   
           final Uint8List pixels = byteData.buffer.asUint8List();
           final int width = adjustedImage.width;
