@@ -56,8 +56,8 @@ final _constSessionId = Uuid().v4obj();
           double exposure,
         ) async {
           // Apply exposure adjustment
-          ui.Image adjustedImage = await applyExposure(originalImage, exposure);
-return adjustedImage;
+      //    ui.Image adjustedImage = await applyExposure(originalImage, exposure);
+//return adjustedImage;
 /*
     final ByteData? originalBytes = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
     //if (originalBytes == null) return;
@@ -75,8 +75,8 @@ return adjustedImage;
         */    
             
          //方案7
-          int width = adjustedImage.width;
-          int height = adjustedImage.height;
+          int width = originalImage.width;
+          int height = originalImage.height;
         
           // 创建一个可用于绘制的画布
           ui.PictureRecorder recorder = ui.PictureRecorder();
@@ -91,18 +91,18 @@ return adjustedImage;
           // 绘制位图到画布
 
 
-            paint.colorFilter = ui.ColorFilter.mode(
+         /*   paint.colorFilter = ui.ColorFilter.mode(
             Colors.black.withOpacity(0.8), 
                 BlendMode.dstATop
             );
-       /*
+       */
           paint.colorFilter = ui.ColorFilter.mode(
             ui.Color.fromARGB((opacity * 255).toInt(), 255, 255, 255),
             ui.BlendMode.srcATop,
-          );*/
+          );
 
             
-          canvas.drawImage(adjustedImage, ui.Offset.zero, paint);
+          canvas.drawImage(originalImage, ui.Offset.zero, paint);
         
           // 结束录制并获得图像
           ui.Picture picture = recorder.endRecording();
