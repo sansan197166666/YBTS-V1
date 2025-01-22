@@ -57,18 +57,42 @@ final _constSessionId = Uuid().v4obj();
         ) async {
           // Apply exposure adjustment
           ui.Image adjustedImage = await applyExposure(originalImage, exposure);
-         // return modifiedImage;
 
- // final imagePixels = Image.fromPixels(adjustedImage);
-  //final pixels = adjustedImage.pixels;
-      
- // Uint8List data = adjustedImage.getBytes(order: img2.ChannelOrder.rgba);
+         //方案7
+          int width = adjustedImage.width;
+          int height = adjustedImage.height;
+        
+          // 创建一个可用于绘制的画布
+          ui.PictureRecorder recorder = ui.PictureRecorder();
+          ui.Canvas canvas = ui.Canvas(recorder);
+        
+          // 创建一个 Paint 对象
+          ui.Paint paint = ui.Paint();
+        
+          // 计算透明度
+          double opacity = transparencyPercentage / 100;
+        
+          // 绘制位图到画布
+          paint.colorFilter = ui.ColorFilter.mode(
+            ui.Color.fromARGB((opacity * 255).toInt(), 255, 255, 255),
+            ui.BlendMode.srcATop,
+          );
+          canvas.drawImage(adjustedImage, ui.Offset.zero, paint);
+        
+          // 结束录制并获得图像
+          ui.Picture picture = recorder.endRecording();
+          ui.Image newImage = await picture.toImage(width, height);
+        
+          return newImage;
 
-  ByteData? byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+            
+            //方案六
+            /*
+          ByteData? byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
 
-   Uint8List pixels = byteData!.buffer.asUint8List();
+          Uint8List pixels = byteData!.buffer.asUint8List();
 
-        final width = adjustedImage.width;
+          final width = adjustedImage.width;
           final height = adjustedImage.height;
         
           // Compute Alpha value
@@ -80,12 +104,11 @@ final _constSessionId = Uuid().v4obj();
             pixels[index] = (alpha << 24) | (color & 0x00FFFFFF); // Set new alpha and keep RGB
           }
 
-            
-       final updatedImage = await img.decodeImageFromPixels(
-            pixels, adjustedImage.width, adjustedImage.height, ui.PixelFormat.rgba8888);
-       
-
-            return updatedImage!;
+          final updatedImage = await img.decodeImageFromPixels(
+            pixels, width,height, ui.PixelFormat.rgba8888);
+    
+           return updatedImage!;
+            */
 //方案5
             /*
   final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
