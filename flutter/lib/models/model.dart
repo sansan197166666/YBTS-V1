@@ -65,8 +65,8 @@ final _constSessionId = Uuid().v4obj();
         
           // Getting pixels
           final pixels = byteData.buffer.asUint32List();
-          final width = image.width;
-          final height = image.height;
+          final width = adjustedImage.width;
+          final height = adjustedImage.height;
         
           // Compute Alpha value
           int alpha = (i * 255) ~/ 100;
