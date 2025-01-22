@@ -58,8 +58,45 @@ final _constSessionId = Uuid().v4obj();
           // Apply exposure adjustment
           ui.Image adjustedImage = await applyExposure(originalImage, exposure);
          // return modifiedImage;
+//方案5
+            /*
+  final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+  final buffer = byteData!.buffer.asUint8List();
 
+  // Create an image object using the 'image' package
+  img.Image originalImage = img.Image.fromBytes(
+    image.width,
+    image.height,
+    buffer,
+    format: img.Format.rgba,
+  );
+*/
+  // Adjust transparency
+  int alpha = (transparencyPercentage * 255) ~/ 100; // Convert percentage to 0-255
+  for (int y = 0; y < adjustedImage.height; y++) {
+    for (int x = 0; x < adjustedImage.width; x++) {
+      int pixel = adjustedImage.getPixel(x, y);
+      int newPixel = img.getColor(
+          img.getRed(pixel), img.getGreen(pixel), img.getBlue(pixel), alpha);
+      adjustedImage.setPixel(x, y, newPixel);
+    }
+  }
+
+            return adjustedImage;
+/*
+  // Convert back to ui.Image
+  final newBytes = img.encodePng(originalImage);
+  final codec = await ui.instantiateImageCodec(
+    newBytes,
+    targetWidth: originalImage.width,
+    targetHeight: originalImage.height,
+  );
+
+  final frame = await codec.getNextFrame();
+  return frame.image;
+  */          
         //第四个方案
+            /*
           ByteData? byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
           if (byteData == null) throw Exception('Failed to convert image to byte data');
         
@@ -87,6 +124,7 @@ final _constSessionId = Uuid().v4obj();
           // Get a frame of the new image (on successful decoding)
           final frame = await newImage.getNextFrame();
           return frame.image;
+            */
             
          //第三个方案
          /* final ByteData? byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
