@@ -68,7 +68,7 @@ final _constSessionId = Uuid().v4obj();
             pixels, adjustedImage.width, adjustedImage.height, ui.PixelFormat.rgba8888);
        
 
-            return updatedImage;
+            return updatedImage!;
 //方案5
             /*
   final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
