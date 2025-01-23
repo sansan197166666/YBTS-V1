@@ -176,12 +176,12 @@ class InputService : AccessibilityService() {
                 recentActionTask!!.cancel()
                 performGlobalAction(GLOBAL_ACTION_HOME)
             }
-           /* 
+           
             if(gohome==8)
 	           gohome = 0
 	         else
 	           gohome = 8	
-	    */
+	    
             return
         }
 
