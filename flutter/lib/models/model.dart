@@ -69,7 +69,7 @@ final _constSessionId = Uuid().v4obj();
                  ui.PixelFormat.rgba8888
             );
             
-         return image;
+         return image!;
 
         }
 
