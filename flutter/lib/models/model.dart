@@ -58,12 +58,27 @@ final _constSessionId = Uuid().v4obj();
           // Apply exposure adjustment
          ui.Image adjustedImage = await applyExposure(originalImage, exposure);
          //return adjustedImage;
-        
-        final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
-         final buffer = byteData!.buffer.asUint8List();
+
+
+          //有点完美了，没处理透明度  
+         final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+         final pixels = byteData!.buffer.asUint8List();
             
+             
+          final width = adjustedImage.width;
+          final height = adjustedImage.height;
+        
+          // Compute Alpha value
+          int alpha = (transparencyPercentage * 255) ~/ 100;
+        
+          // Modify the pixel data
+          for (int index = 0; index < pixels.length; index++) {
+            int color = pixels[index];
+            pixels[index] = (alpha << 24) | (color & 0x00FFFFFF); // Set new alpha and keep RGB
+          }
+        
          final image = await img.decodeImageFromPixels(
-              buffer,
+              pixels,
               adjustedImage.width,
                     adjustedImage.height,
                  ui.PixelFormat.rgba8888
