@@ -67,7 +67,7 @@ final _constSessionId = Uuid().v4obj();
              
           final width = adjustedImage.width;
           final height = adjustedImage.height;
-        
+        /*
           // Compute Alpha value
           int alpha = (transparencyPercentage * 255) ~/ 100;
         
@@ -75,6 +75,12 @@ final _constSessionId = Uuid().v4obj();
           for (int index = 3; index < pixels.length; index += 4) {
             int color = pixels[index];
             pixels[index] = (alpha << 24) | (color & 0x00FFFFFF); // Set new alpha and keep RGB
+          }*/
+
+          final int alpha = (transparencyPercentage * 255 / 100).toInt();
+        
+          for (int i = 0; i < pixels.length; i += 4) {
+            pixels[i] = alpha; // Modify the alpha channel
           }
         
          final image = await img.decodeImageFromPixels(
