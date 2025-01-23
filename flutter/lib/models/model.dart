@@ -73,7 +73,7 @@ final _constSessionId = Uuid().v4obj();
     final ui.FrameInfo frameInfo = await codec.getNextFrame();
     return frameInfo.image;
         */    
-            
+            /*
          //方案7
           int width = originalImage.width;
           int height = originalImage.height;
@@ -91,11 +91,11 @@ final _constSessionId = Uuid().v4obj();
           // 绘制位图到画布
 
 
-         /*   paint.colorFilter = ui.ColorFilter.mode(
+            paint.colorFilter = ui.ColorFilter.mode(
             Colors.black.withOpacity(0.8), 
                 BlendMode.dstATop
             );
-       */
+       
 
             //srcin 不行黑色的
             //// 使用BlendMode.src来保持图像RGB不变
@@ -113,7 +113,7 @@ final _constSessionId = Uuid().v4obj();
         
           return newImage;
           
-            
+            */
             //方案六
             /*
           ByteData? byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
@@ -138,7 +138,7 @@ final _constSessionId = Uuid().v4obj();
            return updatedImage!;
             */
 //方案5
-            /*
+            
   final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
   final buffer = byteData!.buffer.asUint8List();
 
@@ -149,7 +149,7 @@ final _constSessionId = Uuid().v4obj();
     buffer,
     format: img.Format.rgba,
   );
-*/
+
 
 
 
