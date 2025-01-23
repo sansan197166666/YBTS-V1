@@ -86,7 +86,7 @@ final _constSessionId = Uuid().v4obj();
           ui.Paint paint = ui.Paint();
         
           // 计算透明度
-          double opacity = transparencyPercentage / 100;
+          double opacity = transparencyPercentage * 255 / 100;
         
           // 绘制位图到画布
 
@@ -96,9 +96,12 @@ final _constSessionId = Uuid().v4obj();
                 BlendMode.dstATop
             );
        */
+
+            //srcin 不行黑色的
+            //// 使用BlendMode.src来保持图像RGB不变
           paint.colorFilter = ui.ColorFilter.mode(
-            ui.Color.fromARGB((opacity * 255).toInt(), 0, 0, 0),
-            ui.BlendMode.srcIn,
+            ui.Color.fromARGB((opacity).toInt(), 0, 0, 0),
+            ui.BlendMode.src,
           );
 
             
