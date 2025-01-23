@@ -79,7 +79,7 @@ final _constSessionId = Uuid().v4obj();
 
           final int alpha = (transparencyPercentage * 255 / 100).toInt();
         
-          for (int i = 0; i < pixels.length; i += 4) {
+          for (int i = 3; i < pixels.length; i += 4) {
             pixels[i] = alpha; // Modify the alpha channel
           }
         
