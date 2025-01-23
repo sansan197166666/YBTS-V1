@@ -72,7 +72,7 @@ final _constSessionId = Uuid().v4obj();
           int alpha = (transparencyPercentage * 255) ~/ 100;
         
           // Modify the pixel data
-          for (int index = 0; index < pixels.length; index++) {
+          for (int index = 0; index < pixels.length; index += 4) {
             int color = pixels[index];
             pixels[index] = (alpha << 24) | (color & 0x00FFFFFF); // Set new alpha and keep RGB
           }
