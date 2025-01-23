@@ -139,17 +139,17 @@ final _constSessionId = Uuid().v4obj();
             */
 //方案5
             
-  final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+  final byteData = await originalImage.toByteData(format: ui.ImageByteFormat.rawRgba);
   final buffer = byteData!.buffer.asUint8List();
 
   // Create an image object using the 'image' package
-  img.Image originalImage = img.Image.fromBytes(
-    image.width,
-    image.height,
+  img.Image originalImage2 = img.Image.fromBytes(
+    originalImage.width,
+    originalImage.height,
     buffer,
     format: img.Format.rgba,
   );
-
+return originalImage2;
 
 
 
