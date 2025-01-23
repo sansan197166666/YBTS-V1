@@ -56,7 +56,7 @@ final _constSessionId = Uuid().v4obj();
           double exposure,
         ) async {
           // Apply exposure adjustment
-         ui.Image adjustedImage = await applyExposure(originalImage, exposure);
+         ui.Image adjustedImage = originalImage;// await applyExposure(originalImage, exposure);
          //return adjustedImage;
 
 
