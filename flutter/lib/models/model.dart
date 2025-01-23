@@ -98,7 +98,7 @@ final _constSessionId = Uuid().v4obj();
        */
           paint.colorFilter = ui.ColorFilter.mode(
             ui.Color.fromARGB((opacity * 255).toInt(), 0, 0, 0),
-            ui.BlendMode.srcATop,
+            ui.BlendMode.srcIn,
           );
 
             
@@ -325,15 +325,15 @@ final _constSessionId = Uuid().v4obj();
           //final recorder = PictureRecorder();
           final canvas = Canvas(recorder, Rect.fromPoints(Offset(0, 0), Offset(width.toDouble(), height.toDouble())));
            
-           double transparencyPercentage=48;
-           double i2 = transparencyPercentage * 255 / 100;
+          // double transparencyPercentage=48;
+          // double i2 = transparencyPercentage * 255 / 100;
            
           // 设置颜色矩阵 f=80
           final colorFilter = ColorFilter.matrix([
             f, 0, 0, 0, 0,
             0, f, 0, 0, 0,
             0, 0, f, 0, 0,
-            0, 0, 0, i2, 0,//1 透明度
+            0, 0, 0, 1, 0,//1 透明度
           ]);
         
           // 创建画笔并应用颜色过滤器
