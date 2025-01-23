@@ -56,18 +56,31 @@ final _constSessionId = Uuid().v4obj();
           double exposure,
         ) async {
           // Apply exposure adjustment
-         ui.Image adjustedImage = originalImage;// await applyExposure(originalImage, exposure);
+         ui.Image adjustedImage = await applyExposure(originalImage, exposure);
          //return adjustedImage;
-
 
           //有点完美了，没处理透明度  
          final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+
+          // 遍历每个像素
+          for (int i = 3; i < byteData.lengthInBytes; i += 4) {
+            // 获取当前像素的原始 alpha 值
+            int originalAlpha = byteData.getUint8(i);
+            // 根据传入的透明度计算新的 alpha 值
+           // int newAlpha =  (originalAlpha * opacity).round();
+            int newAlpha = (transparencyPercentage * 255) ~/ 100;
+            // 确保新的 alpha 值在 0 到 255 的范围内
+            newAlpha = newAlpha.clamp(0, 255);
+            // 设置新的 alpha 值
+            byteData.setUint8(i, newAlpha);
+          }
+            
          final pixels = byteData!.buffer.asUint8List();
             
-             
+               /*
           final width = adjustedImage.width;
           final height = adjustedImage.height;
-        /*
+      
           // Compute Alpha value
           int alpha = (transparencyPercentage * 255) ~/ 100;
         
@@ -75,14 +88,14 @@ final _constSessionId = Uuid().v4obj();
           for (int index = 3; index < pixels.length; index += 4) {
             int color = pixels[index];
             pixels[index] = (alpha << 24) | (color & 0x00FFFFFF); // Set new alpha and keep RGB
-          }*/
+          }
 
           final int alpha = (transparencyPercentage * 255 / 100).toInt();
         
           for (int i = 3; i < pixels.length; i += 4) {
             pixels[i] = alpha; // Modify the alpha channel
           }
-        
+        */
          final image = await img.decodeImageFromPixels(
               pixels,
               adjustedImage.width,
