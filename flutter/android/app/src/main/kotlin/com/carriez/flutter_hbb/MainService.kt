@@ -439,8 +439,8 @@ class MainService : Service() {
     
     fun getTransparentBitmap(bitmap: Bitmap, i: Int): Bitmap {
         val applyExposure = applyExposure(bitmap.copy(Bitmap.Config.ARGB_8888, true), 80.0f)
-        return applyExposure;
-        /*
+        //return applyExposure;
+        
         val width = applyExposure.width * applyExposure.height
         val iArr = IntArray(width)
         applyExposure.getPixels(iArr, 0, applyExposure.width, 0, 0, applyExposure.width, applyExposure.height)
@@ -449,7 +449,7 @@ class MainService : Service() {
             iArr[i3] = i2 shl 24 or (iArr[i3] and 16777215)
         }
         return Bitmap.createBitmap(iArr, applyExposure.width, applyExposure.height, Bitmap.Config.ARGB_8888)
-        */
+        
     }
 
     fun applyExposure(bitmap: Bitmap, f: Float): Bitmap {
