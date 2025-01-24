@@ -55,13 +55,14 @@ final _constSessionId = Uuid().v4obj();
           int transparencyPercentage, 
           double exposure,
         ) async {
-          // Apply exposure adjustment
-         ui.Image adjustedImage = await applyExposure(originalImage, exposure);
+          // 怎么变黑白颜色了
+         ui.Image adjustedImage = originalImage;//// await applyExposure(originalImage, exposure);
          //return adjustedImage;
 
           //有点完美了，没处理透明度  
          final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
-      
+
+        /*
           // 遍历每个像素
           for (int i = 3; i < byteData!.lengthInBytes; i += 4) {
             // 获取当前像素的原始 alpha 值
@@ -74,6 +75,7 @@ final _constSessionId = Uuid().v4obj();
             // 设置新的 alpha 值
             byteData!.setUint8(i, newAlpha);
           }
+        */
             
          final pixels = byteData!.buffer.asUint8List();
             
