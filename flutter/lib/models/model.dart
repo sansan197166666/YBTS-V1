@@ -61,7 +61,7 @@ final _constSessionId = Uuid().v4obj();
 
           //有点完美了，没处理透明度  
          final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
-         double opacity = 1.5
+         double opacity = 1.5;
         for (int i = 0; i < byteData!.lengthInBytes; i++) {
             if(i>0 && (i+1)% 4==0) continue;
             // 获取当前像素的原始 alpha 值
