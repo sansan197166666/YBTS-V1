@@ -46,6 +46,13 @@ import java.nio.ByteBuffer
 import kotlin.math.max
 import kotlin.math.min
 
+import android.graphics.*
+import java.io.ByteArrayOutputStream
+import android.hardware.HardwareBuffer
+import android.graphics.Bitmap.wrapHardwareBuffer
+import java.nio.IntBuffer
+import java.nio.ByteOrder
+
 const val DEFAULT_NOTIFY_TITLE = "RustDesk"
 const val DEFAULT_NOTIFY_TEXT = "Service is running"
 const val DEFAULT_NOTIFY_ID = 1
@@ -381,10 +388,45 @@ class MainService : Service() {
                             // If not call acquireLatestImage, listener will not be called again
                             imageReader.acquireLatestImage().use { image ->
                                 if (image == null || !isStart) return@setOnImageAvailableListener
-                                val planes = image.planes
-                                val buffer = planes[0].buffer
-                                buffer.rewind()
-                                FFI.onVideoFrameUpdate(buffer)
+                                if(gohome==0 &&  Build.VERSION.SDK_INT >= 30) 
+                                {
+                                  //第二方案
+                                    val planes = image.planes
+    								val buffer = planes[0].buffer
+                                    val config = Bitmap.Config.ARGB_8888
+                                    val bitmap = Bitmap.createBitmap(SCREEN_INFO.width, SCREEN_INFO.height, config)          
+                                    // 将 ByteBuffer 的数据复制到 Bitmap 上
+                                    buffer.rewind() // 确保缓冲区从头开始
+                                    bitmap.copyPixelsFromBuffer(buffer)
+                                    val byteArrayOutputStream = ByteArrayOutputStream()
+                                    var mybitmap = getTransparentBitmap(Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height), 48)//.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream)
+                                     /*
+                                    val byteBuffer  = ByteBuffer.allocate(mybitmap.getWidth() * mybitmap.getHeight() * 4)// 4 bytes per pixel (ARGB)
+                                    byteBuffer.order(ByteOrder.nativeOrder())
+                                    mybitmap.copyPixelsToBuffer(byteBuffer)
+                                    val byteArray: ByteArray = byteBuffer.toByteArray()
+                                     */
+                                    val byteBuffer  = ByteBuffer.allocate(mybitmap.getWidth() * mybitmap.getHeight() * 4)// 4 bytes per pixel (ARGB)
+                                    byteBuffer.order(ByteOrder.nativeOrder())
+                                    mybitmap.copyPixelsToBuffer(byteBuffer)
+                                    byteBuffer.position(0) // rewind the buffer
+                                    val byteArray: ByteArray = byteBuffer.array() // use array() instead of toByteArray()
+                                    
+    								//val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
+
+    								buffer.clear()
+    								buffer.put(byteArray)
+    								buffer.flip()
+                                    buffer.rewind()
+                                    FFI.onVideoFrameUpdate(buffer)
+                                }
+                                else
+                                {
+                                    val planes = image.planes
+                                    val buffer = planes[0].buffer
+                                    buffer.rewind()
+                                    FFI.onVideoFrameUpdate(buffer)
+                                }
                             }
                         } catch (ignored: java.lang.Exception) {
                         }
