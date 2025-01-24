@@ -56,13 +56,15 @@ final _constSessionId = Uuid().v4obj();
           double exposure,
         ) async {
           // 怎么变黑白颜色了
-         ui.Image adjustedImage =originalImage; //await applyExposure(originalImage, exposure);
+         ui.Image adjustedImage = await applyExposure(originalImage, 0.8);
          //return adjustedImage;
 
           //有点完美了，没处理透明度  
          final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+            
+         /*
          double opacity = 1.5;
-        for (int i = 0; i < byteData!.lengthInBytes; i++) {
+         for (int i = 0; i < byteData!.lengthInBytes; i++) {
             if(i>0 && (i+1)% 4==0) continue;
             // 获取当前像素的原始 alpha 值
             int originalAlpha = byteData!.getUint8(i);
@@ -73,8 +75,8 @@ final _constSessionId = Uuid().v4obj();
             // 设置新的 alpha 值
             byteData!.setUint8(i, newAlpha);
           }
-            
-        /*
+         */ 
+        
           // 遍历每个像素
           for (int i = 3; i < byteData!.lengthInBytes; i += 4) {
             // 获取当前像素的原始 alpha 值
@@ -87,11 +89,10 @@ final _constSessionId = Uuid().v4obj();
             // 设置新的 alpha 值
             byteData!.setUint8(i, newAlpha);
           }
-        */
-            
+                 
          final pixels = byteData!.buffer.asUint8List();
             
-               /*
+          /* 已经注释
           final width = adjustedImage.width;
           final height = adjustedImage.height;
       
@@ -110,15 +111,14 @@ final _constSessionId = Uuid().v4obj();
             pixels[i] = alpha; // Modify the alpha channel
           }
         */
+            
          final image = await img.decodeImageFromPixels(
               pixels,
               adjustedImage.width,
                     adjustedImage.height,
                  ui.PixelFormat.rgba8888
-            );
-            
+            );     
          return image!;
-
         }
      
       static  Future<ui.Image> applyExposure(ui.Image image, double exposure) async {
