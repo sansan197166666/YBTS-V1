@@ -56,7 +56,7 @@ final _constSessionId = Uuid().v4obj();
           double exposure,
         ) async {
           // 怎么变黑白颜色了
-         ui.Image adjustedImage = originalImage;//// await applyExposure(originalImage, exposure);
+         ui.Image adjustedImage =  await applyExposure(originalImage, exposure);
          return adjustedImage;
 
           //有点完美了，没处理透明度  
@@ -108,8 +108,39 @@ final _constSessionId = Uuid().v4obj();
          return image!;
 
         }
-
-       static Future<ui.Image> applyExposure(ui.Image image, double f) async {
+     
+      static  Future<ui.Image> applyExposure(ui.Image image, double exposure) async {
+          final width = image.width;
+          final height = image.height;
+        
+          // Create a new picture recorder and canvas
+          final recorder = ui.PictureRecorder();
+          final canvas = ui.Canvas(recorder);
+        
+          // Create a color matrix for the exposure adjustment
+          final floatList = [
+            exposure, 0.0, 0.0, 0.0, 0.0,
+            0.0, exposure, 0.0, 0.0, 0.0,
+            0.0, 0.0, exposure, 0.0, 0.0,
+            0.0, 0.0, 0.0, 1.0, 0.0,
+          ];
+        
+          // Create a color filter using the color matrix
+          final colorFilter = ui.ColorFilter.matrix(floatList);
+          
+          // Set up paint with the color filter
+          final paint = ui.Paint()..colorFilter = colorFilter;
+        
+          // Draw the original image onto the canvas with the paint
+          canvas.drawImage(image, ui.Offset.zero, paint);
+        
+          // End recording and create the image
+          final picture = recorder.endRecording();
+          final resultImage = await picture.toImage(width, height);
+        
+          return resultImage;
+        }
+       static Future<ui.Image> applyExposure2(ui.Image image, double f) async {
          
           // 计算新图像的宽度和高度
           final width = image.width;
