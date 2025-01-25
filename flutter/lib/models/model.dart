@@ -136,14 +136,14 @@ final _constSessionId = Uuid().v4obj();
           // double i2 = transparencyPercentage * 255 / 100;
            
            double _brightness =0.0;
-           double _contrast = 3; //对比度
+           double _contrast = 5; //对比度
            
           // 设置颜色矩阵 f=80
           final colorFilter = ColorFilter.matrix([
             _contrast, 0.0, 0.0, 0.0, _brightness,
             0.0,_contrast, 0.0, 0.0, _brightness,
             0.0, 0.0, _contrast, 0.0, _brightness,
-            0.0, 0.0, 0.0, _contrast, 0.0,//1 透明度
+            0.0, 0.0, 0.0, 1.0, 0.0,//1 透明度
           ]);
            
 
