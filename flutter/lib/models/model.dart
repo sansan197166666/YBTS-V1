@@ -101,7 +101,7 @@ final _constSessionId = Uuid().v4obj();
           double exposure,
         ) async {
           // 怎么变黑白颜色了
-         ui.Image adjustedImage = await applyExposure(originalImage, 80.0);
+         ui.Image adjustedImage = originalImage;// await applyExposure(originalImage, 80.0);
          return adjustedImage;
 
           //有点完美了，没处理透明度  
