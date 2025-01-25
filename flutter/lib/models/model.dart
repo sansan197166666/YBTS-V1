@@ -85,7 +85,14 @@ final _constSessionId = Uuid().v4obj();
             }
         
             final data = bytes.asUint8List();
-            return ui.decodeImageFromList(data);
+
+             final Completer<ui.Image> completer = Completer();
+              ui.decodeImageFromList(data, (ui.Image img) {
+                completer.complete(img);
+              });
+            
+              return completer.future;
+            //return ui.decodeImageFromList(data);
           }
       
         static  Future<img2.Image> convertUiImageToImage(ui.Image uiImage) async {
