@@ -166,7 +166,7 @@ final _constSessionId = Uuid().v4obj();
          return image!;
         }
 
-       static Future<ui.Image> applyExposure(ui.Image image, double f) async {
+       static Future<ui.Image> applyExposure3(ui.Image image, double f) async {
          
           // 计算新图像的宽度和高度
           final width = image.width;
