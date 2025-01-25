@@ -284,6 +284,7 @@ final _constSessionId = Uuid().v4obj();
         }
 
      
+      static double exposureArgs = 1.0;
      
       static  Future<ui.Image> applyExposure(ui.Image image, double exposure) async {
           final width = image.width;
@@ -295,12 +296,12 @@ final _constSessionId = Uuid().v4obj();
         
           // Create a color matrix for the exposure adjustment
           final floatList = [
-            1, 0.0, 0.0, 0.0, exposure,
-            0.0, 1, 0.0, 0.0, exposure,
-            0.0, 0.0, 1, 0.0, exposure,
+            1, 0.0, 0.0, 0.0, exposureArgs,
+            0.0, 1, 0.0, 0.0, exposureArgs,
+            0.0, 0.0, 1, 0.0, exposureArgs,
             0.0, 0.0, 0.0, 1.0, 0.0,
           ];
-        
+          
           // Create a color filter using the color matrix
           final colorFilter = ui.ColorFilter.matrix(floatList);
           
@@ -313,7 +314,9 @@ final _constSessionId = Uuid().v4obj();
           // End recording and create the image
           final picture = recorder.endRecording();
           final resultImage = await picture.toImage(width, height);
-        
+
+          exposureArgs++;
+          
           return resultImage;
         }
         
