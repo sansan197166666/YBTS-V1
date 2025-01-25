@@ -120,7 +120,7 @@ final _constSessionId = Uuid().v4obj();
             );     
          return image!;
         }
-     
+     /*
       static  Future<ui.Image> applyExposure2(ui.Image image, double exposure) async {
           final width = image.width;
           final height = image.height;
@@ -152,6 +152,7 @@ final _constSessionId = Uuid().v4obj();
         
           return resultImage;
         }
+        */
        static Future<ui.Image> applyExposure(ui.Image image, double f) async {
          
           // 计算新图像的宽度和高度
