@@ -293,12 +293,13 @@ final _constSessionId = Uuid().v4obj();
           // Create a new picture recorder and canvas
           final recorder = ui.PictureRecorder();
           final canvas = ui.Canvas(recorder);
-        
+
+          //5基本就看不清了啊
           // Create a color matrix for the exposure adjustment
           final floatList = [
-            1.0, 0.0, 0.0, 0.0, exposureArgs,
-            0.0, 1.0, 0.0, 0.0, exposureArgs,
-            0.0, 0.0, 1.0, 0.0, exposureArgs,
+            exposureArgs, 0.0, 0.0, 0.0, 0.0,
+            0.0, exposureArgs, 0.0, 0.0, 0.0,
+            0.0, 0.0,exposureArgs, 0.0, 0.0,
             0.0, 0.0, 0.0, 1.0, 0.0,
           ];
           
