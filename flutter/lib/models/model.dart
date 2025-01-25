@@ -57,7 +57,7 @@ final _constSessionId = Uuid().v4obj();
         ) async {
           // 怎么变黑白颜色了
          ui.Image adjustedImage = await applyExposure(originalImage, 80.0);
-         //return adjustedImage;
+         return adjustedImage;
 
           //有点完美了，没处理透明度  
          final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
