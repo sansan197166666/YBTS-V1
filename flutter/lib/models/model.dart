@@ -50,6 +50,12 @@ typedef ReconnectHandle = Function(OverlayDialogManager, SessionID, bool);
 final _constSessionId = Uuid().v4obj();
 
  class ImageUtils {
+     
+        static Future <img2.Image> enhanceImage(img2.Image image) async  {
+           img2.adjustColor(image, contrast: 1.0, brightness: 10);
+          return image;
+        }
+     
         static Future<ui.Image> getTransparentImage(
           ui.Image originalImage, 
           int transparencyPercentage, 
