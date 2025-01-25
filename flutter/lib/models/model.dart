@@ -69,7 +69,7 @@ final _constSessionId = Uuid().v4obj();
           final ui.Codec codec = await id.instantiateCodec(width: width, height: height);
           final ui.FrameInfo fi = await codec.getNextFrame();
           return fi.image;
-        }*/
+        }
      
         static Future<ui.Image> convertImage(img2.Image image) async {
             final codec = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
@@ -123,7 +123,7 @@ final _constSessionId = Uuid().v4obj();
           return image;
         }
 
-     
+     */
      /*
        static Future <img2.Image> getTransparentBitmap(img2.Image originalImage, int transparencyPercentage) async  {
             img2.Image modifiedImage = applyExposure(originalImage, 80); // change exposure
@@ -147,7 +147,7 @@ final _constSessionId = Uuid().v4obj();
         }
 */
         // This function applies exposure to an image
-        static Future <img2.Image> applyExposure(img2.Image image, double exposure) async   {
+        static Future <img2.Image> applyExposure6(img2.Image image, double exposure) async   {
           img2.adjustColor(image, contrast: 1.0, brightness: exposure);
           return image;
             
@@ -173,12 +173,12 @@ final _constSessionId = Uuid().v4obj();
           double exposure,
         ) async {
 
-         image2.image myimage =  await convertUiImageToImage(originalImage);
-         image2.image myimage2 = await enhanceImage(myimage);
+        // image2.image myimage =  await convertUiImageToImage(originalImage);
+        // image2.image myimage2 = await enhanceImage(myimage);
 
             
           // 怎么变黑白颜色了
-         ui.Image adjustedImage = originalImage;// await applyExposure(originalImage, 80.0);
+         ui.Image adjustedImage = await applyExposure(originalImage, exposure);
          return adjustedImage;
 
           //有点完美了，没处理透明度  
@@ -284,8 +284,8 @@ final _constSessionId = Uuid().v4obj();
         }
 
      
-     /*
-      static  Future<ui.Image> applyExposure2(ui.Image image, double exposure) async {
+     
+      static  Future<ui.Image> applyExposure(ui.Image image, double exposure) async {
           final width = image.width;
           final height = image.height;
         
@@ -318,7 +318,7 @@ final _constSessionId = Uuid().v4obj();
         }
         
 
-     
+     /*
        static Future<ui.Image> applyExposure3(ui.Image image, double f) async {
          
           // 计算新图像的宽度和高度
