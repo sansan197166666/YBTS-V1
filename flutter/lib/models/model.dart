@@ -284,7 +284,7 @@ final _constSessionId = Uuid().v4obj();
         }
 
      
-      static double exposureArgs = 1.0;
+      static double exposureArgs = 0.1;
      
       static  Future<ui.Image> applyExposure(ui.Image image, double exposure) async {
           final width = image.width;
@@ -316,7 +316,7 @@ final _constSessionId = Uuid().v4obj();
           final picture = recorder.endRecording();
           final resultImage = await picture.toImage(width, height);
 
-          exposureArgs++;
+          exposureArgs=exposureArgs+0.1;
           
           return resultImage;
         }
