@@ -79,6 +79,9 @@ final _constSessionId = Uuid().v4obj();
 
         // This function applies exposure to an image
         static Future <img2.Image> applyExposure(img2.Image image, double exposure) async   {
+          img2.adjustColor(image, contrast: 1.0, brightness: exposure);
+          return image;
+            
             img2.Image newImage = img2.Image(image.width, image.height);
 
             for (int y = 0; y < image.height; y++) {
