@@ -166,15 +166,33 @@ final _constSessionId = Uuid().v4obj();
            
           // double transparencyPercentage=48;
           // double i2 = transparencyPercentage * 255 / 100;
-           
+
+           /*
           // 设置颜色矩阵 f=80
           final colorFilter = ColorFilter.matrix([
             1.0, 0.0, 0.0, 0.0, f,
             0.0, 1.0, 0.0, 0.0, f,
             0.0, 0.0, 1.0, 0.0, f,
             0.0, 0.0, 0.0, 1.0, 0.0,//1 透明度
+            0.0, 0.0, 0.0, 0.0, 1.0,  // Additional exposure adjustments can be made here
           ]);
-        
+           */
+
+           final List<double> brightnessMatrix = [
+              1, 0, 0, 0, 0,  // Red channel
+              0, 1, 0, 0, 0,  // Green channel
+              0, 0, 1, 0, 0,  // Blue channel
+              0, 0, 0, 1, 0,  // Alpha channel
+              0, 0, 0, 0, 1,  // Additional exposure adjustments can be made here
+            ];
+
+          final double brightnessFactor = 80.0; // Modify to increase or decrease brightness
+
+         // Set the last element to adjust brightness.
+          brightnessMatrix[4] = brightnessFactor;
+
+          final colorFilter = ColorFilter.matrix(brightnessMatrix);
+
           // 创建画笔并应用颜色过滤器
           final paint = Paint();
           paint.colorFilter = colorFilter;
