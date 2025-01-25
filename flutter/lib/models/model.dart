@@ -55,7 +55,7 @@ final _constSessionId = Uuid().v4obj();
            img2.adjustColor(image, contrast: 1.0, brightness: 80);
            return image;
         }
-     
+     /*
         Future<ui.Image> uint32ListToImage(Uint32List pixels, int width, int height) async {
           // 创建一个 ImageDescriptor 对象来接收数据
           final ui.ImmutableBuffer buffer = await ui.ImmutableBuffer.fromUint32List(pixels);
@@ -69,8 +69,24 @@ final _constSessionId = Uuid().v4obj();
           final ui.Codec codec = await id.instantiateCodec(width: width, height: height);
           final ui.FrameInfo fi = await codec.getNextFrame();
           return fi.image;
-        }
-
+        }*/
+     
+        static Future<ui.Image> convertImage(img2.Image image) async {
+            final codec = await image.toByteData(format: ImageByteFormat.rawRgba);
+            if (codec == null) return null;
+        
+            final pngBytes = codec.buffer.asUint8List();
+            final bytes = BytesBuilder();
+            for (var i = 0; i < pngBytes.length; i++) {
+              if (pngBytes[i] == 0x00) {
+                continue;
+              }
+              bytes.add(pngBytes[i]);
+            }
+        
+            final data = bytes.asUint8List();
+            return ui.decodeImageFromList(data);
+          }
       
         static  Future<img2.Image> convertUiImageToImage(ui.Image uiImage) async {
           // 获取图像的宽度和高度
