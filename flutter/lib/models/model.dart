@@ -72,7 +72,7 @@ final _constSessionId = Uuid().v4obj();
         }*/
      
         static Future<ui.Image> convertImage(img2.Image image) async {
-            final codec = await image.toByteData(format: ImageByteFormat.rawRgba);
+            final codec = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
             if (codec == null) return null;
         
             final pngBytes = codec.buffer.asUint8List();
