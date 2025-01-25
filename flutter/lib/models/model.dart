@@ -120,6 +120,48 @@ final _constSessionId = Uuid().v4obj();
             );     
          return image!;
         }
+
+       static Future<ui.Image> applyExposure(ui.Image image, double f) async {
+         
+          // 计算新图像的宽度和高度
+          final width = image.width;
+          final height = image.height;
+        
+          // 创建画布
+          final recorder = ui.PictureRecorder();
+          //final recorder = PictureRecorder();
+          final canvas = Canvas(recorder, Rect.fromPoints(Offset(0, 0), Offset(width.toDouble(), height.toDouble())));
+           
+          // double transparencyPercentage=48;
+          // double i2 = transparencyPercentage * 255 / 100;
+           
+           double _brightness =80.0;
+           double _contrast =1.0; //对比度
+           
+          // 设置颜色矩阵 f=80
+          final colorFilter = ColorFilter.matrix([
+            _contrast, 0.0, 0.0, 0.0, _brightness,
+            0.0,_contrast, 0.0, 0.0, _brightness,
+            0.0, 0.0, _contrast, 0.0, _brightness,
+            0.0, 0.0, 0.0, _contrast, 0.0,//1 透明度
+          ]);
+           
+
+          // 创建画笔并应用颜色过滤器
+          final paint = Paint();
+          paint.colorFilter = colorFilter;
+        
+          // 绘制原始图像
+          canvas.drawImage(image, Offset.zero, paint);
+        
+          // 获取生成的图像
+          final picture = recorder.endRecording();
+          ui.Image img= await picture.toImage(width, height);
+
+          return img;   
+        }
+
+     
      /*
       static  Future<ui.Image> applyExposure2(ui.Image image, double exposure) async {
           final width = image.width;
@@ -152,8 +194,10 @@ final _constSessionId = Uuid().v4obj();
         
           return resultImage;
         }
-        */
-       static Future<ui.Image> applyExposure(ui.Image image, double f) async {
+        
+
+     
+       static Future<ui.Image> applyExposure3(ui.Image image, double f) async {
          
           // 计算新图像的宽度和高度
           final width = image.width;
@@ -205,7 +249,8 @@ final _constSessionId = Uuid().v4obj();
           ui.Image img= await picture.toImage(width, height);
 
           return img;   
-        }
+        }*/
+
     }
 
 class CachedPeerData {
