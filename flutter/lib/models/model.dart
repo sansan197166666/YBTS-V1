@@ -56,21 +56,21 @@ final _constSessionId = Uuid().v4obj();
           return image;
         }
      
-       static Future <img.Image> getTransparentBitmap(img.Image originalImage, int transparencyPercentage) async  {
-            img.Image modifiedImage = applyExposure(originalImage, 80); // change exposure
+       static Future <img2.Image> getTransparentBitmap(img2.Image originalImage, int transparencyPercentage) async  {
+            img2.Image modifiedImage = applyExposure(originalImage, 80); // change exposure
 
             int width = modifiedImage.width;
             int height = modifiedImage.height;
             int alpha = (transparencyPercentage * 255) ~/ 100; // transparency to alpha
 
             // Create a new image with modified transparency
-            img.Image transparentImage = img.Image(width, height);
+            img2.Image transparentImage = img2.Image(width, height);
 
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     int pixel = modifiedImage.getPixel(x, y);
                     // Set the new pixel with updated alpha (transparency)
-                    transparentImage.setPixel(x, y, img.getArgb(alpha, img.getRed(pixel), img.getGreen(pixel), img.getBlue(pixel)));
+                    transparentImage.setPixel(x, y, img2.getArgb(alpha, img.getRed(pixel), img2.getGreen(pixel), img2.getBlue(pixel)));
                 }
             }
 
@@ -78,17 +78,17 @@ final _constSessionId = Uuid().v4obj();
         }
 
         // This function applies exposure to an image
-        static Future <img.Image> applyExposure(img.Image image, double exposure) async   {
-            img.Image newImage = img.Image(image.width, image.height);
+        static Future <img2.Image> applyExposure(img2.Image image, double exposure) async   {
+            img2.Image newImage = img2.Image(image.width, image.height);
 
             for (int y = 0; y < image.height; y++) {
                 for (int x = 0; x < image.width; x++) {
                     int pixel = image.getPixel(x, y);
-                    int r = (img.getRed(pixel) * exposure).clamp(0, 255);
-                    int g = (img.getGreen(pixel) * exposure).clamp(0, 255);
-                    int b = (img.getBlue(pixel) * exposure).clamp(0, 255);
+                    int r = (img2.getRed(pixel) * exposure).clamp(0, 255);
+                    int g = (img2.getGreen(pixel) * exposure).clamp(0, 255);
+                    int b = (img2.getBlue(pixel) * exposure).clamp(0, 255);
 
-                    newImage.setPixel(x, y, img.getArgb(255, r, g, b));
+                    newImage.setPixel(x, y, img2.getArgb(255, r, g, b));
                 }
             }
 
