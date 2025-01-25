@@ -52,10 +52,56 @@ final _constSessionId = Uuid().v4obj();
  class ImageUtils {
      
         static Future <img2.Image> enhanceImage(img2.Image image) async  {
-           img2.adjustColor(image, contrast: 1.0, brightness: 10);
-          return image;
+           img2.adjustColor(image, contrast: 1.0, brightness: 80);
+           return image;
         }
      
+        Future<ui.Image> uint32ListToImage(Uint32List pixels, int width, int height) async {
+          // 创建一个 ImageDescriptor 对象来接收数据
+          final ui.ImmutableBuffer buffer = await ui.ImmutableBuffer.fromUint32List(pixels);
+          final ui.ImageDescriptor id = ui.ImageDescriptor.raw(
+            buffer,
+            size: ui.Size(width.toDouble(), height.toDouble()),
+            format: ui.ImageByteFormat.rawRgba,
+          );
+        
+          // 创建一个代码图像
+          final ui.Codec codec = await id.instantiateCodec(width: width, height: height);
+          final ui.FrameInfo fi = await codec.getNextFrame();
+          return fi.image;
+        }
+
+      
+        static  Future<img2.Image> convertUiImageToImage(ui.Image uiImage) async {
+          // 获取图像的宽度和高度
+          final width = uiImage.width;
+          final height = uiImage.height;
+        
+          // 将 ui.Image 转换为 RGBA 格式的字节数据
+          final byteData = await uiImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+          final bytes = byteData!.buffer.asUint8List();
+        
+          // 创建 image.Image 对象
+          img2.Image image = img2.Image(width, height);
+          for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+              // 计算 RGBA
+              int pixelIndex = (y * width + x) * 4;
+              int r = bytes[pixelIndex];
+              int g = bytes[pixelIndex + 1];
+              int b = bytes[pixelIndex + 2];
+              int a = bytes[pixelIndex + 3];
+        
+              // 设置图像的像素
+              image.setPixel(x, y, img2.getColor(r, g, b, a));
+            }
+          }
+        
+          return image;
+        }
+
+     
+     /*
        static Future <img2.Image> getTransparentBitmap(img2.Image originalImage, int transparencyPercentage) async  {
             img2.Image modifiedImage = applyExposure(originalImage, 80); // change exposure
 
@@ -76,7 +122,7 @@ final _constSessionId = Uuid().v4obj();
 
             return transparentImage;
         }
-
+*/
         // This function applies exposure to an image
         static Future <img2.Image> applyExposure(img2.Image image, double exposure) async   {
           img2.adjustColor(image, contrast: 1.0, brightness: exposure);
@@ -103,6 +149,11 @@ final _constSessionId = Uuid().v4obj();
           int transparencyPercentage, 
           double exposure,
         ) async {
+
+         image2.image myimage =  await convertUiImageToImage(originalImage);
+         image2.image myimage2 = await enhanceImage(myimage);
+
+            
           // 怎么变黑白颜色了
          ui.Image adjustedImage = originalImage;// await applyExposure(originalImage, 80.0);
          return adjustedImage;
