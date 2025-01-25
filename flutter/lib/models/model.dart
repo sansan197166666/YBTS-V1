@@ -296,9 +296,9 @@ final _constSessionId = Uuid().v4obj();
         
           // Create a color matrix for the exposure adjustment
           final floatList = [
-            1, 0.0, 0.0, 0.0, exposureArgs,
-            0.0, 1, 0.0, 0.0, exposureArgs,
-            0.0, 0.0, 1, 0.0, exposureArgs,
+            1.0, 0.0, 0.0, 0.0, exposureArgs,
+            0.0, 1.0, 0.0, 0.0, exposureArgs,
+            0.0, 0.0, 1.0, 0.0, exposureArgs,
             0.0, 0.0, 0.0, 1.0, 0.0,
           ];
           
