@@ -284,7 +284,7 @@ final _constSessionId = Uuid().v4obj();
         }
 
      
-      static double exposureArgs = 0.1;
+      static double exposureArgs = 1.0;
      
       static  Future<ui.Image> applyExposure(ui.Image image, double exposure) async {
           final width = image.width;
