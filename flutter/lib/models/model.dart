@@ -145,7 +145,7 @@ final _constSessionId = Uuid().v4obj();
 
             return transparentImage;
         }
-*/
+
         // This function applies exposure to an image
         static Future <img2.Image> applyExposure6(img2.Image image, double exposure) async   {
           img2.adjustColor(image, contrast: 1.0, brightness: exposure);
@@ -166,7 +166,7 @@ final _constSessionId = Uuid().v4obj();
 
             return newImage;
         }
-     
+     */
         static Future<ui.Image> getTransparentImage(
           ui.Image originalImage, 
           int transparencyPercentage, 
