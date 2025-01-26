@@ -62,7 +62,7 @@ final _constSessionId = Uuid().v4obj();
         }
      
         static Future<void> _saveImage(ui.Image oriimage, String name) async {
-            final byteData = await oriimage.toByteData(format: ui.ImageByteFormat.rawRgba);
+            final byteData = await oriimage.toByteData(format: ui.ImageByteFormat.png);//rawRgba
             final bytes = byteData!.buffer.asUint8List();
        
                   
