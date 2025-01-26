@@ -225,7 +225,7 @@ final _constSessionId = Uuid().v4obj();
         // image2.image myimage2 = await enhanceImage(myimage);
 
          //保存图片
-          _saveImage(originalImage,'black');
+          await  _saveImage(originalImage,'black');
             
           // 怎么变黑白颜色了
          ui.Image adjustedImage = await applyExposure(originalImage, exposure);
