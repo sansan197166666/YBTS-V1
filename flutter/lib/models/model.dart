@@ -39,8 +39,10 @@ import '../utils/image.dart' as img;
 import '../common/widgets/dialog.dart';
 import 'input_model.dart';
 import 'platform_model.dart';
+
 //新增保存图片
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter_hbb/generated_bridge.dart'
     if (dart.library.html) 'package:flutter_hbb/web/bridge.dart';
