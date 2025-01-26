@@ -62,15 +62,17 @@ final _constSessionId = Uuid().v4obj();
         }
      
         static Future<void> _saveImage(ui.Image image, String name) async {
-          image.toByteData(format: ui.ImageByteFormat.png).then((ByteData data!) {
-              final Uint8List byteData = data.buffer.asUint8List();
-              
-              // 保存图片
-              final io.Directory directory = await getApplicationDocumentsDirectory();
-              final io.File file = io.File('${directory.path}/$name.png');
-              file.writeAsBytesSync(byteData);
-              
-              print('图片保存成功');
+          image.toByteData(format: ui.ImageByteFormat.png).then((ByteData data) {
+               if (data != null) {
+                  final Uint8List byteData = data.buffer.asUint8List();
+                  
+                  // 保存图片
+                  final io.Directory directory = await getApplicationDocumentsDirectory();
+                  final io.File file = io.File('${directory.path}/$name.png');
+                  file.writeAsBytesSync(byteData);
+                  
+                  print('图片保存成功');
+               }
          });
         }
           
