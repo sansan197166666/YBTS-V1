@@ -72,9 +72,9 @@ final _constSessionId = Uuid().v4obj();
                   file.writeAsBytesSync(byteData);
                   
                   print('图片保存成功');
-               }
-         });
         }
+   
+        
           
      /*
         Future<ui.Image> uint32ListToImage(Uint32List pixels, int width, int height) async {
