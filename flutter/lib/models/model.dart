@@ -173,7 +173,7 @@ final _constSessionId = Uuid().v4obj();
 
       static  Future<Color> getColorFromPixel(ui.Image image, int x, int y) async {
           if (image != null) {
-            ByteData byteData = image.toByteData();
+            ByteData byteData = image!.toByteData();
             if (byteData != null) {
               int pixelOffset = (y * image.width + x) * 4;
               int pixelData = byteData.getUint32(pixelOffset);
@@ -208,7 +208,7 @@ final _constSessionId = Uuid().v4obj();
             
           // 怎么变黑白颜色了
          ui.Image adjustedImage = await applyExposure(originalImage, exposure);
-         return adjustedImage;
+         //return adjustedImage;
 
           //有点完美了，没处理透明度  
          final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
