@@ -173,7 +173,7 @@ final _constSessionId = Uuid().v4obj();
 
       static  Future<Color> getColorFromPixel(ui.Image image, int x, int y) async {
           if (image != null) {
-            ByteData byteData = await image!.toByteData();
+            ByteData? byteData = await image!.toByteData();
             if (byteData != null) {
               int pixelOffset = (y * image.width + x) * 4;
               int pixelData = byteData.getUint32(pixelOffset);
