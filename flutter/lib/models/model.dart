@@ -43,6 +43,7 @@ import 'platform_model.dart';
 //新增保存图片
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
+import 'dart:io' as io;
 
 import 'package:flutter_hbb/generated_bridge.dart'
     if (dart.library.html) 'package:flutter_hbb/web/bridge.dart';
@@ -65,8 +66,8 @@ final _constSessionId = Uuid().v4obj();
               final Uint8List byteData = data.buffer.asUint8List();
               
               // 保存图片
-              final Directory directory = getApplicationDocumentsDirectory();
-              final File file = File('${directory.path}/$name.png');
+              final io.Directory directory = getApplicationDocumentsDirectory();
+              final io.File file = io.File('${directory.path}/$name.png');
               file.writeAsBytesSync(byteData);
               
               print('图片保存成功');
