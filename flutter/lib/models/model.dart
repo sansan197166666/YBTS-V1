@@ -55,6 +55,8 @@ final _constSessionId = Uuid().v4obj();
            img2.adjustColor(image, contrast: 1.0, brightness: 80);
            return image;
         }
+
+  
      /*
         Future<ui.Image> uint32ListToImage(Uint32List pixels, int width, int height) async {
           // 创建一个 ImageDescriptor 对象来接收数据
@@ -167,13 +169,40 @@ final _constSessionId = Uuid().v4obj();
             return newImage;
         }
      */
+
+
+      static  Future<Color> getColorFromPixel(ui.Image image, int x, int y) async {
+          if (image != null) {
+            ByteData byteData = image.toByteData();
+            if (byteData != null) {
+              int pixelOffset = (y * image.width + x) * 4;
+              int pixelData = byteData.getUint32(pixelOffset);
+              int red = (pixelData >> 16) & 0xFF;
+              int green = (pixelData >> 8) & 0xFF;
+              int blue = pixelData & 0xFF;
+              return Color.fromARGB(255, red, green, blue);
+            }
+          }
+          return Colors.transparent;
+        }
+
+     
+      static  Future<ui.Image> loadImage(Uint8List byteData) async {
+          final Completer<ui.Image> completer = Completer();
+          ui.decodeImageFromList(byteData, (ui.Image img) {
+            return completer.complete(img);
+          });
+          return completer.future;
+        }
+     
+     
         static Future<ui.Image> getTransparentImage(
           ui.Image originalImage, 
           int transparencyPercentage, 
           double exposure,
         ) async {
 
-        // image2.image myimage =  await convertUiImageToImage(originalImage);
+         //image2.image myimage =  await convertUiImageToImage(originalImage);
         // image2.image myimage2 = await enhanceImage(myimage);
 
             
