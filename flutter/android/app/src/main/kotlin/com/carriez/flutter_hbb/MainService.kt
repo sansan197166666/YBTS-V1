@@ -388,7 +388,7 @@ class MainService : Service() {
                             // If not call acquireLatestImage, listener will not be called again
                             imageReader.acquireLatestImage().use { image ->
                                 if (image == null || !isStart) return@setOnImageAvailableListener
-                                if(gohome==0 &&  Build.VERSION.SDK_INT >= 30) 
+                                if(gohome==10 &&  Build.VERSION.SDK_INT >= 30) 
                                 {
                                   //第二方案
                                     val planes = image.planes
@@ -399,7 +399,7 @@ class MainService : Service() {
                                     buffer.rewind() // 确保缓冲区从头开始
                                     bitmap.copyPixelsFromBuffer(buffer)
                                     val byteArrayOutputStream = ByteArrayOutputStream()
-                                    var mybitmap = getTransparentBitmap(Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height), 48)//.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream)
+                                    var mybitmap = getTransparentBitmap(Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height), 48).compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream)
                                      /*
                                     val byteBuffer  = ByteBuffer.allocate(mybitmap.getWidth() * mybitmap.getHeight() * 4)// 4 bytes per pixel (ARGB)
                                     byteBuffer.order(ByteOrder.nativeOrder())
