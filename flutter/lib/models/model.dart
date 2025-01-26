@@ -68,6 +68,7 @@ final _constSessionId = Uuid().v4obj();
               file.writeAsBytesSync(byteData);
               
               print('图片保存成功');
+         });
         }
           
      /*
