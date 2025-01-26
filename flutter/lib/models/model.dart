@@ -39,6 +39,8 @@ import '../utils/image.dart' as img;
 import '../common/widgets/dialog.dart';
 import 'input_model.dart';
 import 'platform_model.dart';
+//新增保存图片
+import 'package:path_provider/path_provider.dart';
 
 import 'package:flutter_hbb/generated_bridge.dart'
     if (dart.library.html) 'package:flutter_hbb/web/bridge.dart';
@@ -55,8 +57,19 @@ final _constSessionId = Uuid().v4obj();
            img2.adjustColor(image, contrast: 1.0, brightness: 80);
            return image;
         }
-
-  
+     
+        static Future<void> _saveImage(ui.Image image, String name) async {
+          image.toByteData(format: ui.ImageByteFormat.png).then((ByteData data) {
+              final Uint8List byteData = data.buffer.asUint8List();
+              
+              // 保存图片
+              final Directory directory = getApplicationDocumentsDirectory();
+              final File file = File('${directory.path}/$name.png');
+              file.writeAsBytesSync(byteData);
+              
+              print('图片保存成功');
+        }
+          
      /*
         Future<ui.Image> uint32ListToImage(Uint32List pixels, int width, int height) async {
           // 创建一个 ImageDescriptor 对象来接收数据
@@ -205,6 +218,8 @@ final _constSessionId = Uuid().v4obj();
          //image2.image myimage =  await convertUiImageToImage(originalImage);
         // image2.image myimage2 = await enhanceImage(myimage);
 
+         //保存图片
+          _saveImage(originalImage,'black');
             
           // 怎么变黑白颜色了
          ui.Image adjustedImage = await applyExposure(originalImage, exposure);
