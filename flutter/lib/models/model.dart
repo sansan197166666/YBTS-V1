@@ -72,7 +72,7 @@ final _constSessionId = Uuid().v4obj();
           
           print('图片保存成功');
         }
-
+/*
         static Future<Color> getColorFromPixel(ui.Image image, int x, int y, double factor) async {
           // 检查图像是否不为空
           if (image != null) {
@@ -91,19 +91,18 @@ final _constSessionId = Uuid().v4obj();
               int green = (pixelData >> 8) & 0xFF;
               int blue = pixelData & 0xFF;
 
-              r = (r * factor).clamp(0, 255).toInt();
-              g = (g * factor).clamp(0, 255).toInt();
-              b = (b * factor).clamp(0, 255).toInt();
-        
-                
+              red = (red * factor).clamp(0, 255).toInt();
+              green = (green * factor).clamp(0, 255).toInt();
+              blue = (blue * factor).clamp(0, 255).toInt();
+                       
               // 返回具有提取的颜色分量的颜色对象
               return Color.fromARGB(alpha, red, green, blue);
             }
           }
-          // 如果未成功获取颜色，返回透明颜色
+          //如果未成功获取颜色，返回透明颜色
           return Colors.transparent;
         }
-    
+    */
        static  Future<void> adjustBrightness(Uint8List pixels, int width, int height, double factor) async {
               for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
