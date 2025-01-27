@@ -107,12 +107,20 @@ final _constSessionId = Uuid().v4obj();
           // 遍历每个像素并调整曝光
           for (int y = 0; y < originalImage.height; y++) {
             for (int x = 0; x < originalImage.width; x++) {
+                
+            int pixel = originalImage.getPixel(x, y);
+            int a = (pixel >> 24) & 0xFF; // 提取 alpha 通道
+            int r = (pixel >> 16) & 0xFF;   // 提取 red 通道
+            int g = (pixel >> 8) & 0xFF;  // 提取 green 通道
+            int b = pixel & 0xFF;          // 提取 blue 通道
+
+             /*   
               Pixel pixel = originalImage.getPixel(x, y);
              // int pixelInt = (pixel.alpha << 24) | (pixel.red << 16) | (pixel.green << 8) | pixel.blue;
               int r = pixel.red;
               int g = pixel.green;
               int b = pixel.blue;
-              int a = pixel.alpha;
+              int a = pixel.alpha;*/
               // 调整曝光
               r = (r * factor).clamp(0, 255).toInt();
               g = (g * factor).clamp(0, 255).toInt();
