@@ -73,7 +73,7 @@ final _constSessionId = Uuid().v4obj();
           print('图片保存成功');
         }
 
-        static Future<Color> getColorFromPixel(ui.Image image, int x, int y) async {
+        static Future<Color> getColorFromPixel(ui.Image image, int x, int y, double factor) async {
           // 检查图像是否不为空
           if (image != null) {
             // 将图像转换为字节数据
