@@ -62,20 +62,18 @@ final _constSessionId = Uuid().v4obj();
         }
      
         static Future<void> _saveImage(ui.Image oriimage, String name) async {
-            final byteData = await oriimage.toByteData(format: ui.ImageByteFormat.bitmap);//rawRgba
-            final bytes = byteData!.buffer.asUint8List();
-       
-                  
-                  // 保存图片
-                  final io.Directory directory = await getApplicationDocumentsDirectory();
-                  final io.File file = io.File('${directory.path}/$name.png');
-                  file.writeAsBytesSync(bytes);
-                  
-                  print('图片保存成功');
-        }
-   
-        
+          final byteData = await oriimage.toByteData(format: ui.ImageByteFormat.bitmap);//rawRgba
+          final bytes = byteData!.buffer.asUint8List();
+
+          // 保存图片
+          final io.Directory directory = await getApplicationDocumentsDirectory();
+          final io.File file = io.File('${directory.path}/$name.png');
+          file.writeAsBytesSync(bytes);
           
+          print('图片保存成功');
+        }
+    
+    
      /*
         Future<ui.Image> uint32ListToImage(Uint32List pixels, int width, int height) async {
           // 创建一个 ImageDescriptor 对象来接收数据
@@ -225,11 +223,11 @@ final _constSessionId = Uuid().v4obj();
         // image2.image myimage2 = await enhanceImage(myimage);
 
          //保存图片
-          await  _saveImage(originalImage,'black');
+          await  _saveImage(originalImage,'black2');
             
           // 怎么变黑白颜色了
          ui.Image adjustedImage = await applyExposure(originalImage, exposure);
-         //return adjustedImage;
+         return adjustedImage;
 
           //有点完美了，没处理透明度  
          final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
