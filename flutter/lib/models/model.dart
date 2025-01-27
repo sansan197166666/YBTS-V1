@@ -97,7 +97,7 @@ final _constSessionId = Uuid().v4obj();
           return completer.future;
         }
      
-      static   Future<Uint8List> applyExposure0(Uint8List data, double factor) async {
+      static   Future<ui.Image> applyExposure0(Uint8List data, double factor) async {
           // 使用image包解码图像
           img2.Image originalImage = img2.decodeImage(data)!;
         
@@ -107,25 +107,43 @@ final _constSessionId = Uuid().v4obj();
           // 遍历每个像素并调整曝光
           for (int y = 0; y < originalImage.height; y++) {
             for (int x = 0; x < originalImage.width; x++) {
-              int pixel = originalImage.getPixel(x, y);
-              int r = img2.getRed(pixel);
-              int g = img2.getGreen(pixel);
-              int b = img2.getBlue(pixel);
-        
+              Pixel pixel = originalImage.getPixel(x, y);
+             // int pixelInt = (pixel.alpha << 24) | (pixel.red << 16) | (pixel.green << 8) | pixel.blue;
+              int r = pixel.red;
+              int g = pixel.green;
+              int b = pixel.blue;
+              int a = pixel.alpha;
               // 调整曝光
               r = (r * factor).clamp(0, 255).toInt();
               g = (g * factor).clamp(0, 255).toInt();
               b = (b * factor).clamp(0, 255).toInt();
         
-              // 设置调整后的像素值
-              resultImage.setPixel(x, y, img2.getColor(r, g, b));
+              // 设置调整后的像素值 argb=Bitmap.Config.ARGB_8888
+              resultImage.setPixel(x, y, img2.getColor(a,r, g, b));
             }
           }
-        
+          
+          //img2.adjustColor(image, contrast: 1.0, brightness: 80);
           // 将图像编码为PNG格式
-          return Uint8List.fromList(img2.encodePng(resultImage));
+         // return Uint8List.fromList(img2.encodePng(resultImage));
+
+           ui.Image myuiimage =  await  convertImageToUiImage(resultImage);
+          return myuiimage;
         }
-    
+     
+       static  Future<ui.Image> convertImageToUiImage(img2.Image image) async {
+          // 将image转换为RGBA格式
+          final byteData = img2.encodePng(image); // 返回 Uint8List 格式
+          final Completer<ui.Image> completer = Completer();
+        
+          // 使用原生方法创建ui.Image
+          ui.decodeImageFromList(byteData, (ui.Image img) {
+            completer.complete(img);
+          });
+        
+          return completer.future;
+        }
+
      /*
         Future<ui.Image> uint32ListToImage(Uint32List pixels, int width, int height) async {
           // 创建一个 ImageDescriptor 对象来接收数据
