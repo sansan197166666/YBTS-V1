@@ -103,6 +103,15 @@ final _constSessionId = Uuid().v4obj();
           return Colors.transparent;
         }
     */
+
+          /*
+       ImageReader.newInstance(
+                SCREEN_INFO.width,
+                SCREEN_INFO.height,
+                PixelFormat.RGBA_8888,
+                4*/
+     
+     //argb和gbra搞反了应该是
        static  Future<void> adjustBrightness(Uint8List pixels, int width, int height, double factor) async {
               for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
