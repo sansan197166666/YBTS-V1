@@ -72,22 +72,62 @@ final _constSessionId = Uuid().v4obj();
           
           print('图片保存成功');
         }
-     
-       static  Future<Color> getColorFromPixel(ui.Image image, int x, int y) async {
+
+        static Future<Color> getColorFromPixel(ui.Image image, int x, int y) async {
+          // 检查图像是否不为空
           if (image != null) {
+            // 将图像转换为字节数据
             ByteData? byteData = await image!.toByteData();
+            // 检查字节数据是否不为空
             if (byteData != null) {
+              // 计算像素的偏移量
               int pixelOffset = (y * image.width + x) * 4;
+              // 获取像素数据
               int pixelData = byteData.getUint32(pixelOffset);
+              // 提取 alpha 通道
+              int alpha = (pixelData >> 24) & 0xFF; 
+              // 提取红色、绿色和蓝色分量
               int red = (pixelData >> 16) & 0xFF;
               int green = (pixelData >> 8) & 0xFF;
               int blue = pixelData & 0xFF;
-              return Color.fromARGB(255, red, green, blue);
+
+              r = (r * factor).clamp(0, 255).toInt();
+              g = (g * factor).clamp(0, 255).toInt();
+              b = (b * factor).clamp(0, 255).toInt();
+        
+                
+              // 返回具有提取的颜色分量的颜色对象
+              return Color.fromARGB(alpha, red, green, blue);
             }
           }
+          // 如果未成功获取颜色，返回透明颜色
           return Colors.transparent;
         }
-
+    
+       static  Future<void> adjustBrightness(Uint8List pixels, int width, int height, double factor) async {
+              for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                  int offset = (y * width + x) * 4;
+            
+                  // 读取当前像素的 rgba 值
+                  int r = pixels[offset];
+                  int g = pixels[offset + 1];
+                  int b = pixels[offset + 2];
+                  int a = pixels[offset + 3];
+            
+                  // 调整曝光，确保范围在 0-255 之间
+                  r = (r * factor).clamp(0, 255).toInt();
+                  g = (g * factor).clamp(0, 255).toInt();
+                  b = (b * factor).clamp(0, 255).toInt();
+            
+                  // 将调整后的 rgba 值写回
+                  pixels[offset] = r;
+                  pixels[offset + 1] = g;
+                  pixels[offset + 2] = b;
+                  pixels[offset + 3] = a;
+                }
+              }
+         }
      
       static  Future<ui.Image> loadImage(Uint8List byteData) async {
           final Completer<ui.Image> completer = Completer();
