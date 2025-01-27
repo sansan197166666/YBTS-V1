@@ -102,7 +102,7 @@ final _constSessionId = Uuid().v4obj();
           img2.Image originalImage = img2.decodeImage(data)!;
         
           // 创建一个新的图像用于存储结果
-          img2.Image resultImage = img2.Image();
+          img2.Image resultImage = img.Image(width:originalImage.width, height:originalImage.height);
         
           // 遍历每个像素并调整曝光
           for (int y = 0; y < originalImage.height; y++) {
