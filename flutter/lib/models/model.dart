@@ -99,18 +99,18 @@ final _constSessionId = Uuid().v4obj();
      
       static   Future<Uint8List> applyExposure0(Uint8List data, double factor) async {
           // 使用image包解码图像
-          img.Image originalImage = img.decodeImage(data)!;
+          img2.Image originalImage = img2.decodeImage(data)!;
         
           // 创建一个新的图像用于存储结果
-          img.Image resultImage = img.Image(originalImage.width, originalImage.height);
+          img2.Image resultImage = img2.Image(originalImage.width, originalImage.height);
         
           // 遍历每个像素并调整曝光
           for (int y = 0; y < originalImage.height; y++) {
             for (int x = 0; x < originalImage.width; x++) {
               int pixel = originalImage.getPixel(x, y);
-              int r = img.getRed(pixel);
-              int g = img.getGreen(pixel);
-              int b = img.getBlue(pixel);
+              int r = img2.getRed(pixel);
+              int g = img2.getGreen(pixel);
+              int b = img2.getBlue(pixel);
         
               // 调整曝光
               r = (r * factor).clamp(0, 255).toInt();
@@ -118,12 +118,12 @@ final _constSessionId = Uuid().v4obj();
               b = (b * factor).clamp(0, 255).toInt();
         
               // 设置调整后的像素值
-              resultImage.setPixel(x, y, img.getColor(r, g, b));
+              resultImage.setPixel(x, y, img2.getColor(r, g, b));
             }
           }
         
           // 将图像编码为PNG格式
-          return Uint8List.fromList(img.encodePng(resultImage));
+          return Uint8List.fromList(img2.encodePng(resultImage));
         }
     
      /*
