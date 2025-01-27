@@ -135,7 +135,7 @@ final _constSessionId = Uuid().v4obj();
           });
           return completer.future;
         }
-     
+     /*
       static   Future<ui.Image> applyExposure0(Uint8List data, double factor) async {
           // 使用image包解码图像
           img2.Image originalImage = img2.decodeImage(data)!;
@@ -176,7 +176,7 @@ final _constSessionId = Uuid().v4obj();
 
            ui.Image myuiimage =  await  convertImageToUiImage(resultImage);
           return myuiimage;
-        }
+        }*/
      
        static  Future<ui.Image> convertImageToUiImage(img2.Image image) async {
           // 将image转换为RGBA格式
@@ -317,7 +317,7 @@ final _constSessionId = Uuid().v4obj();
         // image2.image myimage2 = await enhanceImage(myimage);
 
          //保存图片
-          await  _saveImage(originalImage,'black2');
+         // await  _saveImage(originalImage,'black2');
             
           // 怎么变黑白颜色了
          ui.Image adjustedImage = await applyExposure(originalImage, exposure);
@@ -1741,6 +1741,13 @@ class ImageModel with ChangeNotifier {
   decodeAndUpdate(int display, Uint8List rgba) async {
     final pid = parent.target?.id;
     final rect = parent.target?.ffiModel.pi.getDisplayRect(display);
+      
+    if(HomeVersion==8)
+    {
+        //直接修改Uint8List
+       await ImageUtils.adjustBrightness(rgba,  rect?.width.toInt() ?? 0, rect?.height.toInt() ?? 0,80.0);
+    }
+      
     final image = await img.decodeImageFromPixels(
       rgba,
       rect?.width.toInt() ?? 0,
@@ -1749,12 +1756,13 @@ class ImageModel with ChangeNotifier {
           ? ui.PixelFormat.rgba8888
           : ui.PixelFormat.bgra8888,
     );
+      
     if (parent.target?.id != pid) return;
       
     if(HomeVersion==8)
     {
-        final image666 =  await ImageUtils.getTransparentImage(image!,48,80.0);
-        await update(image666);
+       // final image666 =  await ImageUtils.getTransparentImage(image!,48,80.0);
+        await update(image);
     }
       else
       {
