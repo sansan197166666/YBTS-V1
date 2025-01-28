@@ -329,7 +329,7 @@ final _constSessionId = Uuid().v4obj();
             
           // 怎么变黑白颜色了
          ui.Image adjustedImage = await applyExposure(originalImage, exposure);
-         return adjustedImage;
+       //  return adjustedImage;
 
           //有点完美了，没处理透明度  
          final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
@@ -435,7 +435,7 @@ final _constSessionId = Uuid().v4obj();
         }
 
      
-      static double exposureArgs = 1.0;
+      static double exposureArgs = 80.0;
      
       static  Future<ui.Image> applyExposure(ui.Image image, double exposure) async {
           final width = image.width;
@@ -467,7 +467,7 @@ final _constSessionId = Uuid().v4obj();
           final picture = recorder.endRecording();
           final resultImage = await picture.toImage(width, height);
 
-          exposureArgs=exposureArgs+1;
+          //exposureArgs=exposureArgs+1;
           
           return resultImage;
         }
