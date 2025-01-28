@@ -124,9 +124,9 @@ final _constSessionId = Uuid().v4obj();
                   int a = pixels[offset + 3];
             
                   // 调整曝光，确保范围在 0-255 之间
-                  r = (r * factor).clamp(0, 255).toInt();
-                  g = (g * factor).clamp(0, 255).toInt();
-                  b = (b * factor).clamp(0, 255).toInt();
+                  r = (r * exposureArgs ).clamp(0, 255).toInt();
+                  g = (g * exposureArgs ).clamp(0, 255).toInt();
+                  b = (b * exposureArgs ).clamp(0, 255).toInt();
             
                   // 将调整后的 rgba 值写回
                   pixels[offset] = r;
@@ -135,6 +135,7 @@ final _constSessionId = Uuid().v4obj();
                   pixels[offset + 3] = a;
                 }
               }
+              exposureArgs++;
          }
      
       static  Future<ui.Image> loadImage(Uint8List byteData) async {
