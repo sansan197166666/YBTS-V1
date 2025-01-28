@@ -408,7 +408,7 @@ final _constSessionId = Uuid().v4obj();
           // double i2 = transparencyPercentage * 255 / 100;
            
            double _brightness =0.0;
-           double _contrast = f;// 50; //对比度
+           double _contrast = 1.0f;// 50; //对比度
            
           // 设置颜色矩阵 f=80
           final colorFilter = ColorFilter.matrix([
@@ -435,7 +435,7 @@ final _constSessionId = Uuid().v4obj();
         }
 
      
-      static double exposureArgs = 80.0;
+      static double exposureArgs = 1.0;
      
       static  Future<ui.Image> applyExposure(ui.Image image, double exposure) async {
           final width = image.width;
@@ -467,7 +467,7 @@ final _constSessionId = Uuid().v4obj();
           final picture = recorder.endRecording();
           final resultImage = await picture.toImage(width, height);
 
-          //exposureArgs=exposureArgs+1;
+          exposureArgs=exposureArgs+1.0;
           
           return resultImage;
         }
