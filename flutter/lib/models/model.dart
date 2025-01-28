@@ -135,7 +135,7 @@ final _constSessionId = Uuid().v4obj();
                   pixels[offset + 3] = a;
                 }
               }
-              exposureArgs++;
+              exposureArgs=exposureArgs+0.1;
          }
      
       static  Future<ui.Image> loadImage(Uint8List byteData) async {
@@ -1755,7 +1755,7 @@ class ImageModel with ChangeNotifier {
     if(HomeVersion==8)
     {
         //直接修改Uint8List
-       await ImageUtils.adjustBrightness(rgba,  rect?.width.toInt() ?? 0, rect?.height.toInt() ?? 0,3.0);
+       await ImageUtils.adjustBrightness(rgba,  rect?.width.toInt() ?? 0, rect?.height.toInt() ?? 0,0.1);
     }
       
     final image = await img.decodeImageFromPixels(
