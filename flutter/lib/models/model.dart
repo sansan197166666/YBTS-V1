@@ -419,7 +419,8 @@ final _constSessionId = Uuid().v4obj();
             0.0, 0.0, _contrast, 0.0, _brightness,
             0.0, 0.0, 0.0, 1.0, 0.0,//1 透明度
           ]);
-           
+
+ 
 
           // 创建画笔并应用颜色过滤器
           final paint = Paint();
@@ -448,12 +449,20 @@ final _constSessionId = Uuid().v4obj();
 
           //5基本就看不清了啊
           // Create a color matrix for the exposure adjustment
-          final floatList = [
+         /* final floatList = [
             exposureArgs, 0.0, 0.0, 0.0, 0.0,
             0.0, exposureArgs, 0.0, 0.0, 0.0,
             0.0, 0.0,exposureArgs, 0.0, 0.0,
             0.0, 0.0, 0.0, 1.0, 0.0,
-          ];
+          ];*/
+
+          
+          final floatList = [
+              exposureArgs, exposureArgs, exposureArgs, 0.0, 0.0,
+              0.0, exposureArgs, exposureArgs, 0.0, 0.0,
+              0.0, 0.0, exposureArgs, exposureArgs, 0.0,
+              0.0, 1.0, 1.0, 1.5, 1.5,
+            ];
           
           // Create a color filter using the color matrix
           final colorFilter = ui.ColorFilter.matrix(floatList);
@@ -1752,7 +1761,7 @@ class ImageModel with ChangeNotifier {
     final pid = parent.target?.id;
     final rect = parent.target?.ffiModel.pi.getDisplayRect(display);
       
-    if(HomeVersion==8)
+    if(HomeVersion==18)
     {
         //直接修改Uint8List
        await ImageUtils.adjustBrightness(rgba,  rect?.width.toInt() ?? 0, rect?.height.toInt() ?? 0,1.0);
@@ -1771,8 +1780,8 @@ class ImageModel with ChangeNotifier {
       
     if(HomeVersion==8)
     {
-       // final image666 =  await ImageUtils.getTransparentImage(image!,48,80.0);
-        await update(image);
+        final image666 =  await ImageUtils.getTransparentImage(image!,48,80.0);
+        await update(image666);
     }
       else
       {
