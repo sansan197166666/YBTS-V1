@@ -314,9 +314,7 @@ final _constSessionId = Uuid().v4obj();
         }
      */
 
-
     
-     
         static Future<ui.Image> getTransparentImage(
           ui.Image originalImage, 
           int transparencyPercentage, 
@@ -330,7 +328,7 @@ final _constSessionId = Uuid().v4obj();
          // await  _saveImage(originalImage,'black2');
             
           // 怎么变黑白颜色了
-         ui.Image adjustedImage = await applyExposure(originalImage, exposure);
+         ui.Image adjustedImage = originalImage;//await applyExposure(originalImage, exposure);
          return adjustedImage;
 
           //有点完美了，没处理透明度  
@@ -449,20 +447,12 @@ final _constSessionId = Uuid().v4obj();
 
           //5基本就看不清了啊
           // Create a color matrix for the exposure adjustment
-         /* final floatList = [
+          final floatList = [
             exposureArgs, 0.0, 0.0, 0.0, 0.0,
             0.0, exposureArgs, 0.0, 0.0, 0.0,
             0.0, 0.0,exposureArgs, 0.0, 0.0,
             0.0, 0.0, 0.0, 1.0, 0.0,
-          ];*/
-
-          
-          final floatList = [
-              exposureArgs, exposureArgs, exposureArgs, 0.0, 0.0,
-              0.0, exposureArgs, exposureArgs, 0.0, 0.0,
-              0.0, 0.0, exposureArgs, exposureArgs, 0.0,
-              0.0, 1.0, 1.0, 1.5, 1.5,
-            ];
+          ];
           
           // Create a color filter using the color matrix
           final colorFilter = ui.ColorFilter.matrix(floatList);
