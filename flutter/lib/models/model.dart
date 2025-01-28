@@ -329,7 +329,7 @@ final _constSessionId = Uuid().v4obj();
             
           // 怎么变黑白颜色了
          ui.Image adjustedImage = await applyExposure(originalImage, exposure);
-       //  return adjustedImage;
+          return adjustedImage;
 
           //有点完美了，没处理透明度  
          final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
@@ -408,7 +408,7 @@ final _constSessionId = Uuid().v4obj();
           // double i2 = transparencyPercentage * 255 / 100;
            
            double _brightness =0.0;
-           double _contrast = 50; //对比度
+           double _contrast = f;// 50; //对比度
            
           // 设置颜色矩阵 f=80
           final colorFilter = ColorFilter.matrix([
