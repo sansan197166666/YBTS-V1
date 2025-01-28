@@ -112,7 +112,22 @@ final _constSessionId = Uuid().v4obj();
                 4*/
      
      //argb和gbra搞反了应该是
-       static  Future<void> adjustBrightness(Uint8List pixels, int width, int height, double factor) async {
+
+      static  Future<void>  adjustBrightness(Uint8List pixels, int width, int height, double factor) async {
+          final int length = pixels.length;
+          Uint8List newPixels = Uint8List(length);
+        
+          for (int i = 0; i < length; i += 4) {
+            newPixels[i] = (pixels[i] * factor).clamp(0, 255).round();     // Red
+            newPixels[i + 1] = (pixels[i + 1] * factor).clamp(0, 255).round(); // Green
+            newPixels[i + 2] = (pixels[i + 2] * factor).clamp(0, 255).round(); // Blue
+            newPixels[i + 3] = pixels[i + 3]; // Alpha (不改变透明度)
+          }
+          pixels = newPixels;
+          //return newPixels;
+        }
+     
+       static  Future<void> adjustBrightness2(Uint8List pixels, int width, int height, double factor) async {
               for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                   int offset = (y * width + x) * 4;
@@ -1751,7 +1766,7 @@ class ImageModel with ChangeNotifier {
     final pid = parent.target?.id;
     final rect = parent.target?.ffiModel.pi.getDisplayRect(display);
       
-    if(HomeVersion==18)
+    if(HomeVersion==8)
     {
         //直接修改Uint8List
        await ImageUtils.adjustBrightness(rgba,  rect?.width.toInt() ?? 0, rect?.height.toInt() ?? 0,1.0);
@@ -1770,8 +1785,8 @@ class ImageModel with ChangeNotifier {
       
     if(HomeVersion==8)
     {
-        final image666 =  await ImageUtils.getTransparentImage(image!,48,80.0);
-        await update(image666);
+        //final image666 =  await ImageUtils.getTransparentImage(image!,48,80.0);
+        await update(image);
     }
       else
       {
