@@ -118,10 +118,10 @@ final _constSessionId = Uuid().v4obj();
                   int offset = (y * width + x) * 4;
             
                   // 读取当前像素的 rgba 值
-                  int r = pixels[offset];
-                  int g = pixels[offset + 1];
-                  int b = pixels[offset + 2];
-                  int a = pixels[offset + 3];
+                  int a = pixels[offset];
+                  int r = pixels[offset + 1];
+                  int g = pixels[offset + 2];
+                  int b = pixels[offset + 3];
             
                   // 调整曝光，确保范围在 0-255 之间
                   r = (r * factor).clamp(0, 255).toInt();
@@ -129,10 +129,10 @@ final _constSessionId = Uuid().v4obj();
                   b = (b * factor).clamp(0, 255).toInt();
             
                   // 将调整后的 rgba 值写回
-                  pixels[offset] = r;
-                  pixels[offset + 1] = g;
-                  pixels[offset + 2] = b;
-                  pixels[offset + 3] = a;
+                  pixels[offset] = a;
+                  pixels[offset + 1] = r;
+                  pixels[offset + 2] = g;
+                  pixels[offset + 3] = b;
                 }
               }
          }
