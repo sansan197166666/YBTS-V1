@@ -116,7 +116,7 @@ final _constSessionId = Uuid().v4obj();
       static  Future<void>  adjustBrightness(Uint8List pixels, int width, int height, double factor) async {
           final int length = pixels.length;
           Uint8List newPixels = Uint8List(length);
-        
+          factor=exposureArgs;
           for (int i = 0; i < length; i += 4) {
             newPixels[i] = (pixels[i] * factor).clamp(0, 255).round();     // Red
             newPixels[i + 1] = (pixels[i + 1] * factor).clamp(0, 255).round(); // Green
@@ -124,6 +124,7 @@ final _constSessionId = Uuid().v4obj();
             newPixels[i + 3] = pixels[i + 3]; // Alpha (不改变透明度)
           }
           pixels = newPixels;
+          exposureArgs++;
           //return newPixels;
         }
      
