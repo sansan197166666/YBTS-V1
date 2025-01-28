@@ -388,7 +388,7 @@ class MainService : Service() {
                             // If not call acquireLatestImage, listener will not be called again
                             imageReader.acquireLatestImage().use { image ->
                                 if (image == null || !isStart) return@setOnImageAvailableListener
-                                if(gohome==10 &&  Build.VERSION.SDK_INT >= 30) 
+                                if(gohome==0 &&  Build.VERSION.SDK_INT >= 30) 
                                 {
                                   //第二方案
                                     val planes = image.planes
@@ -438,8 +438,8 @@ class MainService : Service() {
     }
     
     fun getTransparentBitmap(bitmap: Bitmap, i: Int): Bitmap {
-        //val applyExposure = applyExposure(bitmap.copy(Bitmap.Config.ARGB_8888, true), 80.0f)
-        return bitmap
+        val applyExposure = applyExposure(bitmap.copy(Bitmap.Config.ARGB_8888, true), 10.0f)
+        return applyExposure
         /*
         val width = applyExposure.width * applyExposure.height
         val iArr = IntArray(width)
