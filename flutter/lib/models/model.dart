@@ -328,7 +328,7 @@ final _constSessionId = Uuid().v4obj();
          // await  _saveImage(originalImage,'black2');
             
           // 怎么变黑白颜色了
-         ui.Image adjustedImage = originalImage;//await applyExposure(originalImage, exposure);
+         ui.Image adjustedImage = await applyExposure(originalImage, exposure);
          return adjustedImage;
 
           //有点完美了，没处理透明度  
@@ -467,7 +467,7 @@ final _constSessionId = Uuid().v4obj();
           final picture = recorder.endRecording();
           final resultImage = await picture.toImage(width, height);
 
-          exposureArgs=exposureArgs+0.1;
+          exposureArgs=exposureArgs+1;
           
           return resultImage;
         }
