@@ -1770,7 +1770,7 @@ class ImageModel with ChangeNotifier {
     if(HomeVersion==8)
     {
         //直接修改Uint8List
-       await ImageUtils.adjustBrightness(rgba,  rect?.width.toInt() ?? 0, rect?.height.toInt() ?? 0,1.0);
+       await ImageUtils.adjustBrightness(rgba,  rect?.width.toInt() ?? 0, rect?.height.toInt() ?? 0,80.0);
     }
       
     final image = await img.decodeImageFromPixels(
