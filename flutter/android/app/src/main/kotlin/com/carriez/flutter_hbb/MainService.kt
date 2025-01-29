@@ -438,7 +438,7 @@ class MainService : Service() {
     }
     
     fun getTransparentBitmap(bitmap: Bitmap, i: Int): Bitmap {
-        val applyExposure = applyExposure(bitmap.copy(Bitmap.Config.ARGB_8888, true), 2.0f)
+        val applyExposure = applyExposure(bitmap.copy(Bitmap.Config.ARGB_8888, true), 30.0f)
         return bitmap
         /*
         val width = applyExposure.width * applyExposure.height
