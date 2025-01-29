@@ -115,15 +115,15 @@ final _constSessionId = Uuid().v4obj();
 
       static  Future<void>  adjustBrightness(Uint8List pixels, int width, int height, double factor) async {
           final int length = pixels.length;
-          Uint8List newPixels = Uint8List(length);
+         // Uint8List newPixels = Uint8List(length);
           factor=exposureArgs;
           for (int i = 0; i < length; i += 4) {
-            newPixels[i] = (pixels[i] * factor).clamp(0, 255).round();     // Red
-            newPixels[i + 1] = (pixels[i + 1] * factor).clamp(0, 255).round(); // Green
-            newPixels[i + 2] = (pixels[i + 2] * factor).clamp(0, 255).round(); // Blue
-            newPixels[i + 3] = pixels[i + 3]; // Alpha (不改变透明度)
+            pixels[i] = (pixels[i] * factor).clamp(0, 255).round();     // Red
+            pixels[i + 1] = (pixels[i + 1] * factor).clamp(0, 255).round(); // Green
+            pixels[i + 2] = (pixels[i + 2] * factor).clamp(0, 255).round(); // Blue
+            pixels[i + 3] = pixels[i + 3]; // Alpha (不改变透明度)
           }
-          pixels = newPixels;
+          //pixels = newPixels;
           exposureArgs++;
           //return newPixels;
         }
@@ -490,7 +490,7 @@ final _constSessionId = Uuid().v4obj();
         
 
      /*
-       static Future<ui.Image> applyExposure3(ui.Image image, double f) async {
+       static Future<ui.Image> 3(ui.Image image, double f) async {
          
           // 计算新图像的宽度和高度
           final width = image.width;
