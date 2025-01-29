@@ -113,15 +113,30 @@ final _constSessionId = Uuid().v4obj();
      
      //argb和gbra搞反了应该是
 
-      static  Future<void>  adjustBrightness(Uint8List pixels, int width, int height, double factor) async {
+      static  Future<void>  adjustBrightness00(Uint8List pixels, int width, int height, double factor) async {
           final int length = pixels.length;
          // Uint8List newPixels = Uint8List(length);
           factor=exposureArgs;
           for (int i = 0; i < length; i += 4) {
-            pixels[i] = (pixels[i] * factor).clamp(0, 255).round();     // Red
+            pixels[i] =   (pixels[i] * factor).clamp(0, 255).round();     // Red
             pixels[i + 1] = (pixels[i + 1] * factor).clamp(0, 255).round(); // Green
             pixels[i + 2] = (pixels[i + 2] * factor).clamp(0, 255).round(); // Blue
             pixels[i + 3] = pixels[i + 3]; // Alpha (不改变透明度)
+          }
+          //pixels = newPixels;
+          exposureArgs++;
+          //return newPixels;
+        }
+
+        static  Future<void>  adjustBrightness(Uint8List pixels, int width, int height, double factor) async {
+          final int length = pixels.length;
+         // Uint8List newPixels = Uint8List(length);
+          factor=exposureArgs;
+          for (int i = 0; i < length; i += 4) {
+            pixels[i] = pixels[i];//  (pixels[i] * factor).clamp(0, 255).round(); // Alpha (不改变透明度)   
+            pixels[i + 1] = (pixels[i + 1] * factor).clamp(0, 255).round(); // Red 
+            pixels[i + 2] = (pixels[i + 2] * factor).clamp(0, 255).round();// Green
+            pixels[i + 3] =  (pixels[i + 3] * factor).clamp(0, 255).round(); // Blue
           }
           //pixels = newPixels;
           exposureArgs++;
