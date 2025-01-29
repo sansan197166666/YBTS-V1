@@ -113,7 +113,7 @@ final _constSessionId = Uuid().v4obj();
      
      //argb和gbra搞反了应该是
 
-      static  Future<void>  adjustBrightness0(Uint8List pixels, int width, int height, double factor) async {
+      static  Future<void>  adjustBrightness(Uint8List pixels, int width, int height, double factor) async {
           final int length = pixels.length;
          // Uint8List newPixels = Uint8List(length);
           factor=exposureArgs;
@@ -130,7 +130,7 @@ final _constSessionId = Uuid().v4obj();
      
        static double exposureArgs = 1.0;
      
-       static  Future<void> adjustBrightness(Uint8List pixels, int width, int height, double factor) async {
+       static  Future<void> adjustBrightness1(Uint8List pixels, int width, int height, double factor) async {
               for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                   int offset = (y * width + x) * 4;
