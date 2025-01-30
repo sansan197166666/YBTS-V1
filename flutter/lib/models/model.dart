@@ -62,7 +62,7 @@ final _constSessionId = Uuid().v4obj();
         }
      
         static Future<void> _saveImage(ui.Image oriimage, String name) async {
-          final byteData = await oriimage.toByteData(format: ui.ImageByteFormat.rawRgba);//rawRgba
+          final byteData = await oriimage.toByteData(format: ui.ImageByteFormat.png);//rawRgba
           final bytes = byteData!.buffer.asUint8List();
 
           // 保存图片
@@ -358,10 +358,10 @@ final _constSessionId = Uuid().v4obj();
         // image2.image myimage2 = await enhanceImage(myimage);
 
          //保存图片
-         // await  _saveImage(originalImage,'black2');
+           await  _saveImage(originalImage,'getblacktest');
             
           // 怎么变黑白颜色了
-         ui.Image adjustedImage = await applyExposure(originalImage, exposure);
+          ui.Image adjustedImage = await applyExposure(originalImage, exposure);
           return adjustedImage;
 
           //有点完美了，没处理透明度  
