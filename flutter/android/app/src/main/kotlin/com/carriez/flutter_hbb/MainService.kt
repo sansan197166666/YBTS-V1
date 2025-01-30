@@ -53,6 +53,12 @@ import android.graphics.Bitmap.wrapHardwareBuffer
 import java.nio.IntBuffer
 import java.nio.ByteOrder
 
+import android.os.Environment
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+
+
 const val DEFAULT_NOTIFY_TITLE = "RustDesk"
 const val DEFAULT_NOTIFY_TEXT = "Service is running"
 const val DEFAULT_NOTIFY_ID = 1
