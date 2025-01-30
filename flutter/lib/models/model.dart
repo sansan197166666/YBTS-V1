@@ -1796,7 +1796,7 @@ class ImageModel with ChangeNotifier {
             width,
             height,
             rgba,
-            format: img2.Format.png,
+            format: img2.Format.bmp,
           );
         
         if (tempImage == null) {
