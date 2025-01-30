@@ -1795,8 +1795,8 @@ class ImageModel with ChangeNotifier {
          img2.Image? tempImage =  img2.Image.fromBytes(
             width,
             height,
-            rgba,
-            format: img2.Format.bmp,
+            rgba
+          //  format: img2.Format.rgba//format: img2.Format.bmp,
           );
         
         if (tempImage == null) {
