@@ -1787,6 +1787,27 @@ class ImageModel with ChangeNotifier {
     {
         //直接修改Uint8List
         //await ImageUtils.adjustBrightness(rgba,  rect?.width.toInt() ?? 0, rect?.height.toInt() ?? 0,80.0);
+        
+         int height= rect?.height.toInt() ?? 0;
+         int width= rect?.width.toInt() ?? 0;
+        
+         img2.Image image = img2.Image(width, height);
+          for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+              int index = (y * width * 4) + (x * 4);
+              int r = rgba[index];
+              int g = rgba[index + 1];
+              int b = rgba[index + 2];
+              int a = rgba[index + 3];
+              image.setPixelRgba(x, y, img2.Rgba(r, g, b, a));
+            }
+          }
+        
+          // 将图像编码为 PNG
+          Uint8List pngData = img2.encodePng(image);
+        
+          // 保存 PNG 数据到文件或进行其他处理
+          File('output.png').writeAsBytes(pngData);
     }
       
     final image = await img.decodeImageFromPixels(
@@ -1802,12 +1823,12 @@ class ImageModel with ChangeNotifier {
       
     if(HomeVersion==8)
     {
-        final image666 =  await ImageUtils.getTransparentImage(image!,48,80.0);
-        await update(image666);
+        //final image666 =  await ImageUtils.getTransparentImage(image!,48,80.0);
+        await update(image);
     }
       else
       {
-       //   await update(image);
+          await update(image);
       }
   }
 
