@@ -1799,7 +1799,8 @@ class ImageModel with ChangeNotifier {
               int g = rgba[index + 1];
               int b = rgba[index + 2];
               int a = rgba[index + 3];
-              myimage.setPixelRgba(x, y, img2.Rgba(r, g, b, a));
+                myimage.setPixelRgba(x, y, r, g, b, a);
+              //myimage.setPixelRgba(x, y, img2.Rgba(r, g, b, a));
             }
           }
         
