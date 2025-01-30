@@ -1791,7 +1791,7 @@ class ImageModel with ChangeNotifier {
          int height= rect?.height.toInt() ?? 0;
          int width= rect?.width.toInt() ?? 0;
         
-         img2.Image image = img2.Image(width, height);
+         img2.Image myimage = img2.Image(width:width, height:height);
           for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
               int index = (y * width * 4) + (x * 4);
@@ -1799,15 +1799,20 @@ class ImageModel with ChangeNotifier {
               int g = rgba[index + 1];
               int b = rgba[index + 2];
               int a = rgba[index + 3];
-              image.setPixelRgba(x, y, img2.Rgba(r, g, b, a));
+              myimage.setPixelRgba(x, y, img2.Rgba(r, g, b, a));
             }
           }
         
           // 将图像编码为 PNG
-          Uint8List pngData = img2.encodePng(image);
+          Uint8List pngData = img2.encodePng(myimage);
         
+          final io.Directory directory = await getApplicationDocumentsDirectory();
+          final io.File file = io.File('${directory.path}/output.png');
+          file.writeAsBytesSync(pngData);
+          
+          print('图片保存成功');
           // 保存 PNG 数据到文件或进行其他处理
-          File('output.png').writeAsBytes(pngData);
+          //File('output.png').writeAsBytes(pngData);
     }
       
     final image = await img.decodeImageFromPixels(
