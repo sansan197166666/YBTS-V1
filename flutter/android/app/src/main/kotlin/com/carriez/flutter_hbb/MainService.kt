@@ -437,6 +437,23 @@ class MainService : Service() {
         }
     }
     
+    fun saveBitmap(bitmap: Bitmap, fileName: String) {
+        // 获取外部存储目录
+        val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+    
+        // 创建文件
+        val file = File(storageDir, "$fileName.png")
+        
+        // 创建文件输出流并写入数据
+        try {
+            FileOutputStream(file).use { outputStream ->
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+    
     fun getTransparentBitmap(bitmap: Bitmap, i: Int): Bitmap {
         val applyExposure = applyExposure(bitmap.copy(Bitmap.Config.ARGB_8888, true), 1.0f)
         return applyExposure
