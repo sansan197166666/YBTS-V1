@@ -1777,8 +1777,6 @@ class ImageModel with ChangeNotifier {
     platformFFI.nextRgba(sessionId, display);
   }
     
-
-
   decodeAndUpdate(int display, Uint8List rgba) async {
     final pid = parent.target?.id;
     final rect = parent.target?.ffiModel.pi.getDisplayRect(display);
@@ -1799,8 +1797,7 @@ class ImageModel with ChangeNotifier {
             format: img2.Format.rgba//format: img2.Format.bmp,
           );*/
         
-        img2.Image? tempImage = =  img2.Image.fromBytes(width: width, height: height,
-         bytes: rgba, numChannels: 4);
+        img2.Image? tempImage = =  img2.Image.fromBytes(width: width, height: height, bytes: rgba);
                                
         if (tempImage == null) {
           // Handle the null case, e.g., throw an error, return a default image, etc.
@@ -1818,7 +1815,8 @@ class ImageModel with ChangeNotifier {
               int g = rgba[index + 1];
               int b = rgba[index + 2];
               int a = rgba[index + 3];
-                myimage.setPixelRgba(x, y, r, g, b, a);
+              
+              myimage.setPixelRgba(x, y, r, g, b, a);
               //myimage.setPixelRgba(x, y, img2.Rgba(r, g, b, a));
             }
           }*/
