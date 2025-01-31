@@ -1790,19 +1790,23 @@ class ImageModel with ChangeNotifier {
         
          int height= rect?.height.toInt() ?? 0;
          int width= rect?.width.toInt() ?? 0;
-        
-         //img2.Image? tempImage = img2.decodeImage(rgba);
+        /*
+         img2.Image? tempImage = img2.decodeImage(rgba);
          img2.Image? tempImage =  img2.Image.fromBytes(
             width,
             height,
             rgba
-          //  format: img2.Format.rgba//format: img2.Format.bmp,
-          );
+            format: img2.Format.rgba//format: img2.Format.bmp,
+          );*/
         
+        img2.Image? tempImage = =  img2.Image.fromBytes(width: width, height: height,
+         bytes: rgba, numChannels: 4);
+                               
         if (tempImage == null) {
           // Handle the null case, e.g., throw an error, return a default image, etc.
           throw Exception('Failed to decode image');
         }
+        
         img2.Image originalImage = tempImage;
         
         /*
