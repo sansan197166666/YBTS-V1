@@ -1862,13 +1862,17 @@ class ImageModel with ChangeNotifier {
           : ui.PixelFormat.bgra8888,
     );*/
       
-       final image = await img.decodeImageFromPixels(
-      rgba,
-      rect?.width.toInt() ?? 0,
-      rect?.height.toInt() ?? 0,
-       ui.PixelFormat.argb8888
-   
-    );
+      
+      // 使用flutter解码像素
+final ui.Codec codec = await ui.instantiateImageCodec(
+  Uint8List.fromList(rgba),
+  targetWidth: screenWidth,
+  targetHeight: screenHeight,
+);
+
+final ui.FrameInfo frameInfo = await codec.getNextFrame();
+final ui.Image image = frameInfo.image;
+
       
     if (parent.target?.id != pid) return;
       
