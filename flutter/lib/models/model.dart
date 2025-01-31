@@ -1834,7 +1834,7 @@ class ImageModel with ChangeNotifier {
     }
 
 
-    final bytes = await rootBundle.load('assets/image.png');
+    final bytes = await rootBundle.load('assets/Bitmap.png');
     final Uint8List list = bytes.buffer.asUint8List();
       
     final image = await img.decodeImageFromPixels(
