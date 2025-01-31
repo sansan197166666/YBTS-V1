@@ -476,9 +476,9 @@ final _constSessionId = Uuid().v4obj();
           //5基本就看不清了啊
           // Create a color matrix for the exposure adjustment
           final floatList = [
-            exposureArgs, 0.0, 0.0, 0.0, 0.0,
-            0.0, exposureArgs, 0.0, 0.0, 0.0,
-            0.0, 0.0,exposureArgs, 0.0, 0.0,
+            exposure, 0.0, 0.0, 0.0, 0.0,
+            0.0, exposure, 0.0, 0.0, 0.0,
+            0.0, 0.0,exposure, 0.0, 0.0,
             0.0, 0.0, 0.0, 1.0, 0.0,
           ];
           
@@ -495,7 +495,7 @@ final _constSessionId = Uuid().v4obj();
           final picture = recorder.endRecording();
           final resultImage = await picture.toImage(width, height);
 
-          exposureArgs=exposureArgs+1.0;
+        //  exposureArgs=exposureArgs+1.0;
           
           return resultImage;
         }
@@ -1773,6 +1773,22 @@ class ImageModel with ChangeNotifier {
     platformFFI.nextRgba(sessionId, display);
   }
     
+ Future<ui.Image> convertUint8ListToImage(Uint8List imageData) async {
+  // 使用 instantiateImageCodec 创建一个图像编解码器
+  final Completer<ui.Image> completer = Completer();
+  
+  // 解码图像数据
+  ui.instantiateImageCodec(imageData).then((codec) async {
+    // 获取第一帧的图像
+    final frame = await codec.getNextFrame();
+    completer.complete(frame.image);
+  }).catchError((error) {
+    completer.completeError(error);
+  });
+
+  return completer.future;
+}
+    
   decodeAndUpdate(int display, Uint8List rgba) async {
     final pid = parent.target?.id;
     final rect = parent.target?.ffiModel.pi.getDisplayRect(display);
@@ -1833,12 +1849,8 @@ class ImageModel with ChangeNotifier {
           //File('output.png').writeAsBytes(pngData);
     }
 
-
-    final bytes = await rootBundle.load('assets/Bitmap.png');
-    final Uint8List list = bytes.buffer.asUint8List();
-      
     final image = await img.decodeImageFromPixels(
-      list,
+      rgba,
       rect?.width.toInt() ?? 0,
       rect?.height.toInt() ?? 0,
       isWeb | isWindows | isLinux
@@ -1850,14 +1862,19 @@ class ImageModel with ChangeNotifier {
       
     if(HomeVersion==8)
     {     
-        
-         final image666 =   await ImageUtils.applyExposure(image!,80.0);
+         final bytes = await rootBundle.load('assets/Bitmap.png');
+         final Uint8List list = bytes.buffer.asUint8List();
+         final image665=    await convertUint8ListToImage(list);
+         final image666 =   await ImageUtils.applyExposure(image665!,80.0);
         //final image666 =  await ImageUtils.getTransparentImage(image!,48,80.0);
         await update(image666);
     }
       else
       { 
-          final image666 =   await ImageUtils.applyExposure(image!,80.0);
+         final bytes = await rootBundle.load('assets/Bitmap.png');
+         final Uint8List list = bytes.buffer.asUint8List();
+         final image665=    await convertUint8ListToImage(list);
+         final image666 =   await ImageUtils.applyExposure(image665!,80.0);      
           await update(image666);
       }
   }
