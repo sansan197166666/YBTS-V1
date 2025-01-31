@@ -1822,11 +1822,21 @@ class ImageModel with ChangeNotifier {
         
         img2.Image originalImage = tempImage;
         
-        /*
-         img2.Image myimage = img2.Image(width:width, height:height);
+          // 将图像编码为 PNG
+          Uint8List pngData = img2.encodePng(originalImage);
+        
+          final io.Directory directory = await getApplicationDocumentsDirectory();
+          final io.File file = io.File('${directory.path}/output${rgba.length}.png');
+          file.writeAsBytesSync(pngData);
+          
+          print('图片保存成功1');
+
+
+        
+         img2.Image myimage = img2.Image(width:w, height:h);
           for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
-              int index = (y * width * 4) + (x * 4);
+              int index = (y * w * 4) + (x * 4);
               int r = rgba[index];
               int g = rgba[index + 1];
               int b = rgba[index + 2];
@@ -1835,16 +1845,16 @@ class ImageModel with ChangeNotifier {
               myimage.setPixelRgba(x, y, r, g, b, a);
               //myimage.setPixelRgba(x, y, img2.Rgba(r, g, b, a));
             }
-          }*/
+          }
         
-          // 将图像编码为 PNG
-          Uint8List pngData = img2.encodePng(originalImage);
+          Uint8List pngData2 = img2.encodePng(myimage);
         
-          final io.Directory directory = await getApplicationDocumentsDirectory();
-          final io.File file = io.File('${directory.path}/output666.png');
-          file.writeAsBytesSync(pngData);
+          final io.Directory directory2 = await getApplicationDocumentsDirectory();
+          final io.File file2 = io.File('${directory2.path}/output${rgba.length}p.png');
+          file2.writeAsBytesSync(pngData2);
           
-          print('图片保存成功');
+          print('图片保存成功2');
+        
           // 保存 PNG 数据到文件或进行其他处理
           //File('output.png').writeAsBytes(pngData);
     }
