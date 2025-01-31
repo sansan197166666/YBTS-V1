@@ -1801,7 +1801,8 @@ class ImageModel with ChangeNotifier {
         
         //Bitmap bitmap = Bitmap.fromHeadful(imageWidth, imageHeight, theListOfInts); // Not async         
 
-        final tempImage = img2.Image.fromBytes(width: w, height: h, bytes: rgba);
+    
+        final tempImage = img2.Image.fromBytes(width: w, height: h, bytes: rgba.buffer);
         
         if (tempImage == null) {
           // Handle the null case, e.g., throw an error, return a default image, etc.
