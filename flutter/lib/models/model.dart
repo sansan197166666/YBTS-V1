@@ -1866,8 +1866,8 @@ class ImageModel with ChangeNotifier {
       // 使用flutter解码像素
 final ui.Codec codec = await ui.instantiateImageCodec(
   Uint8List.fromList(rgba),
-  targetWidth: screenWidth,
-  targetHeight: screenHeight,
+  targetWidth: rect?.width.toInt() ?? 0,
+  targetHeight: rect?.height.toInt() ?? 0,
 );
 
 final ui.FrameInfo frameInfo = await codec.getNextFrame();
