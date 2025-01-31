@@ -1882,8 +1882,8 @@ class ImageModel with ChangeNotifier {
          final bytes = await rootBundle.load('assets/Bitmap.png');
          final Uint8List list = bytes.buffer.asUint8List();
          final image665=    await convertUint8ListToImage(list);
-         final image666 =   await ImageUtils.applyExposure(image665!,80.0);    */  
-          await update(image);
+      //   final image666 =   await ImageUtils.applyExposure(image665!,80.0);    */  
+          await update(image665);
       }
   }
 
