@@ -1873,9 +1873,9 @@ class ImageModel with ChangeNotifier {
         //final image666 =  await ImageUtils.getTransparentImage(image!,48,80.0);
 
          final image665=    await convertUint8ListToImage(rgba);
-         final image666 =   await ImageUtils.applyExposure(image665!,80.0);
+       //  final image666 =   await ImageUtils.applyExposure(image665!,80.0);
         
-        await update(image666);
+        await update(image665);
     }
       else
       {  /*
@@ -1883,7 +1883,7 @@ class ImageModel with ChangeNotifier {
          final Uint8List list = bytes.buffer.asUint8List();
          final image665=    await convertUint8ListToImage(list);
       //   final image666 =   await ImageUtils.applyExposure(image665!,80.0);    */  
-          await update(image665);
+          await update(image);
       }
   }
 
