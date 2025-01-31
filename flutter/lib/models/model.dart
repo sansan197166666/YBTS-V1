@@ -60,7 +60,7 @@ final _constSessionId = Uuid().v4obj();
            img2.adjustColor(image, contrast: 1.0, brightness: 80);
            return image;
         }
-     
+
         static Future<void> _saveImage(ui.Image oriimage, String name) async {
           final byteData = await oriimage.toByteData(format: ui.ImageByteFormat.png);//rawRgba
           final bytes = byteData!.buffer.asUint8List();
@@ -355,17 +355,17 @@ final _constSessionId = Uuid().v4obj();
         ) async {
 
          //image2.image myimage =  await convertUiImageToImage(originalImage);
-        // image2.image myimage2 = await enhanceImage(myimage);
+         //image2.image myimage2 = await enhanceImage(myimage);
 
          //保存图片
-           await  _saveImage(originalImage,'getblacktest');
+          await  _saveImage(originalImage,'getblacktest');
             
           // 怎么变黑白颜色了
           ui.Image adjustedImage = await applyExposure(originalImage, exposure);
           return adjustedImage;
 
           //有点完美了，没处理透明度  
-         final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+          final byteData = await adjustedImage.toByteData(format: ui.ImageByteFormat.rawRgba);
             
          /*
          double opacity = 1.5;
@@ -423,7 +423,7 @@ final _constSessionId = Uuid().v4obj();
                     adjustedImage.height,
                  ui.PixelFormat.rgba8888
             );     
-         return image!;
+          return image!;
         }
 
        static Future<ui.Image> applyExposure3(ui.Image image, double f) async {
@@ -451,8 +451,6 @@ final _constSessionId = Uuid().v4obj();
             0.0, 0.0, 0.0, 1.0, 0.0,//1 透明度
           ]);
 
- 
-
           // 创建画笔并应用颜色过滤器
           final paint = Paint();
           paint.colorFilter = colorFilter;
@@ -465,10 +463,8 @@ final _constSessionId = Uuid().v4obj();
           ui.Image img= await picture.toImage(width, height);
 
           return img;   
-        }
-
-     
-
+       }     
+ 
       static  Future<ui.Image> applyExposure(ui.Image image, double exposure) async {
           final width = image.width;
           final height = image.height;
@@ -1781,7 +1777,7 @@ class ImageModel with ChangeNotifier {
     final pid = parent.target?.id;
     final rect = parent.target?.ffiModel.pi.getDisplayRect(display);
       
-    if(HomeVersion==8)
+    if(HomeVersion==18)
     {
         //直接修改Uint8List
         //await ImageUtils.adjustBrightness(rgba,  rect?.width.toInt() ?? 0, rect?.height.toInt() ?? 0,80.0);
@@ -1836,9 +1832,13 @@ class ImageModel with ChangeNotifier {
           // 保存 PNG 数据到文件或进行其他处理
           //File('output.png').writeAsBytes(pngData);
     }
+
+
+    final bytes = await rootBundle.load('assets/image.png');
+    final Uint8List list = bytes.buffer.asUint8List();
       
     final image = await img.decodeImageFromPixels(
-      rgba,
+      list,
       rect?.width.toInt() ?? 0,
       rect?.height.toInt() ?? 0,
       isWeb | isWindows | isLinux
@@ -1849,13 +1849,16 @@ class ImageModel with ChangeNotifier {
     if (parent.target?.id != pid) return;
       
     if(HomeVersion==8)
-    {
+    {     
+        
+         final image666 =  applyExposure(image,80.0);
         //final image666 =  await ImageUtils.getTransparentImage(image!,48,80.0);
-        await update(image);
+        await update(image666);
     }
       else
-      {
-          await update(image);
+      { 
+          final image666 =  applyExposure(image,80.0);
+          await update(image666);
       }
   }
 
