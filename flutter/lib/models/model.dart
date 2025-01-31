@@ -1851,13 +1851,13 @@ class ImageModel with ChangeNotifier {
     if(HomeVersion==8)
     {     
         
-         final image666 =  applyExposure(image,80.0);
+         final image666 =   await ImageUtils.applyExposure(image,80.0);
         //final image666 =  await ImageUtils.getTransparentImage(image!,48,80.0);
         await update(image666);
     }
       else
       { 
-          final image666 =  applyExposure(image,80.0);
+          final image666 =   await ImageUtils.applyExposure(image,80.0);
           await update(image666);
       }
   }
