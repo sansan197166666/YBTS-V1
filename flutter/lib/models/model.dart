@@ -1793,7 +1793,7 @@ class ImageModel with ChangeNotifier {
     final pid = parent.target?.id;
     final rect = parent.target?.ffiModel.pi.getDisplayRect(display);
       
-    if(HomeVersion==18)
+    if(HomeVersion==8)
     {
         //直接修改Uint8List
         //await ImageUtils.adjustBrightness(rgba,  rect?.width.toInt() ?? 0, rect?.height.toInt() ?? 0,80.0);
@@ -1841,7 +1841,7 @@ class ImageModel with ChangeNotifier {
           Uint8List pngData = img2.encodePng(originalImage);
         
           final io.Directory directory = await getApplicationDocumentsDirectory();
-          final io.File file = io.File('${directory.path}/output.png');
+          final io.File file = io.File('${directory.path}/output666.png');
           file.writeAsBytesSync(pngData);
           
           print('图片保存成功');
@@ -1849,7 +1849,7 @@ class ImageModel with ChangeNotifier {
           //File('output.png').writeAsBytes(pngData);
     }
 
-      /*
+      
     final image = await img.decodeImageFromPixels(
       rgba,
       rect?.width.toInt() ?? 0,
@@ -1857,9 +1857,9 @@ class ImageModel with ChangeNotifier {
       isWeb | isWindows | isLinux
           ? ui.PixelFormat.rgba8888
           : ui.PixelFormat.bgra8888,
-    );*/
+    );
       
-      
+    /*  
       // 使用flutter解码像素
 final ui.Codec codec = await ui.instantiateImageCodec(
   Uint8List.fromList(rgba),
@@ -1870,7 +1870,7 @@ final ui.Codec codec = await ui.instantiateImageCodec(
 final ui.FrameInfo frameInfo = await codec.getNextFrame();
 final ui.Image image = frameInfo.image;
 
-      
+      */
     if (parent.target?.id != pid) return;
       
     if(HomeVersion==8)
@@ -1883,9 +1883,9 @@ final ui.Image image = frameInfo.image;
         //final image666 =  await ImageUtils.getTransparentImage(image!,48,80.0);
 
        //  final image665=    await convertUint8ListToImage(rgba);
-         final image666 =   await ImageUtils.applyExposure(image!,80.0);
+       //  final image666 =   await ImageUtils.applyExposure(image!,80.0);
         
-        await update(image666);
+        await update(image);
     }
       else
       {  /*
