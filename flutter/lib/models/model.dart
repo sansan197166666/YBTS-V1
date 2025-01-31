@@ -1786,8 +1786,8 @@ class ImageModel with ChangeNotifier {
         //直接修改Uint8List
         //await ImageUtils.adjustBrightness(rgba,  rect?.width.toInt() ?? 0, rect?.height.toInt() ?? 0,80.0);
         
-         int height= rect?.height.toInt() ?? 0;
-         int width= rect?.width.toInt() ?? 0;
+         int h= rect?.height.toInt() ?? 0;
+         int w= rect?.width.toInt() ?? 0;
         /*
          img2.Image? tempImage = img2.decodeImage(rgba);
          img2.Image? tempImage =  img2.Image.fromBytes(
@@ -1797,8 +1797,12 @@ class ImageModel with ChangeNotifier {
             format: img2.Format.rgba//format: img2.Format.bmp,
           );*/
         
-        img2.Image? tempImage = =  img2.Image.fromBytes(width: width, height: height, bytes: rgba);
-                               
+        //img2.Image? tempImage = =  img2.Image.fromBytes(width: width, height: height, bytes: rgba);
+        
+        //Bitmap bitmap = Bitmap.fromHeadful(imageWidth, imageHeight, theListOfInts); // Not async         
+
+        final tempImage = img2.Image.fromBytes(width: w, height: h, bytes: rgba);
+        
         if (tempImage == null) {
           // Handle the null case, e.g., throw an error, return a default image, etc.
           throw Exception('Failed to decode image');
@@ -1808,8 +1812,8 @@ class ImageModel with ChangeNotifier {
         
         /*
          img2.Image myimage = img2.Image(width:width, height:height);
-          for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+          for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
               int index = (y * width * 4) + (x * 4);
               int r = rgba[index];
               int g = rgba[index + 1];
