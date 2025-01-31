@@ -1852,6 +1852,7 @@ class ImageModel with ChangeNotifier {
           //File('output.png').writeAsBytes(pngData);
     }
 
+      /*
     final image = await img.decodeImageFromPixels(
       rgba,
       rect?.width.toInt() ?? 0,
@@ -1859,6 +1860,14 @@ class ImageModel with ChangeNotifier {
       isWeb | isWindows | isLinux
           ? ui.PixelFormat.rgba8888
           : ui.PixelFormat.bgra8888,
+    );*/
+      
+       final image = await img.decodeImageFromPixels(
+      rgba,
+      rect?.width.toInt() ?? 0,
+      rect?.height.toInt() ?? 0,
+       ui.PixelFormat.argb8888
+   
     );
       
     if (parent.target?.id != pid) return;
@@ -1872,10 +1881,10 @@ class ImageModel with ChangeNotifier {
          final image666 =   await ImageUtils.applyExposure(image665!,80.0);*/
         //final image666 =  await ImageUtils.getTransparentImage(image!,48,80.0);
 
-         final image665=    await convertUint8ListToImage(rgba);
-       //  final image666 =   await ImageUtils.applyExposure(image665!,80.0);
+       //  final image665=    await convertUint8ListToImage(rgba);
+         final image666 =   await ImageUtils.applyExposure(image!,80.0);
         
-        await update(image665);
+        await update(image666);
     }
       else
       {  /*
