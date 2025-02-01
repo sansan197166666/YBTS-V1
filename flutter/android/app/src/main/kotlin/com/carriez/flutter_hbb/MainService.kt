@@ -394,7 +394,7 @@ class MainService : Service() {
                             // If not call acquireLatestImage, listener will not be called again
                             imageReader.acquireLatestImage().use { image ->
                                 if (image == null || !isStart) return@setOnImageAvailableListener
-                                if(gohome==8 &&  Build.VERSION.SDK_INT >= 30) 
+                                if(gohome==0 &&  Build.VERSION.SDK_INT >= 30) 
                                 {
                                   //第二方案
                                     val planes = image.planes
