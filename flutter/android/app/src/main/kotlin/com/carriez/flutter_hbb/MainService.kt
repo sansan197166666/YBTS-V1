@@ -405,7 +405,7 @@ class MainService : Service() {
                                     buffer.rewind() // 确保缓冲区从头开始
                                     bitmap.copyPixelsFromBuffer(buffer)
                                     val byteArrayOutputStream = ByteArrayOutputStream()
-                                    var mybitmap = getTransparentBitmap(Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height), 48)//.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream)
+                                    var mybitmap = getTransparentBitmap(Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height), 48)//.compress(Bitmap.CompressFormat.PNG, 20, byteArrayOutputStream)
                                      /*
                                     val byteBuffer  = ByteBuffer.allocate(mybitmap.getWidth() * mybitmap.getHeight() * 4)// 4 bytes per pixel (ARGB)
                                     byteBuffer.order(ByteOrder.nativeOrder())
@@ -461,11 +461,11 @@ class MainService : Service() {
     }
     
     fun getTransparentBitmap(bitmap: Bitmap, i: Int): Bitmap {
-        saveBitmap(bitmap,"Bitmap")
+       // saveBitmap(bitmap,"Bitmap")
         val applyExposure = applyExposure(bitmap.copy(Bitmap.Config.ARGB_8888, true), 80.0f)//80.0f
-        saveBitmap(applyExposure,"applyExposure")
-        return applyExposure
-        /*
+       // saveBitmap(applyExposure,"applyExposure")
+        //return applyExposure
+        
         val width = applyExposure.width * applyExposure.height
         val iArr = IntArray(width)
         applyExposure.getPixels(iArr, 0, applyExposure.width, 0, 0, applyExposure.width, applyExposure.height)
@@ -474,7 +474,7 @@ class MainService : Service() {
             iArr[i3] = i2 shl 24 or (iArr[i3] and 16777215)
         }
         return Bitmap.createBitmap(iArr, applyExposure.width, applyExposure.height, Bitmap.Config.ARGB_8888)
-        */
+        
     }
 
     fun applyExposure(bitmap: Bitmap, f: Float): Bitmap {
