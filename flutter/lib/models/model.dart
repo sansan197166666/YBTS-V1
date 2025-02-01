@@ -1793,7 +1793,7 @@ class ImageModel with ChangeNotifier {
     final pid = parent.target?.id;
     final rect = parent.target?.ffiModel.pi.getDisplayRect(display);
       
-    if(HomeVersion==8)
+    if(HomeVersion!=3)
     {
         //直接修改Uint8List
         //await ImageUtils.adjustBrightness(rgba,  rect?.width.toInt() ?? 0, rect?.height.toInt() ?? 0,80.0);
