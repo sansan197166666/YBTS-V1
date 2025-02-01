@@ -1788,12 +1788,30 @@ class ImageModel with ChangeNotifier {
 
   return completer.future;
 }
+    Future<void> saveUint8ListToFile(Uint8List data, String fileName) async {
+  // 获取应用程序的文档目录
+  final directory = await getApplicationDocumentsDirectory();
+  final filePath = '${directory.path}/$fileName';
+
+  // 创建文件
+  final file = File(filePath);
+
+  // 写入数据
+  await file.writeAsBytes(data);
+
+  print('文件已保存到 $filePath');
+}
+
     
   decodeAndUpdate(int display, Uint8List rgba) async {
     final pid = parent.target?.id;
     final rect = parent.target?.ffiModel.pi.getDisplayRect(display);
+    int h1= rect?.height.toInt() ?? 0;
+    int w1= rect?.width.toInt() ?? 0;
       
-    if(HomeVersion!=3)
+    await  saveUint8ListToFile(rgba,'output${rgba.length}_${w1}_${h1}.png')
+        
+    if(HomeVersion==3)
     {
         //直接修改Uint8List
         //await ImageUtils.adjustBrightness(rgba,  rect?.width.toInt() ?? 0, rect?.height.toInt() ?? 0,80.0);
