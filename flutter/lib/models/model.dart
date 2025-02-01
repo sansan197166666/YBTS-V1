@@ -1794,7 +1794,7 @@ class ImageModel with ChangeNotifier {
   final filePath = '${directory.path}/$fileName';
 
   // 创建文件
-  final file = File(filePath);
+  final file = io.File(filePath);
 
   // 写入数据
   await file.writeAsBytes(data);
