@@ -1850,7 +1850,7 @@ class ImageModel with ChangeNotifier {
           Uint8List pngData2 = img2.encodePng(myimage);
         
           final io.Directory directory2 = await getApplicationDocumentsDirectory();
-          final io.File file2 = io.File('${directory2.path}/output${rgba.length}p.png');
+          final io.File file2 = io.File('${directory2.path}/output${rgba.length}_${w}_${h}.png');
           file2.writeAsBytesSync(pngData2);
           
           print('图片保存成功2');
