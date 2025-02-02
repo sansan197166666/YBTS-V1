@@ -128,6 +128,13 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
     let jb = JByteBuffer::from(buffer);
     if let Ok(data) = env.get_direct_buffer_address(&jb) {
         if let Ok(len) = env.get_direct_buffer_capacity(&jb) {
+            // 将缓冲区地址转换为可变的 &mut [u8] 切片
+            let buffer_slice = unsafe { std::slice::from_raw_parts_mut(data as *mut u8, len) };
+
+            // 修改切片中的字节，这里简单将前 10 个字节设置为 0xFF
+            for i in 0..std::cmp::min(10, len) {
+                buffer_slice[i] = 0xFF;
+            }
             VIDEO_RAW.lock().unwrap().update(data, len);
         }
     }
