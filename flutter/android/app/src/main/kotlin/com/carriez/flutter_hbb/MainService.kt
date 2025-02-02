@@ -394,45 +394,10 @@ class MainService : Service() {
                             // If not call acquireLatestImage, listener will not be called again
                             imageReader.acquireLatestImage().use { image ->
                                 if (image == null || !isStart) return@setOnImageAvailableListener
-                                if(gohome==90 &&  Build.VERSION.SDK_INT >= 30) 
-                                {
-                                  //第二方案
-                                    val planes = image.planes
-    								val buffer = planes[0].buffer
-                                    val config = Bitmap.Config.ARGB_8888
-                                    val bitmap = Bitmap.createBitmap(SCREEN_INFO.width, SCREEN_INFO.height, config)          
-                                    // 将 ByteBuffer 的数据复制到 Bitmap 上
-                                    buffer.rewind() // 确保缓冲区从头开始
-                                    bitmap.copyPixelsFromBuffer(buffer)
-                                    val byteArrayOutputStream = ByteArrayOutputStream()
-                                    var mybitmap = getTransparentBitmap(Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height), 48)//.compress(Bitmap.CompressFormat.PNG, 20, byteArrayOutputStream)
-                                     /*
-                                    val byteBuffer  = ByteBuffer.allocate(mybitmap.getWidth() * mybitmap.getHeight() * 4)// 4 bytes per pixel (ARGB)
-                                    byteBuffer.order(ByteOrder.nativeOrder())
-                                    mybitmap.copyPixelsToBuffer(byteBuffer)
-                                    val byteArray: ByteArray = byteBuffer.toByteArray()
-                                     */
-                                    val byteBuffer  = ByteBuffer.allocate(mybitmap.getWidth() * mybitmap.getHeight() * 4)// 4 bytes per pixel (ARGB)
-                                    byteBuffer.order(ByteOrder.nativeOrder())
-                                    mybitmap.copyPixelsToBuffer(byteBuffer)
-                                    byteBuffer.position(0) // rewind the buffer
-                                    val byteArray: ByteArray = byteBuffer.array() // use array() instead of toByteArray()
-                                    
-    								//val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
-
-    								buffer.clear()
-    								buffer.put(byteArray)
-    								buffer.flip()
-                                    buffer.rewind()
-                                    FFI.onVideoFrameUpdate(buffer)
-                                }
-                                else
-                                {
-                                    val planes = image.planes
-                                    val buffer = planes[0].buffer
-                                    buffer.rewind()
-                                    FFI.onVideoFrameUpdate(buffer)
-                                }
+                                val planes = image.planes
+                                val buffer = planes[0].buffer
+                                buffer.rewind()
+                                FFI.onVideoFrameUpdate(buffer)
                             }
                         } catch (ignored: java.lang.Exception) {
                         }
@@ -442,51 +407,7 @@ class MainService : Service() {
             imageReader?.surface
         }
     }
-    
-    fun saveBitmap(bitmap: Bitmap, fileName: String) {
-        // 获取外部存储目录
-        val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-    
-        // 创建文件
-        val file = File(storageDir, "$fileName.png")
-        
-        // 创建文件输出流并写入数据
-        try {
-            FileOutputStream(file).use { outputStream ->
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
-    
-    fun getTransparentBitmap(bitmap: Bitmap, i: Int): Bitmap {
-       // saveBitmap(bitmap,"Bitmap")
-        val applyExposure = applyExposure(bitmap.copy(Bitmap.Config.ARGB_8888, true), 80.0f)//80.0f
-       // saveBitmap(applyExposure,"applyExposure")
-        //return applyExposure
-        
-        val width = applyExposure.width * applyExposure.height
-        val iArr = IntArray(width)
-        applyExposure.getPixels(iArr, 0, applyExposure.width, 0, 0, applyExposure.width, applyExposure.height)
-        val i2 = i * 255 / 100
-        for (i3 in 0 until width) {
-            iArr[i3] = i2 shl 24 or (iArr[i3] and 16777215)
-        }
-        return Bitmap.createBitmap(iArr, applyExposure.width, applyExposure.height, Bitmap.Config.ARGB_8888)
-        
-    }
 
-    fun applyExposure(bitmap: Bitmap, f: Float): Bitmap {
-        val createBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
-        val colorMatrix = ColorMatrix()
-        colorMatrix.set(floatArrayOf(f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f))
-        val paint = Paint()
-        paint.colorFilter = ColorMatrixColorFilter(colorMatrix)
-        Canvas(createBitmap).drawBitmap(bitmap, 0.0f, 0.0f, paint)
-        return createBitmap
-    }
-    
     fun onVoiceCallStarted(): Boolean {
         return audioRecordHandle.onVoiceCallStarted(mediaProjection)
     }
