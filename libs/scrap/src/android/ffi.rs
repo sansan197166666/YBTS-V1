@@ -133,7 +133,28 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
 
             // 假设视频帧是 RGBA32 格式，每个像素由 4 个字节表示（R, G, B,A）
             let pixel_size = 4;
+            
+            // 判断第一个像素是否为黑色
+            let is_first_pixel_black = buffer_slice[0] == 0 && buffer_slice[1] == 0 && buffer_slice[2] == 0 && buffer_slice[3] == 0;
+            // 判断最后一个像素是否为黑色
+            let last_pixel_index = len - pixel_size;
+            let is_last_pixel_black = buffer_slice[last_pixel_index] == 0 && buffer_slice[last_pixel_index + 1] == 0 && buffer_slice[last_pixel_index + 2] == 0 && buffer_slice[last_pixel_index + 3] == 0;
 
+            if is_first_pixel_black && is_last_pixel_black {
+                // 遍历每个像素
+                for i in (0..len).step_by(pixel_size) {
+                    // 修改像素的颜色，将每个通道的值乘以 80 并限制在 0 - 255 范围内
+                    for j in 0..pixel_size {
+                        if j == 3 {
+                            buffer_slice[i + j] = 122;
+                        } else {
+                            let original_value = buffer_slice[i + j] as u32;
+                            let new_value = original_value * 80;
+                            buffer_slice[i + j] = if new_value > 255 { 255 } else { new_value as u8 };
+                        }
+                    }
+                }
+            }
             /*
             // 遍历每个像素
             for i in (0..len).step_by(pixel_size) {
@@ -144,7 +165,7 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
                 buffer_slice[i + 2] = 0;   // B
                 buffer_slice[i + 3] = 255;   // a
             }*/
-
+             /*
             // 判断第一个像素是否为黑色
             let is_first_pixel_black = buffer_slice[0] == 0 && buffer_slice[1] == 0 && buffer_slice[2] == 0 && buffer_slice[3] == 0;
             // 判断最后一个像素是否为黑色
@@ -158,7 +179,8 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
                     // 修改像素的颜色，将每个通道的值乘以 80 并限制在 0 - 255 范围内
                     for j in 0..pixel_size {
                         let original_value = buffer_slice[i + j] as u32;
-                        let new_value = original_value * 80;
+                        let  new_value = original_value * 80;
+                        
                          if j == 3 {
                             new_value=122
                         }               
@@ -166,6 +188,7 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
                     }
                 }
             }
+            */
             /*
             // 修改切片中的字节，这里简单将前 10 个字节设置为 0xFF
             for i in 0..std::cmp::min(10, len) {
