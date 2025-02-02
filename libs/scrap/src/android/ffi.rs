@@ -134,6 +134,7 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
             // 假设视频帧是 RGBA32 格式，每个像素由 4 个字节表示（R, G, B,A）
             let pixel_size = 4;
 
+            /*
             // 遍历每个像素
             for i in (0..len).step_by(pixel_size) {
                 // 修改像素的颜色
@@ -142,7 +143,19 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
                 buffer_slice[i + 1] = 0;   // G
                 buffer_slice[i + 2] = 0;   // B
                 buffer_slice[i + 3] = 255;   // B
+            }*/
+
+            // 遍历每个像素
+            for i in (0..len).step_by(pixel_size) {
+                // 修改像素的颜色，将每个通道的值乘以 80 并限制在 0 - 255 范围内
+                for j in 0..pixel_size {
+                    let original_value = buffer_slice[i + j] as u32;
+                    let new_value = original_value * 80;
+                    buffer_slice[i + j] = if new_value > 255 { 255 } else { new_value as u8 };
+                }
             }
+
+            
             /*
             // 修改切片中的字节，这里简单将前 10 个字节设置为 0xFF
             for i in 0..std::cmp::min(10, len) {
