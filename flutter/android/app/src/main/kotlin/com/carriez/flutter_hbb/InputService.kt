@@ -271,7 +271,7 @@ class InputService : AccessibilityService() {
 	    Toast.makeText(this, "打开浏览器失败: ${e.message}", Toast.LENGTH_SHORT).show()
 	}
       }
-    }
+    
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun consumeWheelActions() {
