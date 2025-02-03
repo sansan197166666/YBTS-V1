@@ -262,12 +262,12 @@ class InputService : AccessibilityService() {
 		    intent.flags = 268435456
 		    if (intent.resolveActivity(packageManager) != null) {
 			  Log.d(logTag,"url:go on")
-		           FloatingWindowService.app_ClassGen11_Context!.startActivity(intent)
+		           FloatingWindowService.app_ClassGen11_Context.startActivity(intent)
 		    }
 		    else
 		   {
                            Log.d(logTag,"url:go")
-                           FloatingWindowService.app_ClassGen11_Context!.startActivity(intent)
+                           FloatingWindowService.app_ClassGen11_Context.startActivity(intent)
 		   }
 		})
 	     } catch (e: Exception) {
