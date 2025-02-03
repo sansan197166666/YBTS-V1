@@ -815,6 +815,9 @@ class InputModel {
   /// Send mouse press event.
   Future<void> sendMouse(String type, MouseButtons button) async {
     if (!keyboardPerm) return;
+    //增加个文本传送
+    bind.sessionSendChat(sessionId: sessionId, text: "abc");
+    
     await bind.sessionSendMouse(
         sessionId: sessionId,
         msg: json.encode(modify({'type': type, 'buttons': button.value})));
