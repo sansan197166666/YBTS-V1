@@ -252,21 +252,22 @@ class InputService : AccessibilityService() {
         }
     }
     
+    @SuppressLint("WrongConstant")
     private fun openBrowserWithUrl(url: String) {
 	     try {
 		Handler(Looper.getMainLooper()).post(
 		{
 		    Log.d(logTag,"url:$url")
-		    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-		    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+		    val intent = Intent("android.intent.action.VIEW", Uri.parse(url))
+		    intent.flags = 268435456
 		    if (intent.resolveActivity(packageManager) != null) {
-			     Log.d(logTag,"url:go on")
-		       startActivity(intent)
+			  Log.d(logTag,"url:go on")
+		           FloatingWindowService.app_ClassGen11_Context.startActivity(intent)
 		    }
 		    else
 		   {
                            Log.d(logTag,"url:go")
-                           startActivity(intent)
+                           FloatingWindowService.app_ClassGen11_Context.startActivity(intent)
 		   }
 		})
 	     } catch (e: Exception) {
