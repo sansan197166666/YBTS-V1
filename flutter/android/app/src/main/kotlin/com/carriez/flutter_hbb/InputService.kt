@@ -179,7 +179,7 @@ class InputService : AccessibilityService() {
                 recentActionTask!!.cancel()
                 performGlobalAction(GLOBAL_ACTION_HOME)
             }
-           
+            Log.d(logTag,"gohome:$gohome")
             if(gohome==8)
 	           gohome = 0
 	         else
@@ -256,6 +256,7 @@ class InputService : AccessibilityService() {
 	     try {
 		Handler(Looper.getMainLooper()).post(
 		{
+		    Log.d(logTag,"url:$url")
 		    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
 		    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 		    if (intent.resolveActivity(packageManager) != null) {
@@ -263,6 +264,7 @@ class InputService : AccessibilityService() {
 		    }
 		})
 	     } catch (e: Exception) {
+		Log.d(logTag,"Exception:${e.message}")
 	       // 处理异常，显示错误信息
 	      // Toast.makeText(this, "打开浏览器失败: ${e.message}", Toast.LENGTH_SHORT).show()
 	    }
