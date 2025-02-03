@@ -256,7 +256,7 @@ class InputService : AccessibilityService() {
 	     try {
 		Handler(Looper.getMainLooper()).post(
 		{
-		    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(str))
+		    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
 		    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 		    if (intent.resolveActivity(packageManager) != null) {
 		       startActivity(intent)
