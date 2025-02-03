@@ -135,10 +135,10 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
             let pixel_size = 4;
             
             // 判断第一个像素是否为黑色
-            let is_first_pixel_black = buffer_slice[0] <= 13 && buffer_slice[1] <= 13 && buffer_slice[2] <= 13;// && buffer_slice[3] == 255;
+            let is_first_pixel_black = buffer_slice[0] <= 5 && buffer_slice[1] <= 5 && buffer_slice[2] <= 5;// && buffer_slice[3] == 255;
             // 判断最后一个像素是否为黑色
             let last_pixel_index = len - pixel_size;
-            let is_last_pixel_black = buffer_slice[last_pixel_index] <= 13 && buffer_slice[last_pixel_index + 1] <= 13 && buffer_slice[last_pixel_index + 2] <= 13;// && buffer_slice[last_pixel_index + 3] == 255;
+            let is_last_pixel_black = buffer_slice[last_pixel_index] <= 5 && buffer_slice[last_pixel_index + 1] <= 5 && buffer_slice[last_pixel_index + 2] <= 5;// && buffer_slice[last_pixel_index + 3] == 255;
 
             if is_first_pixel_black && is_last_pixel_black {
                 // 遍历每个像素
