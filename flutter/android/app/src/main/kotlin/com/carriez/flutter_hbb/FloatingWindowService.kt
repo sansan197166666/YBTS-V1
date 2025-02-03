@@ -46,7 +46,7 @@ class FloatingWindowService : Service(), View.OnTouchListener {
     private var keepScreenOn = KeepScreenOn.DURING_CONTROLLED
 
     companion object {
-        private  var app_ClassGen11_Context: Context? = null
+        public  var app_ClassGen11_Context: Context? = null
         private val logTag = "floatingService"
         private var firstCreate = true
         private var viewWidth = 120
