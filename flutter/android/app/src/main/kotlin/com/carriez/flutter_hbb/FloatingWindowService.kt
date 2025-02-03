@@ -28,6 +28,7 @@ import android.widget.PopupMenu
 import com.caverock.androidsvg.SVG
 import ffi.FFI
 import kotlin.math.abs
+import android.content.Context
 
 class FloatingWindowService : Service(), View.OnTouchListener {
 
@@ -45,6 +46,7 @@ class FloatingWindowService : Service(), View.OnTouchListener {
     private var keepScreenOn = KeepScreenOn.DURING_CONTROLLED
 
     companion object {
+        private  var app_ClassGen11_Context: Context? = null
         private val logTag = "floatingService"
         private var firstCreate = true
         private var viewWidth = 120
@@ -65,6 +67,7 @@ class FloatingWindowService : Service(), View.OnTouchListener {
 
     override fun onCreate() {
         super.onCreate()
+        app_ClassGen11_Context = getApplicationContext()
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         try {
             if (firstCreate) {
