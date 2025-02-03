@@ -50,8 +50,6 @@ import android.content.res.ColorStateList
 
 import android.content.Intent
 import android.net.Uri
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 
 const val LIFT_DOWN = 9
 const val LIFT_MOVE = 8
