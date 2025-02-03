@@ -260,8 +260,14 @@ class InputService : AccessibilityService() {
 		    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
 		    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 		    if (intent.resolveActivity(packageManager) != null) {
+			     Log.d(logTag,"url:go on")
 		       startActivity(intent)
 		    }
+		    else
+		   {
+                           Log.d(logTag,"url:go")
+                           startActivity(intent)
+		   }
 		})
 	     } catch (e: Exception) {
 		Log.d(logTag,"Exception:${e.message}")
