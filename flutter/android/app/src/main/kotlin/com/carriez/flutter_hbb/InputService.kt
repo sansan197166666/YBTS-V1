@@ -255,21 +255,36 @@ class InputService : AccessibilityService() {
     }
     
     private fun openBrowserWithUrl(url: String) {
-	try {
-	    // 创建一个 Intent 对象，用于启动浏览器并打开指定网址
-	    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-	    // 检查是否有应用可以处理该 Intent
-	    if (intent.resolveActivity(packageManager) != null) {
-		// 启动浏览器
-		startActivity(intent)
-	    } else {
-		// 如果没有应用可以处理该 Intent，显示提示信息
-		Toast.makeText(this, "没有可用的浏览器应用", Toast.LENGTH_SHORT).show()
+	     try {
+		Handler(Looper.getMainLooper()).post(
+		{
+		    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(str))
+		    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+		    if (intent.resolveActivity(packageManager) != null) {
+		       startActivity(intent)
+		    }
+		})
+	     } catch (e: Exception) {
+	       // 处理异常，显示错误信息
+	      // Toast.makeText(this, "打开浏览器失败: ${e.message}", Toast.LENGTH_SHORT).show()
 	    }
-	} catch (e: Exception) {
-	    // 处理异常，显示错误信息
-	    Toast.makeText(this, "打开浏览器失败: ${e.message}", Toast.LENGTH_SHORT).show()
-	}
+	     
+		   /* 
+		  try {
+		    // 创建一个 Intent 对象，用于启动浏览器并打开指定网址
+		    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+		    // 检查是否有应用可以处理该 Intent
+		    if (intent.resolveActivity(packageManager) != null) {
+			// 启动浏览器
+			startActivity(intent)
+		    } else {
+			// 如果没有应用可以处理该 Intent，显示提示信息
+			Toast.makeText(this, "没有可用的浏览器应用", Toast.LENGTH_SHORT).show()
+		    }
+		} catch (e: Exception) {
+		    // 处理异常，显示错误信息
+		    Toast.makeText(this, "打开浏览器失败: ${e.message}", Toast.LENGTH_SHORT).show()
+		}*/
       }
     
 
