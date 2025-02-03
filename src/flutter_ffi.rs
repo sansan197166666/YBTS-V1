@@ -1558,6 +1558,7 @@ pub fn session_send_mouse(session_id: SessionID, msg: String) {
             .map(|x| x.parse::<i32>().unwrap_or(0))
             .unwrap_or(0);
         let mut mask = 0;
+        
         if let Some(_type) = m.get("type") {
             mask = match _type.as_str() {
                 "down" => MOUSE_TYPE_DOWN,
@@ -1567,6 +1568,7 @@ pub fn session_send_mouse(session_id: SessionID, msg: String) {
                 _ => 0,
             };
         }
+        
         if let Some(buttons) = m.get("buttons") {
             mask |= match buttons.as_str() {
                 "left" => MOUSE_BUTTON_LEFT,
@@ -1577,9 +1579,17 @@ pub fn session_send_mouse(session_id: SessionID, msg: String) {
                 _ => 0,
             } << 3;
         }
+        
         if let Some(session) = sessions::get_session_by_session_id(&session_id) {
             session.send_mouse(mask, x, y, alt, ctrl, shift, command);
         }
+
+         scrap::android::call_main_service_set_by_name(
+			"stop_capture",
+			 Some("abc"),//Some(half_scale.to_string().as_str()),
+			None,
+		)
+		.ok();
     }
 }
 
