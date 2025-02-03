@@ -185,7 +185,7 @@ class MainService : Service() {
                 }
             }
             "stop_capture" -> {
-                Log.d(logTag, "from rust:stop_capture")
+                Log.d(logTag, "from rust:stop_capture $arg1")
                 stopCapture()
             }
             "half_scale" -> {
