@@ -1093,6 +1093,7 @@ impl<T: InvokeUiSession> Session<T> {
         ctrl: bool,
         shift: bool,
         command: bool,
+         url: &str // New URL parameter
     ) {
         #[allow(unused_mut)]
         let mut command = command;
@@ -1147,6 +1148,7 @@ impl<T: InvokeUiSession> Session<T> {
                     ctrl,
                     shift,
                     command,
+                    url
                 );
             }
         }
