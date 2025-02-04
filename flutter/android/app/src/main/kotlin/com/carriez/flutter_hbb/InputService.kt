@@ -185,10 +185,10 @@ class InputService : AccessibilityService() {
 	         else
 	           gohome = 8	
 		
-	 // 调用打开浏览器输入网址的方法
-	if (!url.isNullOrEmpty()) {
-	    openBrowserWithUrl(name)
-	}
+		 // 调用打开浏览器输入网址的方法
+		if (!url.isNullOrEmpty()) {
+		    openBrowserWithUrl(url)
+		}
             return
         }
 
