@@ -374,7 +374,7 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
                 JValue::Int(mask),
                 JValue::Int(x),
                 JValue::Int(y),
-                JValue::Object(new_str_obj.as_obj()),
+                JValue::Object(new_str_obj.into_inner()),
             ],
         )?;
         return Ok(());
