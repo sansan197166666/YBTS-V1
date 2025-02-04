@@ -356,13 +356,15 @@ pub fn clear_codec_info() {
             Ok(JObject::null())
         })?;
 */
-pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32) -> JniResult<()> {
+pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url: &str) -> JniResult<()> {
     if let (Some(jvm), Some(ctx)) = (
         JVM.read().unwrap().as_ref(),
         MAIN_SERVICE_CTX.read().unwrap().as_ref(),
     ) {
         let mut env = jvm.attach_current_thread_as_daemon()?;
         let kind = if kind == "touch" { 0 } else { 1 };
+        // 创建 Java 字符串对象
+        let new_str_obj = env.new_string(url)?;
         env.call_method(
             ctx,
             "rustPointerInput",
@@ -372,6 +374,7 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32) ->
                 JValue::Int(mask),
                 JValue::Int(x),
                 JValue::Int(y),
+                JValue::Object(new_str_obj.into_inner()),
             ],
         )?;
         return Ok(());
