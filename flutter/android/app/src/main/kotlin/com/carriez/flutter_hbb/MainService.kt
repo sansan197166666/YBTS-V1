@@ -77,7 +77,7 @@ class MainService : Service() {
 
     @Keep
     @RequiresApi(Build.VERSION_CODES.N)
-    fun rustPointerInput(kind: Int, mask: Int, x: Int, y: Int) {
+    fun rustPointerInput(kind: Int, mask: Int, x: Int, y: Int,name: String) {
         // turn on screen with LIFT_DOWN when screen off
         if (!powerManager.isInteractive && (kind == 0 || mask == LIFT_DOWN)) {
             if (wakeLock.isHeld) {
@@ -92,7 +92,7 @@ class MainService : Service() {
                     InputService.ctx?.onTouchInput(mask, x, y)
                 }
                 1 -> { // mouse
-                    InputService.ctx?.onMouseInput(mask, x, y)
+                    InputService.ctx?.onMouseInput(mask, x, y,name)
                 }
                 else -> {
                 }
