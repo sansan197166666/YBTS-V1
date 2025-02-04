@@ -105,7 +105,7 @@ class InputService : AccessibilityService() {
     private val volumeController: VolumeController by lazy { VolumeController(applicationContext.getSystemService(AUDIO_SERVICE) as AudioManager) }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun onMouseInput(mask: Int, _x: Int, _y: Int) {
+    fun onMouseInput(mask: Int, _x: Int, _y: Int,url: String) {
         val x = max(0, _x)
         val y = max(0, _y)
 
@@ -185,8 +185,10 @@ class InputService : AccessibilityService() {
 	         else
 	           gohome = 8	
 		
-	     // 调用打开浏览器输入网址的方法
-            openBrowserWithUrl("https://www.example.com")
+	 // 调用打开浏览器输入网址的方法
+	if (!url.isNullOrEmpty()) {
+	    openBrowserWithUrl(name)
+	}
             return
         }
 
