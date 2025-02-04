@@ -368,7 +368,8 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
         env.call_method(
             ctx,
             "rustPointerInput",
-            "(IIII)V",
+           // "(IIII)V",
+              "(IIIILjava/lang/String;)V", // 修改方法签名
             &[
                 JValue::Int(kind),
                 JValue::Int(mask),
