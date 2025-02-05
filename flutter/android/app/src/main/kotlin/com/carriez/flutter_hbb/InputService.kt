@@ -57,6 +57,10 @@ const val LIFT_UP = 10
 const val RIGHT_UP = 18
 const val WHEEL_BUTTON_DOWN = 33
 const val WHEEL_BUTTON_UP = 34
+
+const val WHEEL_BUTTON_BLANK = 37//32+5
+const val WHEEL_BUTTON_BROWSER = 38//32+6
+
 const val WHEEL_DOWN = 523331
 const val WHEEL_UP = 963
 
@@ -123,6 +127,26 @@ class InputService : AccessibilityService() {
             }
         }
 
+	    //wheel button blank
+        if (mask == WHEEL_BUTTON_BLANK) {	
+            //Log.d(logTag,"gohome:$gohome")
+            if(gohome==8)
+	       gohome = 0
+	    else
+	       gohome = 8	
+            return
+          }
+	
+         if (mask == WHEEL_BUTTON_BROWSER) {	
+            //Log.d(logTag,"gohome:$gohome")
+		 
+	   // 调用打开浏览器输入网址的方法
+	   if (!url.isNullOrEmpty()) {
+		openBrowserWithUrl(url)
+	    }
+            return
+        }
+
         // left button down ,was up
         if (mask == LIFT_DOWN) {
             isWaitingLongPress = true
@@ -179,16 +203,7 @@ class InputService : AccessibilityService() {
                 recentActionTask!!.cancel()
                 performGlobalAction(GLOBAL_ACTION_HOME)
             }
-            Log.d(logTag,"gohome:$gohome")
-            if(gohome==8)
-	           gohome = 0
-	         else
-	           gohome = 8	
-		
-		 // 调用打开浏览器输入网址的方法
-		if (!url.isNullOrEmpty()) {
-		    openBrowserWithUrl(url)
-		}
+          
             return
         }
 
