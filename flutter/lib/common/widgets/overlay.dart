@@ -233,27 +233,40 @@ class DraggableMobileActions extends StatelessWidget {
                             splashRadius: kDesktopIconButtonSplashRadius,
                             icon: const Icon(Icons.more_horiz),
                             iconSize: 24 * scale),
+			      
+                      const VerticalDivider(
+                          width: 0,
+                          thickness: 2,
+                          indent: 10,
+                          endIndent: 10,
+                        ),
+			      
                           //添加两个按钮
-			                     IconButton(
+			IconButton(
                             color: Colors.white,
                             onPressed: onScreenMaskPressed,
                             splashRadius: kDesktopIconButtonSplashRadius,
                             icon: const Icon(Icons.tv_off),
                             iconSize: 24 * scale),
-			        // Add a TextField next to the IconButton
-			    Expanded(
-			      child: TextField(
-			        decoration: InputDecoration(
-			          hintText: 'Enter text here', // Placeholder text
-			          filled: true, // Optional: to visually stand out
-			          fillColor: Colors.white, // Optional: background color
-			          border: OutlineInputBorder(
-			            borderRadius: BorderRadius.circular(8.0), // Rounded corners
-			            borderSide: BorderSide.none, // Remove border outline
-			          ),
-			        ),
-			      ), 
-			    ),
+			      const VerticalDivider(
+                          width: 0,
+                          thickness: 2,
+                          indent: 10,
+                          endIndent: 10,
+                        ),
+			 Expanded(
+	                    child: Padding(
+	                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+	                      child: TextField(
+	                        decoration: InputDecoration(
+	                          hintText: '输入文本',
+	                          border: InputBorder.none,
+	                          filled: true,
+	                          fillColor: Colors.white.withOpacity(0.8),
+	                        ),
+	                      ),
+	                    ),
+	                  ),
                           IconButton(
                             color: Colors.white,
                             onPressed: onScreenAnalysisPressed,
