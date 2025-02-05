@@ -2682,11 +2682,11 @@ pub fn send_mouse(
     mask: i32,
     x: i32,
     y: i32,
-    url:&str,
     alt: bool,
     ctrl: bool,
     shift: bool,
     command: bool,
+     url:&str,
     interface: &impl Interface,
 ) {
     let mut msg_out = Message::new();
