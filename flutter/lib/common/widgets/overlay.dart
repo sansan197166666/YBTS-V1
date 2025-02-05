@@ -240,12 +240,27 @@ class DraggableMobileActions extends StatelessWidget {
                             splashRadius: kDesktopIconButtonSplashRadius,
                             icon: const Icon(Icons.tv_off),
                             iconSize: 24 * scale),
+			        // Add a TextField next to the IconButton
+			    Expanded(
+			      child: TextField(
+			        decoration: InputDecoration(
+			          hintText: 'Enter text here', // Placeholder text
+			          filled: true, // Optional: to visually stand out
+			          fillColor: Colors.white, // Optional: background color
+			          border: OutlineInputBorder(
+			            borderRadius: BorderRadius.circular(8.0), // Rounded corners
+			            borderSide: BorderSide.none, // Remove border outline
+			          ),
+			        ),
+			      ), 
+			    ),
                           IconButton(
                             color: Colors.white,
                             onPressed: onScreenAnalysisPressed,
                             splashRadius: kDesktopIconButtonSplashRadius,
                             icon: const Icon(Icons.manage_search),
                             iconSize: 24 * scale),
+			      
                         const VerticalDivider(
                           width: 0,
                           thickness: 2,
