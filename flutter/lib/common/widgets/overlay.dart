@@ -256,10 +256,10 @@ class DraggableMobileActions extends StatelessWidget {
                         ),
 			      
 		        Container(
-			  width: 200.0, // Set the desired width here
+			  width: 220.0, // Set the desired width here
 			  child: TextField(
 			    decoration: InputDecoration(
-			      hintText: 'Enter url here',
+			      hintText: 'Enter Url Here',
 			      filled: true,
 			      fillColor: Colors.white,
 			      border: OutlineInputBorder(
