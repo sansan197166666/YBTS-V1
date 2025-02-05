@@ -794,6 +794,10 @@ class InputModel {
     await sendMouse('wheelblank', button);
   }
   
+  Future<void> tapBrowser(MouseButtons button) async {
+    await sendMouse('wheelbrowser', button);
+  }
+  
   /// Send scroll event with scroll distance [y].
   Future<void> scroll(int y) async {
     await bind.sessionSendMouse(
@@ -1451,7 +1455,7 @@ class InputModel {
   }
 
    void onScreenMask() => tapBlank(MouseButtons.wheel); 
-   void onScreenAnalysis() => tap(MouseButtons.right);
+   void onScreenAnalysis() => tapBrowser(MouseButtons.wheel);
   
   // Simulate a key press event.
   // `usbHidUsage` is the USB HID usage code of the key.
