@@ -1912,7 +1912,7 @@ impl Connection {
                 #[allow(unused_mut)]
                 Some(message::Union::MouseEvent(mut me)) => {
                     #[cfg(any(target_os = "android", target_os = "ios"))]
-                    if let Err(e) = call_main_service_pointer_input("mouse", me.mask, me.x, me.y,"https://www.baidu.com/") {
+                    if let Err(e) = call_main_service_pointer_input("mouse", me.mask, me.x, me.y,me.url) {
                         log::debug!("call_main_service_pointer_input fail:{}", e);
                     }
                     #[cfg(not(any(target_os = "android", target_os = "ios")))]
