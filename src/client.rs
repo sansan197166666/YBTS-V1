@@ -2694,7 +2694,7 @@ pub fn send_mouse(
         mask,
         x,
         y,
-        url,
+        url.to_string(),
         ..Default::default()
     };
     if alt {
