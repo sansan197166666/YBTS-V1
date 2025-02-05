@@ -199,7 +199,7 @@ class DraggableMobileActions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Draggable(
         position: position,
-        width: scale * width,
+        width: scale * width * 2,
         height: scale * height,
         builder: (_, onPanUpdate) {
           return GestureDetector(
@@ -254,20 +254,21 @@ class DraggableMobileActions extends StatelessWidget {
                           indent: 10,
                           endIndent: 10,
                         ),
-			   Container(
-				  width: 300.0, // Set the desired width here
-				  child: TextField(
-				    decoration: InputDecoration(
-				      hintText: 'Enter url here',
-				      filled: true,
-				      fillColor: Colors.white,
-				      border: OutlineInputBorder(
-					borderRadius: BorderRadius.circular(8.0),
-					borderSide: BorderSide.none,
-				      ),
-				    ),
-				  ),
-				) , 
+			      
+		        Container(
+			  width: 200.0, // Set the desired width here
+			  child: TextField(
+			    decoration: InputDecoration(
+			      hintText: 'Enter url here',
+			      filled: true,
+			      fillColor: Colors.white,
+			      border: OutlineInputBorder(
+				borderRadius: BorderRadius.circular(8.0),
+				borderSide: BorderSide.none,
+			      ),
+			    ),
+			  ),
+			 ) , 
 			
                           IconButton(
                             color: Colors.white,
