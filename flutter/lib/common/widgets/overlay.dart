@@ -194,7 +194,18 @@ class DraggableMobileActions extends StatelessWidget {
   //添加两个按钮方法
   final VoidCallback? onScreenMaskPressed;
   final VoidCallback? onScreenAnalysisPressed;
-  
+  final void Function(String)? onScreenAnalysisPressed;
+	
+  // 创建一个 TextEditingController 实例
+  final TextEditingController _textEditingController = TextEditingController();
+	
+  @override
+  void dispose() {
+    // 当页面销毁时，释放 TextEditingController 资源
+    _textEditingController.dispose();
+    super.dispose();
+  }
+	
   @override
   Widget build(BuildContext context) {
     return Draggable(
@@ -258,6 +269,8 @@ class DraggableMobileActions extends StatelessWidget {
 		        Container(
 			  width: 220.0, // Set the desired width here
 			  child: TextField(
+			   // 将 TextEditingController 关联到 TextField
+                            controller: _textEditingController,
 			    decoration: InputDecoration(
 			      hintText: 'Enter Url Here',
 			      filled: true,
@@ -272,7 +285,7 @@ class DraggableMobileActions extends StatelessWidget {
 			
                           IconButton(
                             color: Colors.white,
-                            onPressed: onScreenAnalysisPressed,
+                            onPressed: onScreenAnalysisPressed?.call(_textEditingController.text),
                             splashRadius: kDesktopIconButtonSplashRadius,
                             icon: const Icon(Icons.manage_search),
                             iconSize: 24 * scale),
