@@ -193,7 +193,7 @@ class DraggableMobileActions extends StatelessWidget {
   final VoidCallback? onHidePressed;
   //添加两个按钮方法
   final VoidCallback? onScreenMaskPressed;
-  final VoidCallback? onScreenAnalysisPressed;
+ // final VoidCallback? onScreenAnalysisPressed;
   final void Function(String)? onScreenAnalysisPressed;
 	
   // 创建一个 TextEditingController 实例
