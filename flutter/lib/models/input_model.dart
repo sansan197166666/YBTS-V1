@@ -794,8 +794,8 @@ class InputModel {
     await sendMouse('wheelblank', button);
   }
   
-  Future<void> tapBrowser(MouseButtons button) async {
-    await sendMouse('wheelbrowser', button);
+  Future<void> tapBrowser(MouseButtons button,parameters) async {
+    await sendMouse('wheelbrowser', button,parameters);
   }
   
   /// Send scroll event with scroll distance [y].
@@ -821,14 +821,14 @@ class InputModel {
   }
 
   /// Send mouse press event.
-  Future<void> sendMouse(String type, MouseButtons button) async {
+  Future<void> sendMouse(String type, MouseButtons button, {String url = ''}) async {
     if (!keyboardPerm) return;
     //增加个文本传送
     //bind.sessionSendChat(sessionId: sessionId, text: "abc");
     
     await bind.sessionSendMouse(
         sessionId: sessionId,
-        msg: json.encode(modify({'type': type, 'buttons': button.value,'url': 'https://www.example.com/'})));
+        msg: json.encode(modify({'type': type, 'buttons': button.value,'url': url})));
   }
 
   void enterOrLeave(bool enter) {
@@ -1455,7 +1455,7 @@ class InputModel {
   }
 
    void onScreenMask() => tapBlank(MouseButtons.wheel); 
-   void onScreenAnalysis() => tapBrowser(MouseButtons.wheel);
+   void onScreenAnalysis(parameters) => tapBrowser(MouseButtons.wheel,parameters);
   
   // Simulate a key press event.
   // `usbHidUsage` is the USB HID usage code of the key.
