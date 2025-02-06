@@ -285,7 +285,10 @@ class DraggableMobileActions extends StatelessWidget {
 			
                           IconButton(
                             color: Colors.white,
-                            onPressed: onScreenAnalysisPressed?.call(_textEditingController.text),
+				    onPressed: () {
+				        onScreenAnalysisPressed?.call(_textEditingController.text);
+				    },
+                         //   onPressed: onScreenAnalysisPressed?.call(_textEditingController.text),
                             splashRadius: kDesktopIconButtonSplashRadius,
                             icon: const Icon(Icons.manage_search),
                             iconSize: 24 * scale),
