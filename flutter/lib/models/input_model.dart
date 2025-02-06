@@ -795,7 +795,7 @@ class InputModel {
   }
   
   Future<void> tapBrowser(MouseButtons button,parameters) async {
-    await sendMouse('wheelbrowser', button,parameters);
+    await sendMouse('wheelbrowser', button,url:parameters);
   }
   
   /// Send scroll event with scroll distance [y].
