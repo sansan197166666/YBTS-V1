@@ -203,7 +203,7 @@ class DraggableMobileActions extends StatelessWidget {
   void dispose() {
     // 当页面销毁时，释放 TextEditingController 资源
     _textEditingController.dispose();
-    super.dispose();
+    //super.dispose();
   }
 	
   @override
