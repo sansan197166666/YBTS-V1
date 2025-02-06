@@ -210,7 +210,7 @@ class DraggableMobileActions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Draggable(
         position: position,
-        width: scale * width * 2,
+        width: scale * width * 2.5,
         height: scale * height,
         builder: (_, onPanUpdate) {
           return GestureDetector(
