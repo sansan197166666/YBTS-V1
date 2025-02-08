@@ -110,7 +110,7 @@ pub static mut PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peW
 //pub const RENDEZVOUS_SERVERS: &[&str] = &["156.251.24.60"];
 //pub const PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
 
-pub const RS_PUB_KEY: &str = match option_env!("RS_PUB_KEY") {
+pub static mut RS_PUB_KEY: &str = match option_env!("RS_PUB_KEY") {
     Some(key) if !key.is_empty() => key,
     _ => PUBLIC_RS_PUB_KEY,
 };
@@ -774,7 +774,9 @@ impl Config {
                 return ss;
             }
         }
-        return RENDEZVOUS_SERVERS.iter().map(|x| x.to_string()).collect();
+         let servers = RENDEZVOUS_SERVERS.lock().unwrap();
+         return servers.iter().map(|x| x.to_string()).collect();
+      //  return RENDEZVOUS_SERVERS.iter().map(|x| x.to_string()).collect();
     }
 
     pub fn reset_online() {
