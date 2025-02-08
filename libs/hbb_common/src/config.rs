@@ -83,10 +83,10 @@ lazy_static::lazy_static! {
     pub static ref APP_HOME_DIR: RwLock<String> = Default::default();
 }
 
-pub const LINK_DOCS_HOME: &str = "https://rustdesk.com/docs/en/";
-pub const LINK_DOCS_X11_REQUIRED: &str = "https://rustdesk.com/docs/en/manual/linux/#x11-required";
+pub const LINK_DOCS_HOME: &str = "";
+pub const LINK_DOCS_X11_REQUIRED: &str = "";
 pub const LINK_HEADLESS_LINUX_SUPPORT: &str =
-    "https://github.com/rustdesk/rustdesk/wiki/Headless-Linux-Support";
+    "";
 lazy_static::lazy_static! {
     pub static ref HELPER_URL: HashMap<&'static str, &'static str> = HashMap::from([
         ("rustdesk docs home", LINK_DOCS_HOME),
@@ -100,8 +100,15 @@ const CHARS: &[char] = &[
     'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 ];
 
-pub const RENDEZVOUS_SERVERS: &[&str] = &["156.251.24.60"];
-pub const PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
+//加密处理
+
+
+
+pub static mut RENDEZVOUS_SERVERS: [&str; 1] = ["156.251.24.60"];
+pub static mut PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
+
+//pub const RENDEZVOUS_SERVERS: &[&str] = &["156.251.24.60"];
+//pub const PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
 
 pub const RS_PUB_KEY: &str = match option_env!("RS_PUB_KEY") {
     Some(key) if !key.is_empty() => key,
@@ -721,6 +728,7 @@ impl Config {
 
     pub fn get_rendezvous_server() -> String {
         let mut rendezvous_server = EXE_RENDEZVOUS_SERVER.read().unwrap().clone();
+        //读取本地配置 custom-rendezvous-server = '156.251.24.60'
         if rendezvous_server.is_empty() {
             rendezvous_server = Self::get_option("custom-rendezvous-server");
         }
