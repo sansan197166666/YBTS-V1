@@ -32,6 +32,7 @@ class UserModel {
       // When user name becomes non-empty:
       //  For _updateLocalUserInfo, network error will be set later
       //  For login success, should clear network error
+      //
       networkError.value = '';
     });
   }
