@@ -19,6 +19,7 @@ class DesktopTabPage extends StatefulWidget {
   State<DesktopTabPage> createState() => _DesktopTabPageState();
 
   static void onAddSetting(
+    return;//
       {SettingsTabKey initialPage = SettingsTabKey.general}) {
     try {
       DesktopTabController tabController = Get.find<DesktopTabController>();
