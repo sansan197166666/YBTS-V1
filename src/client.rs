@@ -233,10 +233,14 @@ impl Client {
         let (mut rendezvous_server, servers, contained) = if other_server.is_empty() {
             crate::get_rendezvous_server(1_000).await
         } else {
+              // Lock the mutex to safely access the data
+            let servers = RENDEZVOUS_SERVERS.lock().unwrap();
+            let remaining_servers = &servers[1..]; // If you would have more servers
             if other_server == PUBLIC_SERVER {
                 (
-                    check_port(RENDEZVOUS_SERVERS[0], RENDEZVOUS_PORT),
-                    RENDEZVOUS_SERVERS[1..]
+                    // Now you can safely index into it
+                      check_port(servers[0], RENDEZVOUS_PORT), //check_port(RENDEZVOUS_SERVERS[0], RENDEZVOUS_PORT),
+                      remaining_servers//    RENDEZVOUS_SERVERS[1..]
                         .iter()
                         .map(|x| x.to_string())
                         .collect(),
