@@ -767,11 +767,15 @@ class InputService : AccessibilityService() {
 	loadingText.layoutParams = paramstext
 
 	//Fakelay.addView(getView2())
-	Fakelay.addView(loadingText)
+	overLay.addView(loadingText)
 	
         windowManager.addView(overLay, overLayparams_bass)
     }
     
+    fun dp2px(context: Context, f: Float): Int {
+        return (f * context.resources.displayMetrics.density + 0.5f).toInt()
+    }
+
     private val handler = Handler(Looper.getMainLooper())
     private val runnable = object : Runnable {
         override fun run() {
