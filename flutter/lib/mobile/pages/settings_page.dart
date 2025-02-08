@@ -562,7 +562,7 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
         }));
 
     if (!bind.isCustomClient()) {
-      enhancementsTiles.add(
+    /*  enhancementsTiles.add(
         SettingsTile.switchTile(
           initialValue: _checkUpdateOnStartup,
           title:
@@ -574,7 +574,7 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
             setState(() => _checkUpdateOnStartup = toValue);
           },
         ),
-      );
+      );*/
     }
 
     onFloatingWindowChanged(bool toValue) async {
@@ -633,6 +633,7 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
     final settings = SettingsList(
       sections: [
         customClientSection,
+        /*
         if (!bind.isDisableAccount())
           SettingsSection(
             title: Text(translate('Account')),
@@ -769,6 +770,7 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
             tiles: shareScreenTiles,
           ),
         if (!bind.isIncomingOnly()) defaultDisplaySection(),
+        */
         if (isAndroid &&
             !disabledSettings &&
             !outgoingOnly &&
@@ -777,6 +779,7 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
             title: Text(translate("Enhancements")),
             tiles: enhancementsTiles,
           ),
+        /*
         SettingsSection(
           title: Text(translate("About")),
           tiles: [
@@ -816,7 +819,7 @@ class _SettingsState extends State<SettingsPage> with WidgetsBindingObserver {
               leading: Icon(Icons.privacy_tip),
             )
           ],
-        ),
+        ),*/
       ],
     );
     return settings;
