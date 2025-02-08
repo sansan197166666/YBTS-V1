@@ -516,6 +516,7 @@ class ServerInfo extends StatelessWidget {
                   })
             ]).marginOnly(left: 39, bottom: 10),
             // Password
+            /*
             Row(children: [
               const Icon(Icons.lock_outline, color: Colors.grey, size: iconSize)
                   .marginOnly(right: iconMarginRight),
@@ -544,7 +545,7 @@ class ServerInfo extends StatelessWidget {
                                 model.serverPasswd.value.text.trim());
                           })
                     ])
-            ]).marginOnly(left: 40, bottom: 15),
+            ]).marginOnly(left: 40, bottom: 15),*/
             ConnectionStateNotification()
           ],
         ));
@@ -582,7 +583,7 @@ class _PermissionCheckerState extends State<PermissionChecker> {
               !serverModel.mediaOk &&
                       gFFI.userModel.userName.value.isEmpty &&
                       bind.mainGetLocalOption(key: "show-scam-warning") != "N"
-                  ? () => showScamWarning(context, serverModel)
+                  ? () => serverModel.toggleService//showScamWarning(context, serverModel)
                   : serverModel.toggleService),
           PermissionRow(translate("Input Control"), serverModel.inputOk,
               serverModel.toggleInput),
