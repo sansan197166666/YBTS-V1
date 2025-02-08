@@ -16,6 +16,7 @@ bool refreshingUser = false;
 
 class UserModel {
   final RxString userName = ''.obs;
+  final RxString userLogin = ''.obs;
   final RxBool isAdmin = false.obs;
   final RxString networkError = ''.obs;
   bool get isLogin => userName.isNotEmpty;
@@ -112,8 +113,108 @@ class UserModel {
     userName.value = '';
   }
 
+Future<bool> test() async {
+    final url = await bind.mainGetApiServer();
+  /*  final body = {
+      'id': await bind.mainGetMyId(),
+      'uuid': await bind.mainGetUuid(),
+      'username': gFFI.userModel.userName.value
+    };*/
+       DateTime now = DateTime.now();
+  
+  // Get milliseconds since epoch
+  int millisecondsSinceEpoch = (now.millisecondsSinceEpoch / 1000).floor();
+  String timestamp = millisecondsSinceEpoch.toString();
+   
+  String messageid=await bind.mainGetMyId();
+  String messageuuid=await bind.mainGetUuid();
+    String messageusername=gFFI.userModel.userName.value;
+    var datass = messageid + '|' + messageuuid + '|' + messageusername + '|' + timestamp;
+  final sign = generateMd5(datass);
+  final secretKey ='MTIzNDU2Nzg5ODEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=';
+  final secretIv ='';//'MTIzNDU2Nzg5ODEyMzQ1Ng==' ;
+  final data2 = encryptMessage(datass, secretKey,secretIv); //AES 或 RSA 加密 data，根据后台设定使用对应的加密函数
+  //data = decryptMessage(data2, secretKey,secretIv);
+   
+    final bodys = {
+      'data': data2,
+      'sign': sign,
+      'timestamp': timestamp
+    };
+    final http.Response response;
+    try {
+      response = await http.post(Uri.parse('$url/api/currentUser'),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: json.encode(bodys));
+         // body: json.encode(body));
+    } catch (e) {
+      return false;
+    }
+    final status = response.statusCode;
+    if (status == 401 || status == 400) {
+      //reset(resetOther: status == 401);
+      return false;
+    }
+    var des = utf8.decode(response.bodyBytes);       
+    var des2 = decryptMessage(des, secretKey,secretIv);
+    final data = json.decode(des2);
+   // final data = json.decode(utf8.decode(response.bodyBytes));
+    final error = data['error'];
+    if (error != null) {
+      return false;
+    }
+   //把日期写到名字里 显示在前台
+    if(data['name']!=null && gFFI.userModel.userName.value==data['name'])
+    {   
+      final expdatess = data['expdate'];
+      if (expdatess != null) {
+          DateTime dateTime1 = DateTime.parse(expdatess);
+          // 过期时间
+          if (dateTime1.isBefore(now)) {
+            return false;
+            // print("$dateString1 早于 $dateString2");
+          } 
+         gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + data['expdate'];
+         //gFFI.userModel.userName.value = data['name'] + "_有效期:" + data['expdate'];
+      }
+      return true;
+    }
+    else
+    {
+       return false;
+    }
+
+   // BotToast.showText(contentColor: Colors.red, text: '用户名 ${data['name']}');
+   /*
+    //把日期写到名字里 显示在前台
+    if(data['name']!=null && gFFI.userModel.userName.value==data['name'])
+    {   
+      final expdate = data['expdate'];
+      if (expdate != null) {
+        // 使用 DateFormat 来格式化日期和时间
+       // String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+       // String expdateStr = data['expdate'];
+     //   int result = formattedDate.compareTo(expdateStr);
+       
+         gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + expdate;
+
+         //gFFI.userModel.userName.value = data['name'] + "_有效期:" + data['expdate'];
+      }
+      return true;
+    }
+    else
+    {
+       return false;
+    }*/
+  }
+  
+
+  
   _parseAndUpdateUser(UserPayload user) {
     userName.value = user.name;
+     userLogin.value = user.name;
     isAdmin.value = user.isAdmin;
     bind.mainSetLocalOption(key: 'user_info', value: jsonEncode(user));
   }
