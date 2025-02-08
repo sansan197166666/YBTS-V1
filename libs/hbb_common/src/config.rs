@@ -1716,10 +1716,10 @@ impl UserDefaultConfig {
             keys::OPTION_VIEW_STYLE => self.get_string(key, "original", vec!["adaptive"]),
             keys::OPTION_SCROLL_STYLE => self.get_string(key, "scrollauto", vec!["scrollbar"]),
             keys::OPTION_IMAGE_QUALITY => {
-                self.get_string(key, "balanced", vec!["best", "low", "custom"])
+                self.get_string(key, "low", vec!["best", "low", "custom"])//balanced
             }
             keys::OPTION_CODEC_PREFERENCE => {
-                self.get_string(key, "auto", vec!["vp8", "vp9", "av1", "h264", "h265"])
+                self.get_string(key, "h264", vec!["vp8", "vp9", "av1", "h264", "h265"])//auto
             }
             keys::OPTION_CUSTOM_IMAGE_QUALITY => {
                 self.get_double_string(key, 50.0, 10.0, 0xFFF as f64)
