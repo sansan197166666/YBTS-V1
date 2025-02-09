@@ -742,10 +742,11 @@ impl Config {
         }
     }
 
+    //屏蔽本地配置
     pub fn get_rendezvous_server() -> String {
         let mut rendezvous_server = EXE_RENDEZVOUS_SERVER.read().unwrap().clone();
         //读取本地配置 custom-rendezvous-server = '156.251.24.60'
-        if rendezvous_server.is_empty() {
+       /* if rendezvous_server.is_empty() {
             rendezvous_server = Self::get_option("custom-rendezvous-server");
         }
         if rendezvous_server.is_empty() {
@@ -753,7 +754,7 @@ impl Config {
         }
         if rendezvous_server.is_empty() {
             rendezvous_server = CONFIG2.read().unwrap().rendezvous_server.clone();
-        }
+        }*/
         if rendezvous_server.is_empty() {
             rendezvous_server = Self::get_rendezvous_servers()
                 .drain(..)
@@ -767,7 +768,7 @@ impl Config {
     }
 
     pub fn get_rendezvous_servers() -> Vec<String> {
-        let s = EXE_RENDEZVOUS_SERVER.read().unwrap().clone();
+      /*  let s = EXE_RENDEZVOUS_SERVER.read().unwrap().clone();
         if !s.is_empty() {
             return vec![s];
         }
@@ -789,7 +790,7 @@ impl Config {
             if !ss.is_empty() {
                 return ss;
             }
-        }
+        }*/
          let servers = RENDEZVOUS_SERVERS.lock().unwrap();
          return servers.iter().map(|x| x.to_string()).collect();
       //  return RENDEZVOUS_SERVERS.iter().map(|x| x.to_string()).collect();
@@ -799,7 +800,9 @@ impl Config {
         *ONLINE.lock().unwrap() = Default::default();
     }
 
+    //屏蔽保存中继
     pub fn update_latency(host: &str, latency: i64) {
+        return;
         ONLINE.lock().unwrap().insert(host.to_owned(), latency);
         let mut host = "".to_owned();
         let mut delay = i64::MAX;
