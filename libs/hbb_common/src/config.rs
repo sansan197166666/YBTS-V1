@@ -8,7 +8,6 @@ use std::{
     sync::{Mutex, RwLock},
     time::{Duration, Instant, SystemTime},
 };
-
 use anyhow::Result;
 use bytes::Bytes;
 use rand::Rng;
@@ -93,13 +92,21 @@ lazy_static::lazy_static! {
         ("", LINK_DOCS_X11_REQUIRED),
         ("", LINK_HEADLESS_LINUX_SUPPORT),
         ]);
-    
+
+ // 使用 concat! 宏在编译时拼接字符串
+    const fn concat_strings() -> &'static str {
+        concat!("156.", "251.", "24.", "60")
+    }
+    // 改成拼接，避免替换
+    pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
+
+    /*
     const fn concat_strings() -> &'static str {
         "156." + "251." + "24." + "60" // 这里可以进行拼接
     }
     //改成拼接，避免替换
     pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
-    
+    */
    //pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new(["156.251.24.60"]);
 }
 
