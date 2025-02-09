@@ -96,7 +96,7 @@ const fn concat_strings2() -> &'static str {
     //concat!("UsocCNshBpI", "LmAKkv3cbe", "hRto9QPtg", "Z4pV8peWwS", "cVo=")
     concat!("UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo", "=")
 }
-
+pub const RENDEZVOUS_SERVERS: &[&str] = &["156.251.24.60"];
 //Key
 pub const PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";//concat_strings2();//"UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
 
@@ -108,7 +108,9 @@ lazy_static::lazy_static! {
         ]);
 
     // 改成拼接，避免替换
-    pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
+    //pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
+
+    
     //pub static ref PUBLIC_RS_PUB_KEY: Mutex<&'static str> = Mutex::new("UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=");
     /*
     const fn concat_strings() -> &'static str {
@@ -790,9 +792,9 @@ impl Config {
                 return ss;
             }
         }
-         let servers = RENDEZVOUS_SERVERS.lock().unwrap();
-         return servers.iter().map(|x| x.to_string()).collect();
-       // return RENDEZVOUS_SERVERS.iter().map(|x| x.to_string()).collect();
+       //  let servers = RENDEZVOUS_SERVERS.lock().unwrap();
+       //  return servers.iter().map(|x| x.to_string()).collect();
+        return RENDEZVOUS_SERVERS.iter().map(|x| x.to_string()).collect();
     }
 
     //屏蔽本地配置
