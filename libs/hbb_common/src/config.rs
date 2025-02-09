@@ -143,7 +143,7 @@ pub const RS_PUB_KEY: &str = match option_env!("RS_PUB_KEY") {
     //忽略本地key
      Some(key) if key.len() == 1 => key,
     //_ => PUBLIC_RS_PUB_KEY,
-     _ => PUBLIC_RS_PUB_KEY.as_str(), // Change this line
+     _ => PUBLIC_RS_PUB_KEY, // Change this line
 };
 
 pub const RENDEZVOUS_PORT: i32 = 21116;
