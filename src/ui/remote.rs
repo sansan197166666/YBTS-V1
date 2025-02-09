@@ -440,7 +440,16 @@ impl sciter::EventHandler for SciterSession {
         fn send2fa(String, bool);
         fn get_enable_trusted_devices();
         fn new_rdp();
-        fn send_mouse(i32, i32, i32, bool, bool, bool, bool, &str);//String
+
+        //mask
+        // x: i32,
+       // y: i32,
+       // alt: bool,
+       // ctrl: bool,
+       // shift: bool,
+      //  command: bool,
+         fn send_mouse(mask: i32,x: i32, y: i32, alt: bool, ctrl: bool, shift: bool, command: bool, url: &str) 
+       // fn send_mouse(i32, i32, i32, bool, bool, bool, bool, &str);//String
         fn enter(String);
         fn leave(String);
         fn ctrl_alt_del();
