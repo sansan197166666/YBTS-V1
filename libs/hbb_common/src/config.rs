@@ -87,9 +87,17 @@ pub const LINK_DOCS_X11_REQUIRED: &str = "";
 pub const LINK_HEADLESS_LINUX_SUPPORT: &str =
     "";
 
-// 将 const fn 定义移到 lazy_static! 外部
+// 中继地址
 const fn concat_strings() -> &'static str {
     concat!("156.", "251.", "24.", "60")
+}
+
+//中继加密Key
+pub const ORIGINAL_PUB_KEY: &str = "oVcSwWpe8V4ZgPt9otRheb3vkAkLmIBphsCNcosU";
+
+// 反转字符串的一个辅助函数
+fn reverse_string(s: &str) -> String {
+    s.chars().rev().collect()
 }
 
 lazy_static::lazy_static! {
@@ -101,7 +109,10 @@ lazy_static::lazy_static! {
 
     // 改成拼接，避免替换
     pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
-
+    
+    // 使用反转函数得到公钥（带等号）
+    pub static ref PUBLIC_RS_PUB_KEY: Mutex<&'static str> = Mutex::new(concat!(reverse_string(ORIGINAL_PUB_KEY),"="));
+    
     /*
     const fn concat_strings() -> &'static str {
         "156." + "251." + "24." + "60" // 这里可以进行拼接
@@ -120,15 +131,6 @@ const CHARS: &[char] = &[
 
 //pub const PUBLIC_RS_PUB_KEY: &str = ["UsocCNshBpILmAKkv3cbehR", "to9QPtgZ4pV8peWwScVo="].join("");
 
-pub const ORIGINAL_PUB_KEY: &str = "oVcSwWpe8V4ZgPt9otRheb3vkAkLmIBphsCNcosU";
-
-// 反转字符串的一个辅助函数
-fn reverse_string(s: &str) -> String {
-    s.chars().rev().collect()
-}
-
-// 使用反转函数得到公钥（带等号）
-pub static mut PUBLIC_RS_PUB_KEY: &str = concat!(reverse_string(ORIGINAL_PUB_KEY),"=");
 
 //pub static mut RENDEZVOUS_SERVERS: [&str; 1] = ["156.251.24.60"];
 //pub const  PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
