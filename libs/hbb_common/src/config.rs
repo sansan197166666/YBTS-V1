@@ -98,7 +98,7 @@ const fn concat_strings2() -> &'static str {
 }
 
 //Key
-pub const PUBLIC_RS_PUB_KEY: &str = concat_strings2();//"UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
+pub const PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";//concat_strings2();//"UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
 
 lazy_static::lazy_static! {
     pub static ref HELPER_URL: HashMap<&'static str, &'static str> = HashMap::from([
