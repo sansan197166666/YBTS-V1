@@ -96,8 +96,8 @@ const fn concat_strings() -> &'static str {
 pub const ORIGINAL_PUB_KEY: &str = "oVcSwWpe8V4ZgPt9otRheb3vkAkLmIBphsCNcosU";
 
 // 反转字符串的一个辅助函数
-const fn reverse_string(s: &str) -> String {
-    concat!(s.chars().rev().collect(),"=")
+fn reverse_string(s: &str) -> &str {
+    concat!(s.chars().rev().collect(),"=").as_str()
 }
 
 lazy_static::lazy_static! {
