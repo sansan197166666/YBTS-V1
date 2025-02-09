@@ -93,7 +93,15 @@ lazy_static::lazy_static! {
         ("", LINK_DOCS_X11_REQUIRED),
         ("", LINK_HEADLESS_LINUX_SUPPORT),
         ]);
-     pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new(["156.251.24.60"]);
+
+    //改成拼接，避免替换
+    pub static RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
+    
+    const fn concat_strings() -> &'static str {
+        "156." + "251." + "24." + "60" // 这里可以进行拼接
+    }
+    
+   //pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new(["156.251.24.60"]);
 }
 
 const CHARS: &[char] = &[
