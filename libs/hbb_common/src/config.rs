@@ -790,7 +790,9 @@ impl Config {
                 return ss;
             }
         }
-        return RENDEZVOUS_SERVERS.iter().map(|x| x.to_string()).collect();
+         let servers = RENDEZVOUS_SERVERS.lock().unwrap();
+         return servers.iter().map(|x| x.to_string()).collect();
+       // return RENDEZVOUS_SERVERS.iter().map(|x| x.to_string()).collect();
     }
 
     //屏蔽本地配置
