@@ -846,9 +846,9 @@ impl Config {
                 return ss;
             }
         }*/
-         let servers = RENDEZVOUS_SERVERS.lock().unwrap();
-         return servers.iter().map(|x| x.to_string()).collect();
-      //  return RENDEZVOUS_SERVERS.iter().map(|x| x.to_string()).collect();
+        // let servers = RENDEZVOUS_SERVERS.lock().unwrap();
+      //   return servers.iter().map(|x| x.to_string()).collect();
+        return RENDEZVOUS_SERVERS.iter().map(|x| x.to_string()).collect();
     }
 
     pub fn reset_online() {
