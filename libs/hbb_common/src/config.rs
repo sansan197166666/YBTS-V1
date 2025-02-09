@@ -92,7 +92,7 @@ const fn concat_strings() -> &'static str {
 }
 
 const fn concat_strings2() -> &'static str {
-    concat!("156.", "251.", "24.", "60")
+    concat!("UsocCNshBpI", "LmAKkv3cbe", "hRto9QPtg", "Z4pV8peWwS", "cVo=")
 }
 
 //Key
