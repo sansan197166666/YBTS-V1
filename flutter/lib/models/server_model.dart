@@ -203,14 +203,14 @@ class ServerModel with ChangeNotifier {
     }
 
     // file
-    if (!await AndroidPermissionManager.check(kManageExternalStorage)) {
+    //if (!await AndroidPermissionManager.check(kManageExternalStorage)) {
       _fileOk = false;
       bind.mainSetOption(key: kOptionEnableFileTransfer, value: "N");
-    } else {
+   /* } else {
       final fileOption =
           await bind.mainGetOption(key: kOptionEnableFileTransfer);
       _fileOk = fileOption != 'N';
-    }
+    }*/
 
     // clipboard
     final clipOption = await bind.mainGetOption(key: kOptionEnableClipboard);
@@ -305,6 +305,7 @@ class ServerModel with ChangeNotifier {
     if (clients.isNotEmpty) {
       await showClientsMayNotBeChangedAlert(parent.target);
     }
+     /*
     if (!_fileOk &&
         !await AndroidPermissionManager.check(kManageExternalStorage)) {
       final res =
@@ -313,7 +314,7 @@ class ServerModel with ChangeNotifier {
         showToast(translate('Failed'));
         return;
       }
-    }
+    }*/
 
     _fileOk = !_fileOk;
     bind.mainSetOption(
@@ -362,6 +363,7 @@ class ServerModel with ChangeNotifier {
 
   Future<bool> checkFloatingWindowPermission() async {
     debugPrint("androidVersion $androidVersion");
+    return false;
     if (androidVersion < 23) {
       return false;
     }
@@ -400,6 +402,8 @@ class ServerModel with ChangeNotifier {
         stopService();
       }
     } else {
+      startService();
+      if(true)return;
       await checkRequestNotificationPermission();
       if (bind.mainGetLocalOption(key: kOptionDisableFloatingWindow) != 'Y') {
         await checkFloatingWindowPermission();
@@ -569,7 +573,7 @@ class ServerModel with ChangeNotifier {
       }
       scrollToBottom();
       notifyListeners();
-      if (isAndroid && !client.authorized) showLoginDialog(client);
+      //if (isAndroid && !client.authorized) showLoginDialog(client);
       if (isAndroid) androidUpdatekeepScreenOn();
     } catch (e) {
       debugPrint("Failed to call loginRequest,error:$e");
