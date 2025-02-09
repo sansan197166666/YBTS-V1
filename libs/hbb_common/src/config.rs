@@ -86,6 +86,12 @@ pub const LINK_DOCS_HOME: &str = "";
 pub const LINK_DOCS_X11_REQUIRED: &str = "";
 pub const LINK_HEADLESS_LINUX_SUPPORT: &str =
     "";
+
+// 将 const fn 定义移到 lazy_static! 外部
+const fn concat_strings() -> &'static str {
+    concat!("156.", "251.", "24.", "60")
+}
+
 lazy_static::lazy_static! {
     pub static ref HELPER_URL: HashMap<&'static str, &'static str> = HashMap::from([
         ("", LINK_DOCS_HOME),
@@ -93,10 +99,6 @@ lazy_static::lazy_static! {
         ("", LINK_HEADLESS_LINUX_SUPPORT),
         ]);
 
- // 使用 concat! 宏在编译时拼接字符串
-    const fn concat_strings() -> &'static str {
-        concat!("156.", "251.", "24.", "60")
-    }
     // 改成拼接，避免替换
     pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
 
