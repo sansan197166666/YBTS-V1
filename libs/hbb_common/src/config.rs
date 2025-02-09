@@ -91,13 +91,9 @@ pub const LINK_HEADLESS_LINUX_SUPPORT: &str =
 const fn concat_strings() -> &'static str {
     concat!("156.", "251.", "24.", "60")
 }
+
 //Key
-pub const PART1: &str = "Usoc";
-pub const PART2: &str = "CNshBpILmAKkv3cbehRto9QPtgZ4p";
-pub const PART3: &str = "V8peWwScVo=";
-
-pub const PUBLIC_RS_PUB_KEY: &str = concat!(PART1, PART2, PART3);
-
+//pub const PUBLIC_RS_PUB_KEY: &str = "UsocCNshBp" "ILmAKkv3cbe" "hRto9QPtgZ4" "pV8peWwScVo=";
 
 lazy_static::lazy_static! {
     pub static ref HELPER_URL: HashMap<&'static str, &'static str> = HashMap::from([
@@ -108,7 +104,7 @@ lazy_static::lazy_static! {
 
     // 改成拼接，避免替换
     pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
-    
+    pub static ref PUBLIC_RS_PUB_KEY: Mutex<&'static str> = Mutex::new("UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=");
     /*
     const fn concat_strings() -> &'static str {
         "156." + "251." + "24." + "60" // 这里可以进行拼接
