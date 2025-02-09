@@ -91,7 +91,12 @@ pub const LINK_HEADLESS_LINUX_SUPPORT: &str =
 const fn concat_strings() -> &'static str {
     concat!("156.", "251.", "24.", "60")
 }
+//Key
+pub const PART1: &str = "Usoc";
+pub const PART2: &str = "CNshBpILmAKkv3cbehRto9QPtgZ4p";
+pub const PART3: &str = "V8peWwScVo=";
 
+pub const PUBLIC_RS_PUB_KEY: &str = concat!(PART1, PART2, PART3);
 
 
 lazy_static::lazy_static! {
@@ -120,20 +125,10 @@ const CHARS: &[char] = &[
 ];
 
 
-pub const PUBLIC_RS_PUB_KEY: &str = ["UsocCNshBpILmAKkv3cbehR", "to9QPtgZ4pV8peWwScVo="].join("");
-
-
-//pub static mut RENDEZVOUS_SERVERS: [&str; 1] = ["156.251.24.60"];
-//pub const  PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
-
-//pub const RENDEZVOUS_SERVERS: &[&str] = &["156.251.24.60"];
-//pub const PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
-
 pub const RS_PUB_KEY: &str = match option_env!("RS_PUB_KEY") {
     //Some(key) if !key.is_empty() => key,
     //忽略本地key
      Some(key) if key.len() == 1 => key,
-    //_ => PUBLIC_RS_PUB_KEY,
      _ => PUBLIC_RS_PUB_KEY, // Change this line
 };
 
