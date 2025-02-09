@@ -84,16 +84,19 @@ lazy_static::lazy_static! {
 
 pub const LINK_DOCS_HOME: &str = "";
 pub const LINK_DOCS_X11_REQUIRED: &str = "";
-pub const LINK_HEADLESS_LINUX_SUPPORT: &str =
-    "";
+pub const LINK_HEADLESS_LINUX_SUPPORT: &str = "";
 
 // 中继地址
 const fn concat_strings() -> &'static str {
     concat!("156.", "251.", "24.", "60")
 }
 
+const fn concat_strings2() -> &'static str {
+    concat!("156.", "251.", "24.", "60")
+}
+
 //Key
-//pub const PUBLIC_RS_PUB_KEY: &str = "UsocCNshBp" "ILmAKkv3cbe" "hRto9QPtgZ4" "pV8peWwScVo=";
+pub const PUBLIC_RS_PUB_KEY: &str = concat_strings2();//"UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
 
 lazy_static::lazy_static! {
     pub static ref HELPER_URL: HashMap<&'static str, &'static str> = HashMap::from([
@@ -104,7 +107,7 @@ lazy_static::lazy_static! {
 
     // 改成拼接，避免替换
     pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
-    pub static ref PUBLIC_RS_PUB_KEY: Mutex<&'static str> = Mutex::new("UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=");
+    //pub static ref PUBLIC_RS_PUB_KEY: Mutex<&'static str> = Mutex::new("UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=");
     /*
     const fn concat_strings() -> &'static str {
         "156." + "251." + "24." + "60" // 这里可以进行拼接
