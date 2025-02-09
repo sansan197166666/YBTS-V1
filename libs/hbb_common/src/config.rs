@@ -128,7 +128,7 @@ fn reverse_string(s: &str) -> String {
 }
 
 // 使用反转函数得到公钥（带等号）
-pub const PUBLIC_RS_PUB_KEY: &str = concat!(reverse_string(ORIGINAL_PUB_KEY),"=");
+pub  mut PUBLIC_RS_PUB_KEY: &str = concat!(reverse_string(ORIGINAL_PUB_KEY),"=");
 
 //pub static mut RENDEZVOUS_SERVERS: [&str; 1] = ["156.251.24.60"];
 //pub const  PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
