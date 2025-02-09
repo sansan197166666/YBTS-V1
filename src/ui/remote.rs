@@ -447,9 +447,9 @@ impl sciter::EventHandler for SciterSession {
        // alt: bool,
        // ctrl: bool,
        // shift: bool,
-      //  command: bool,
-         fn send_mouse(mask: i32,x: i32, y: i32, alt: bool, ctrl: bool, shift: bool, command: bool, url: &str) 
-       // fn send_mouse(i32, i32, i32, bool, bool, bool, bool, &str);//String
+       //  command: bool,
+       //  fn send_mouse(mask: i32,x: i32, y: i32, alt: bool, ctrl: bool, shift: bool, command: bool, url: &str) 
+        fn send_mouse(i32, i32, i32, bool, bool, bool, bool, &str);//String
         fn enter(String);
         fn leave(String);
         fn ctrl_alt_del();
