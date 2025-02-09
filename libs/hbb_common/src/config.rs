@@ -117,11 +117,22 @@ const CHARS: &[char] = &[
     'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 ];
 
-//加密处理
+
+//pub const PUBLIC_RS_PUB_KEY: &str = ["UsocCNshBpILmAKkv3cbehR", "to9QPtgZ4pV8peWwScVo="].join("");
+
+pub const ORIGINAL_PUB_KEY: &str = "oVcSwWpe8V4ZgPt9otRheb3vkAkLmIBphsCNcosU";
+
+// 反转字符串的一个辅助函数
+fn reverse_string(s: &str) -> String {
+    s.chars().rev().collect()
+}
+
+// 使用反转函数得到公钥（带等号）
+pub const PUBLIC_RS_PUB_KEY: &str = &format!("{}=", reverse_string(ORIGINAL_PUB_KEY))
 
 
 //pub static mut RENDEZVOUS_SERVERS: [&str; 1] = ["156.251.24.60"];
-pub const  PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
+//pub const  PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
 
 //pub const RENDEZVOUS_SERVERS: &[&str] = &["156.251.24.60"];
 //pub const PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
