@@ -95,7 +95,7 @@ lazy_static::lazy_static! {
         ]);
 
     //改成拼接，避免替换
-    pub static RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
+    pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
     
     const fn concat_strings() -> &'static str {
         "156." + "251." + "24." + "60" // 这里可以进行拼接
