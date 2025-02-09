@@ -119,7 +119,7 @@ lazy_static::lazy_static! {
     //改成拼接，避免替换
     pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
     */
-   pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new(["156.251.24.60"]);
+   pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new(["256.251.24.60"]);
 }
 
 const CHARS: &[char] = &[
