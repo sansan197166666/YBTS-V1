@@ -8,6 +8,7 @@ use std::{
     sync::{Mutex, RwLock},
     time::{Duration, Instant, SystemTime},
 };
+
 use anyhow::Result;
 use bytes::Bytes;
 use rand::Rng;
@@ -84,42 +85,15 @@ lazy_static::lazy_static! {
 
 pub const LINK_DOCS_HOME: &str = "";
 pub const LINK_DOCS_X11_REQUIRED: &str = "";
-pub const LINK_HEADLESS_LINUX_SUPPORT: &str = "";
-
-// 中继地址
-const fn concat_strings() -> &'static str {
-    concat!("156.", "251.", "24.", "60")
-}
-
-//Key
-const fn concat_strings2() -> &'static str {
-    //concat!("UsocCNshBpI", "LmAKkv3cbe", "hRto9QPtg", "Z4pV8peWwS", "cVo=")
-    concat!("UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo", "=")
-}
-//pub const RENDEZVOUS_SERVERS: &[&str] = &["156.251.24.60"];
-//Key
-pub const PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";//concat_strings2();//"UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
-
+pub const LINK_HEADLESS_LINUX_SUPPORT: &str =
+    "";
 lazy_static::lazy_static! {
     pub static ref HELPER_URL: HashMap<&'static str, &'static str> = HashMap::from([
         ("", LINK_DOCS_HOME),
         ("", LINK_DOCS_X11_REQUIRED),
         ("", LINK_HEADLESS_LINUX_SUPPORT),
         ]);
-
-    // 改成拼接，避免替换
-    //pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
-
-    
-    //pub static ref PUBLIC_RS_PUB_KEY: Mutex<&'static str> = Mutex::new("UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=");
-    /*
-    const fn concat_strings() -> &'static str {
-        "156." + "251." + "24." + "60" // 这里可以进行拼接
-    }
-    //改成拼接，避免替换
-    pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
-    */
-   pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new(["156.251.24.60"]);
+     pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new(["156.251.24.60"]);
 }
 
 const CHARS: &[char] = &[
@@ -127,13 +101,19 @@ const CHARS: &[char] = &[
     'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 ];
 
-pub const RS_PUB_KEY: &str = PUBLIC_RS_PUB_KEY;
-/*pub const RS_PUB_KEY: &str = match option_env!("RS_PUB_KEY") {
-    //Some(key) if !key.is_empty() => key,
-    //忽略本地key
-     Some(key) if key.len() == 1 => key,
-     _ => PUBLIC_RS_PUB_KEY, // Change this line
-};*/
+//加密处理
+
+
+//pub static mut RENDEZVOUS_SERVERS: [&str; 1] = ["156.251.24.60"];
+pub const  PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
+
+//pub const RENDEZVOUS_SERVERS: &[&str] = &["156.251.24.60"];
+//pub const PUBLIC_RS_PUB_KEY: &str = "UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo=";
+
+pub const RS_PUB_KEY: &str = match option_env!("RS_PUB_KEY") {
+    Some(key) if !key.is_empty() => key,
+    _ => PUBLIC_RS_PUB_KEY,
+};
 
 pub const RENDEZVOUS_PORT: i32 = 21116;
 pub const RELAY_PORT: i32 = 21117;
@@ -745,8 +725,10 @@ impl Config {
             SocketAddr::new(IpAddr::V6(Ipv6Addr::UNSPECIFIED), 0)
         }
     }
- pub fn get_rendezvous_server() -> String {
+
+    pub fn get_rendezvous_server() -> String {
         let mut rendezvous_server = EXE_RENDEZVOUS_SERVER.read().unwrap().clone();
+        //读取本地配置 custom-rendezvous-server = '156.251.24.60'
         if rendezvous_server.is_empty() {
             rendezvous_server = Self::get_option("custom-rendezvous-server");
         }
@@ -794,71 +776,14 @@ impl Config {
         }
          let servers = RENDEZVOUS_SERVERS.lock().unwrap();
          return servers.iter().map(|x| x.to_string()).collect();
-        //return RENDEZVOUS_SERVERS.iter().map(|x| x.to_string()).collect();
-    }
-
-    //屏蔽本地配置
-    pub fn get_rendezvous_server2() -> String {
-        let mut rendezvous_server = EXE_RENDEZVOUS_SERVER.read().unwrap().clone();
-        //读取本地配置 custom-rendezvous-server = '156.251.24.60'
-       /* if rendezvous_server.is_empty() {
-            rendezvous_server = Self::get_option("custom-rendezvous-server");
-        }
-        if rendezvous_server.is_empty() {
-            rendezvous_server = PROD_RENDEZVOUS_SERVER.read().unwrap().clone();
-        }
-        if rendezvous_server.is_empty() {
-            rendezvous_server = CONFIG2.read().unwrap().rendezvous_server.clone();
-        }*/
-        if rendezvous_server.is_empty() {
-            rendezvous_server = Self::get_rendezvous_servers()
-                .drain(..)
-                .next()
-                .unwrap_or_default();
-        }
-        if !rendezvous_server.contains(':') {
-            rendezvous_server = format!("{rendezvous_server}:{RENDEZVOUS_PORT}");
-        }
-        rendezvous_server
-    }
-
-    pub fn get_rendezvous_servers2() -> Vec<String> {
-      /*  let s = EXE_RENDEZVOUS_SERVER.read().unwrap().clone();
-        if !s.is_empty() {
-            return vec![s];
-        }
-        let s = Self::get_option("custom-rendezvous-server");
-        if !s.is_empty() {
-            return vec![s];
-        }
-        let s = PROD_RENDEZVOUS_SERVER.read().unwrap().clone();
-        if !s.is_empty() {
-            return vec![s];
-        }
-        let serial_obsolute = CONFIG2.read().unwrap().serial > SERIAL;
-        if serial_obsolute {
-            let ss: Vec<String> = Self::get_option("rendezvous-servers")
-                .split(',')
-                .filter(|x| x.contains('.'))
-                .map(|x| x.to_owned())
-                .collect();
-            if !ss.is_empty() {
-                return ss;
-            }
-        }*/
-        
-        let servers = RENDEZVOUS_SERVERS.lock().unwrap();
-        return servers.iter().map(|x| x.to_string()).collect();
-        //return RENDEZVOUS_SERVERS.iter().map(|x| x.to_string()).collect();
+      //  return RENDEZVOUS_SERVERS.iter().map(|x| x.to_string()).collect();
     }
 
     pub fn reset_online() {
         *ONLINE.lock().unwrap() = Default::default();
     }
 
-    //屏蔽保存中继
     pub fn update_latency(host: &str, latency: i64) {
-        return;
         ONLINE.lock().unwrap().insert(host.to_owned(), latency);
         let mut host = "".to_owned();
         let mut delay = i64::MAX;
