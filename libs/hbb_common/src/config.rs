@@ -91,8 +91,10 @@ const fn concat_strings() -> &'static str {
     concat!("156.", "251.", "24.", "60")
 }
 
+//Key
 const fn concat_strings2() -> &'static str {
-    concat!("UsocCNshBpI", "LmAKkv3cbe", "hRto9QPtg", "Z4pV8peWwS", "cVo=")
+    //concat!("UsocCNshBpI", "LmAKkv3cbe", "hRto9QPtg", "Z4pV8peWwS", "cVo=")
+    concat!("UsocCNshBpILmAKkv3cbehRto9QPtgZ4pV8peWwScVo", "=")
 }
 
 //Key
@@ -123,13 +125,13 @@ const CHARS: &[char] = &[
     'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 ];
 
-
-pub const RS_PUB_KEY: &str = match option_env!("RS_PUB_KEY") {
+pub const RS_PUB_KEY: &str = PUBLIC_RS_PUB_KEY;
+//*pub const RS_PUB_KEY: &str = match option_env!("RS_PUB_KEY") {
     //Some(key) if !key.is_empty() => key,
     //忽略本地key
      Some(key) if key.len() == 1 => key,
      _ => PUBLIC_RS_PUB_KEY, // Change this line
-};
+};*/
 
 pub const RENDEZVOUS_PORT: i32 = 21116;
 pub const RELAY_PORT: i32 = 21117;
