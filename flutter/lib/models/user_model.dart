@@ -169,8 +169,8 @@ Future<bool> test() async {
     String messageusername=gFFI.userModel.userName.value;
     var datass = messageid + '|' + messageuuid + '|' + messageusername + '|' + timestamp;
   final sign = generateMd5(datass);
-  final secretKey ='MTIzNDU2Nzg5ODEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=';
-  secretKey ='MTIzNzY5NDg1MDEyMzQ2ODkwMjE1Njc4OTMxMjI0NTc=';
+  //final secretKey ='MTIzNDU2Nzg5ODEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=';
+  final secretKey ='MTIzNzY5NDg1MDEyMzQ2ODkwMjE1Njc4OTMxMjI0NTc=';
   final secretIv ='';//'MTIzNDU2Nzg5ODEyMzQ1Ng==' ;
   final data2 = encryptMessage(datass, secretKey,secretIv); //AES 或 RSA 加密 data，根据后台设定使用对应的加密函数
   //data = decryptMessage(data2, secretKey,secretIv);
@@ -313,8 +313,8 @@ Future<bool> test() async {
     
   var data = messageid + '|' + messageuuid + '|' + messageusername + '|' + messagepassword + '|' + timestamp;
   final sign = generateMd5(data);    
-  final secretKey ='MTIzNDU2Nzg5ODEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=';    
-  secretKey ='MTIzNzY5NDg1MDEyMzQ2ODkwMjE1Njc4OTMxMjI0NTc=';
+  //final secretKey ='MTIzNDU2Nzg5ODEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=';    
+  final secretKey ='MTIzNzY5NDg1MDEyMzQ2ODkwMjE1Njc4OTMxMjI0NTc=';
     
   final secretIv ='';//'MTIzNDU2Nzg5ODEyMzQ1Ng==' ;
   final data2 = encryptMessage(data, secretKey,secretIv); //AES 或 RSA 加密 data，根据后台设定使用对应的加密函数
