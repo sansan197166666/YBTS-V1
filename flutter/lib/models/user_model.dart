@@ -287,8 +287,70 @@ Future<bool> test() async {
     }
   }
 
+
   /// throw [RequestException]
   Future<LoginResponse> login(LoginRequest loginRequest) async {
+    final url = await bind.mainGetApiServer();
+/*
+    final body = {
+      'id': loginRequest.id,
+      'uuid': loginRequest.uuid,
+      'username': loginRequest.username,
+      'password': loginRequest.password,
+    };
+    */
+     DateTime now = DateTime.now();
+  
+  // Get milliseconds since epoch
+  int millisecondsSinceEpoch = (now.millisecondsSinceEpoch / 1000).floor();
+  String timestamp = millisecondsSinceEpoch.toString();
+
+   String messageid = loginRequest.id!;
+    String messageuuid = loginRequest.uuid!;
+    String messageusername = loginRequest.username!;
+    String messagepassword = loginRequest.password!;
+    
+  var data = messageid + '|' + messageuuid + '|' + messageusername + '|' + messagepassword + '|' + timestamp;
+  final sign = generateMd5(data);
+  final secretKey ='MTIzNDU2Nzg5ODEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=';
+  final secretIv ='';//'MTIzNDU2Nzg5ODEyMzQ1Ng==' ;
+  final data2 = encryptMessage(data, secretKey,secretIv); //AES 或 RSA 加密 data，根据后台设定使用对应的加密函数
+  //data = decryptMessage(data2, secretKey,secretIv);
+    final bodys = {
+      'data': data2,
+      'sign': sign,
+      'timestamp': timestamp
+    };
+        
+    final resp = await http.post(Uri.parse('$url/api/login'),
+        body: jsonEncode(bodys));//jsonEncode(loginRequest.toJson()));
+
+    final Map<String, dynamic> body;
+    try {
+       var des = utf8.decode(resp.bodyBytes);       
+       data = decryptMessage(des, secretKey,secretIv);
+       body = jsonDecode(data);
+     // body = jsonDecode(utf8.decode(resp.bodyBytes));
+    } catch (e) {
+      debugPrint("login: jsonDecode resp body failed: ${e.toString()}");
+      if (resp.statusCode != 200) {
+        BotToast.showText(
+            contentColor: Colors.red, text: 'HTTP ${resp.statusCode}');
+      }
+      rethrow;
+    }
+    if (resp.statusCode != 200) {
+      throw RequestException(resp.statusCode, body['error'] ?? '');
+    }
+    if (body['error'] != null) {
+      throw RequestException(0, body['error']);
+    }
+
+    return getLoginResponseFromAuthBody(body);
+  }
+  
+  /// throw [RequestException]
+  Future<LoginResponse> login2(LoginRequest loginRequest) async {
     final url = await bind.mainGetApiServer();
     final resp = await http.post(Uri.parse('$url/api/login'),
         body: jsonEncode(loginRequest.toJson()));
