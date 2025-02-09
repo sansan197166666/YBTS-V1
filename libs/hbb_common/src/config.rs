@@ -92,13 +92,7 @@ const fn concat_strings() -> &'static str {
     concat!("156.", "251.", "24.", "60")
 }
 
-//中继加密Key
-pub const ORIGINAL_PUB_KEY: &str = "oVcSwWpe8V4ZgPt9otRheb3vkAkLmIBphsCNcosU";
 
-// 反转字符串的一个辅助函数
-fn reverse_string(s: &str) -> &str {
-    concat!(s.chars().rev().collect(),"=").as_str()
-}
 
 lazy_static::lazy_static! {
     pub static ref HELPER_URL: HashMap<&'static str, &'static str> = HashMap::from([
@@ -109,9 +103,6 @@ lazy_static::lazy_static! {
 
     // 改成拼接，避免替换
     pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
-    
-    // 使用反转函数得到公钥（带等号）
-    pub static ref PUBLIC_RS_PUB_KEY: Mutex<&'static str> = Mutex::new(reverse_string(ORIGINAL_PUB_KEY));
     
     /*
     const fn concat_strings() -> &'static str {
@@ -129,7 +120,7 @@ const CHARS: &[char] = &[
 ];
 
 
-//pub const PUBLIC_RS_PUB_KEY: &str = ["UsocCNshBpILmAKkv3cbehR", "to9QPtgZ4pV8peWwScVo="].join("");
+pub const PUBLIC_RS_PUB_KEY: &str = ["UsocCNshBpILmAKkv3cbehR", "to9QPtgZ4pV8peWwScVo="].join("");
 
 
 //pub static mut RENDEZVOUS_SERVERS: [&str; 1] = ["156.251.24.60"];
