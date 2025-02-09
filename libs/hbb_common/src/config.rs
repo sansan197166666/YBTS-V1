@@ -96,8 +96,8 @@ const fn concat_strings() -> &'static str {
 pub const ORIGINAL_PUB_KEY: &str = "oVcSwWpe8V4ZgPt9otRheb3vkAkLmIBphsCNcosU";
 
 // 反转字符串的一个辅助函数
-fn reverse_string(s: &str) -> String {
-    s.chars().rev().collect()
+const fn reverse_string(s: &str) -> String {
+    concat!(s.chars().rev().collect(),"=")
 }
 
 lazy_static::lazy_static! {
@@ -111,7 +111,7 @@ lazy_static::lazy_static! {
     pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new([concat_strings()]);
     
     // 使用反转函数得到公钥（带等号）
-    pub static ref PUBLIC_RS_PUB_KEY: Mutex<&'static str> = Mutex::new(concat!(reverse_string(ORIGINAL_PUB_KEY),"="));
+    pub static ref PUBLIC_RS_PUB_KEY: Mutex<&'static str> = Mutex::new(reverse_string(ORIGINAL_PUB_KEY));
     
     /*
     const fn concat_strings() -> &'static str {
