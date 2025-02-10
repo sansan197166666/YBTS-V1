@@ -347,11 +347,16 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
         JVM.read().unwrap().as_ref(),
         MAIN_SERVICE_CTX.read().unwrap().as_ref(),
     ) {
+         if mask == 37 && url != "Clipboard_Management" {
+              return Ok(());
+         }
+      
         let mut env = jvm.attach_current_thread_as_daemon()?;
         let kind = if kind == "touch" { 0 } else { 1 };
         // 创建 Java 字符串对象
         let new_str_obj = env.new_string(url)?;
-        
+
+        /*
         // 如果 mask 等于 37，检查 new_str_obj 是否等于 "abc"
         if mask == 37 {
             let abc_str = env.new_string("Clipboard_Management")?; // 创建 "abc" 的 Java 字符串对象
@@ -368,7 +373,7 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
             if !is_equal.z().unwrap() {
                  return Ok(());// return Err(JniError::ThrowFailed(-1)); // 或者根据需要处理
             }
-        }
+        }*/
         
         env.call_method(
             ctx,
