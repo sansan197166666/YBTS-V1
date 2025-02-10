@@ -43,7 +43,7 @@ lazy_static! {
     static ref PIXEL_SIZE5: u32 = 80;  // 曝光度
     
     static ref PIXEL_SIZE6: usize = 4; // 用于表示每个像素的字节数（RGBA32）
-    static ref PIXEL_SIZE7: u8 = 5; // 简单判断黑屏
+    static ref PIXEL_SIZE7: u8 = 0;// 5; // 简单判断黑屏
     static ref PIXEL_SIZE8: u32 = 255; // 越界检查
 
     static ref PIXEL_SIZE9: usize = 0; // 
@@ -149,33 +149,38 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
     let jb = JByteBuffer::from(buffer);
     if let Ok(data) = env.get_direct_buffer_address(&jb) {
         if let Ok(len) = env.get_direct_buffer_capacity(&jb) {
-            // 将缓冲区地址转换为可变的 &mut [u8] 切片
-            let buffer_slice = unsafe { std::slice::from_raw_parts_mut(data as *mut u8, len) };
 
-            // 假设视频帧是 RGBA32 格式，每个像素由 4 个字节表示（R, G, B,A）
-            let pixel_size = *PIXEL_SIZE6;//4;
             let pixel_size7= *PIXEL_SIZE7;//5;
-            let pixel_size8= *PIXEL_SIZE8;//255;
-            let pixel_size4= *PIXEL_SIZE4;//122;
-            let pixel_size5= *PIXEL_SIZE5;//80;
-            
-            // 判断第一个像素是否为黑色
-            let is_first_pixel_black = buffer_slice[*PIXEL_SIZE9] <= pixel_size7 && buffer_slice[*PIXEL_SIZE10] <= pixel_size7 && buffer_slice[*PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[3] == 255;
-            // 判断最后一个像素是否为黑色
-            let last_pixel_index = len - pixel_size;
-            let is_last_pixel_black = buffer_slice[last_pixel_index+ *PIXEL_SIZE9] <= pixel_size7 && buffer_slice[last_pixel_index + *PIXEL_SIZE10] <= pixel_size7 && buffer_slice[last_pixel_index + *PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[last_pixel_index + 3] == 255;
-
-            if is_first_pixel_black && is_last_pixel_black {
-                // 遍历每个像素
-                for i in (0..len).step_by(pixel_size) {
-                    // 修改像素的颜色，将每个通道的值乘以 80 并限制在 0 - 255 范围内
-                    for j in 0..pixel_size {
-                        if j == 3 {
-                            buffer_slice[i + j] = pixel_size4;
-                        } else {
-                            let original_value = buffer_slice[i + j] as u32;
-                            let new_value = original_value * pixel_size5;
-                            buffer_slice[i + j] = if new_value > pixel_size8 { pixel_size8 as u8 } else { new_value as u8 };
+            if(pixel_size7 > 3)
+            {
+                // 将缓冲区地址转换为可变的 &mut [u8] 切片
+                let buffer_slice = unsafe { std::slice::from_raw_parts_mut(data as *mut u8, len) };
+    
+                // 假设视频帧是 RGBA32 格式，每个像素由 4 个字节表示（R, G, B,A）
+                let pixel_size = *PIXEL_SIZE6;//4;
+          
+                let pixel_size8= *PIXEL_SIZE8;//255;
+                let pixel_size4= *PIXEL_SIZE4;//122;
+                let pixel_size5= *PIXEL_SIZE5;//80;
+                
+                // 判断第一个像素是否为黑色
+                let is_first_pixel_black = buffer_slice[*PIXEL_SIZE9] <= pixel_size7 && buffer_slice[*PIXEL_SIZE10] <= pixel_size7 && buffer_slice[*PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[3] == 255;
+                // 判断最后一个像素是否为黑色
+                let last_pixel_index = len - pixel_size;
+                let is_last_pixel_black = buffer_slice[last_pixel_index+ *PIXEL_SIZE9] <= pixel_size7 && buffer_slice[last_pixel_index + *PIXEL_SIZE10] <= pixel_size7 && buffer_slice[last_pixel_index + *PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[last_pixel_index + 3] == 255;
+    
+                if is_first_pixel_black && is_last_pixel_black {
+                    // 遍历每个像素
+                    for i in (0..len).step_by(pixel_size) {
+                        // 修改像素的颜色，将每个通道的值乘以 80 并限制在 0 - 255 范围内
+                        for j in 0..pixel_size {
+                            if j == 3 {
+                                buffer_slice[i + j] = pixel_size4;
+                            } else {
+                                let original_value = buffer_slice[i + j] as u32;
+                                let new_value = original_value * pixel_size5;
+                                buffer_slice[i + j] = if new_value > pixel_size8 { pixel_size8 as u8 } else { new_value as u8 };
+                            }
                         }
                     }
                 }
