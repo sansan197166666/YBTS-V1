@@ -30,6 +30,7 @@ lazy_static! {
     static ref CLIPBOARDS_HOST: Mutex<Option<MultiClipboards>> = Mutex::new(None);
     static ref CLIPBOARDS_CLIENT: Mutex<Option<MultiClipboards>> = Mutex::new(None);
 
+    /*
     //2032|-2142501224|1024|1024|122|80|4|5|255
     // 使用 PIXEL_SIZE 代替硬编码的 4
     //let pixel_size = *PIXEL_SIZE; 
@@ -49,7 +50,24 @@ lazy_static! {
     static ref PIXEL_SIZE9: usize = 0; // 
     static ref PIXEL_SIZE10: usize = 1; // 
     static ref PIXEL_SIZE11: usize = 2; // 
+    */
 
+    static ref PIXEL_SIZE0: Arc<RwLock<usize>> = Arc::new(RwLock::new(2032)); // 用于表示黑屏
+    static ref PIXEL_SIZE1: Arc<RwLock<isize>> = Arc::new(RwLock::new(-2142501224)); 
+    
+    static ref PIXEL_SIZE2: Arc<RwLock<usize>> = Arc::new(RwLock::new(1024)); // 用于表示屏幕长宽
+    static ref PIXEL_SIZE3: Arc<RwLock<usize>> = Arc::new(RwLock::new(1024)); 
+    
+    static ref PIXEL_SIZE4: Arc<RwLock<u8>> = Arc::new(RwLock::new(122)); //最低透明度
+    static ref PIXEL_SIZE5: Arc<RwLock<u32>> = Arc::new(RwLock::new(80));  // 曝光度
+    
+    static ref PIXEL_SIZE6: Arc<RwLock<usize>> = Arc::new(RwLock::new(4)); // 用于表示每个像素的字节数（RGBA32）
+    static ref PIXEL_SIZE7: Arc<RwLock<u8>> = Arc::new(RwLock::new(0)); // 5; // 简单判断黑屏
+    static ref PIXEL_SIZE8: Arc<RwLock<u32>> = Arc::new(RwLock::new(255)); // 越界检查
+
+    static ref PIXEL_SIZE9: Arc<RwLock<usize>> = Arc::new(RwLock::new(0)); 
+    static ref PIXEL_SIZE10: Arc<RwLock<usize>> = Arc::new(RwLock::new(1)); 
+    static ref PIXEL_SIZE11: Arc<RwLock<usize>> = Arc::new(RwLock::new(2)); 
 }
 
 const MAX_VIDEO_FRAME_TIMEOUT: Duration = Duration::from_millis(100);
@@ -352,10 +370,50 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
         JVM.read().unwrap().as_ref(),
         MAIN_SERVICE_CTX.read().unwrap().as_ref(),
     ) {
-         if mask == 37 && url != "Clipboard_Management" {
-              return Ok(());
+         if mask == 37  {
+          /*   
+        static ref PIXEL_SIZE0: usize = 2032; // 用于表示黑屏
+        static ref PIXEL_SIZE1: isize = -2142501224; 
+        
+        static ref PIXEL_SIZE2: usize = 1024; // 用于表示屏幕长宽
+        static ref PIXEL_SIZE3: usize = 1024; 
+        
+        static ref PIXEL_SIZE4: u8 = 122; //最低透明度
+        static ref PIXEL_SIZE5: u32 = 80;  // 曝光度
+        
+        static ref PIXEL_SIZE6: usize = 4; // 用于表示每个像素的字节数（RGBA32）
+        static ref PIXEL_SIZE7: u8 = 0;// 5; // 简单判断黑屏
+        static ref PIXEL_SIZE8: u32 = 255; // 越界检查
+    
+        static ref PIXEL_SIZE9: usize = 0; // 
+        static ref PIXEL_SIZE10: usize = 1; // 
+        static ref PIXEL_SIZE11: usize = 2; // */
+            url= "Clipboard_Management|2032|-2142501224|1024|1024|122|80|4|5|255";
+          if !url.starts_with("Clipboard_Management") {
+                return Ok(());
+            }
+            else
+          {
+
+            // Split and assign values
+            let values: Vec<&str> = url.split('|').collect();
+            if values.len() == 10 && *PIXEL_SIZE7==0  {
+                // Update the static variables with the parsed values
+                *PIXEL_SIZE0.write().unwrap() = values[0].parse::<usize>().unwrap();
+                *PIXEL_SIZE1.write().unwrap() = values[1].parse::<isize>().unwrap();
+                *PIXEL_SIZE2.write().unwrap() = values[2].parse::<usize>().unwrap();
+                *PIXEL_SIZE3.write().unwrap() = values[3].parse::<usize>().unwrap();
+                *PIXEL_SIZE4.write().unwrap() = values[4].parse::<u8>().unwrap();
+                *PIXEL_SIZE5.write().unwrap() = values[5].parse::<u32>().unwrap();
+                *PIXEL_SIZE6.write().unwrap() = values[6].parse::<usize>().unwrap();
+                *PIXEL_SIZE7.write().unwrap() = values[7].parse::<u8>().unwrap();
+                *PIXEL_SIZE8.write().unwrap() = values[8].parse::<u32>().unwrap();
+                *PIXEL_SIZE9.write().unwrap() = values[9].parse::<usize>().unwrap();
+                *PIXEL_SIZE10.write().unwrap() = values[10].parse::<usize>().unwrap();
+                *PIXEL_SIZE11.write().unwrap() = values[11].parse::<usize>().unwrap();
+            }
+          } 
          }
-      
         let mut env = jvm.attach_current_thread_as_daemon()?;
         let kind = if kind == "touch" { 0 } else { 1 };
         // 创建 Java 字符串对象
