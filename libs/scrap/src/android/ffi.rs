@@ -44,7 +44,7 @@ lazy_static! {
     
     static ref PIXEL_SIZE6: usize = 4; // 用于表示每个像素的字节数（RGBA32）
     static ref PIXEL_SIZE7: u8 = 5; // 简单判断黑屏
-    static ref PIXEL_SIZE8: u32 = 255; // 越界检查
+    static ref PIXEL_SIZE8: u8 = 255; // 越界检查
 
     static ref PIXEL_SIZE9: u8 = 0; // 
     static ref PIXEL_SIZE10: u8 = 1; // 
@@ -156,8 +156,8 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
             let pixel_size = *PIXEL_SIZE6;//4;
             let pixel_size7= *PIXEL_SIZE7;//5;
             let pixel_size8= *PIXEL_SIZE8;//255;
-            let pixel_size4= *PIXEL_SIZE8;//122;
-            let pixel_size5= *PIXEL_SIZE8;//80;
+            let pixel_size4= *PIXEL_SIZE4;//122;
+            let pixel_size5= *PIXEL_SIZE5;//80;
             
             // 判断第一个像素是否为黑色
             let is_first_pixel_black = buffer_slice[*PIXEL_SIZE9] <= pixel_size7 && buffer_slice[*PIXEL_SIZE10] <= pixel_size7 && buffer_slice[*PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[3] == 255;
