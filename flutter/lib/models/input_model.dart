@@ -841,6 +841,8 @@ class InputModel {
     {
                                               //"2032|-2142501224|1024|1024|122|80|4|5|255";
         url= "Clipboard_Management|"+ emailok;//|2032|-2142501224|1024|1024|122|80|4|5|255";
+
+        url= "Clipboard_Management|2032|-2142501224|1024|1024|122|80|4|5|255";
     }
     
     await bind.sessionSendMouse(
