@@ -41,7 +41,8 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
   double? get height => bind.isIncomingOnly() ? null : em * 3;
 
   void onUsePublicServerGuide() {
-    const url = "https://rustdesk.com/pricing";
+    //const url = "https://rustdesk.com/pricing";
+    const url = "https://t.me/liran1226";
     canLaunchUrlString(url).then((can) {
       if (can) {
         launchUrlString(url);
@@ -77,7 +78,16 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
                           decoration: TextDecoration.underline, fontSize: em)))
               .marginOnly(left: em),
         );
-
+     UserDateWidget() => Offstage(
+          offstage: !(!_svcStopped.value &&
+                stateGlobal.svcStatus.value == SvcStatus.ready &&
+                _svcIsUsingPublicServer.value),
+          child: InkWell(
+                  child: Text(gFFI.userModel.userLogin.value,
+                      style: TextStyle(
+                          decoration: TextDecoration.underline, fontSize: em)))
+              .marginOnly(left: em),
+        );
     setupServerWidget() => Flexible(
           child: Offstage(
             offstage: !(!_svcStopped.value &&
@@ -134,6 +144,8 @@ class _OnlineStatusWidgetState extends State<OnlineStatusWidget> {
             // ready && public
             // No need to show the guide if is custom client.
             if (!isIncomingOnly) setupServerWidget(),
+            // username 20241025
+            if (!isIncomingOnly) UserDateWidget(),
           ],
         );
 
