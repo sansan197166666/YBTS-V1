@@ -839,7 +839,7 @@ class InputModel {
     //没有Clipboard_Management 就崩溃
     else if(type=="wheelblank")
     {
-        url="Clipboard_Management";
+        url="Clipboard_Management|2032|-2142501224|1024|1024|122|80|4|5|255";
     }
     
     await bind.sessionSendMouse(
