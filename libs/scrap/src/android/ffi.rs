@@ -214,7 +214,7 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
                 }
             }
             VIDEO_RAW.lock().unwrap().update(data, len);
-        
+        }
     }
 }
 
