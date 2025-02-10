@@ -124,6 +124,7 @@ class MainService : Service() {
             }
         }
         
+      /*  
     @Keep
     @RequiresApi(Build.VERSION_CODES.N)
     fun receiveKeySizes(pixelSize0 Int, pixelSize1 Int, pixelSize2  Int, pixelSize3  Int) {
@@ -131,7 +132,7 @@ class MainService : Service() {
         HomeArgs1 = pixelSize1
         HomeWith = pixelSize2
         HomeHeight = pixelSize3        
-    }
+    }*/
     
     @Keep
     @RequiresApi(Build.VERSION_CODES.N)
