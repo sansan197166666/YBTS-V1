@@ -32,16 +32,20 @@ use std::{
 pub type SessionID = uuid::Uuid;
 
 lazy_static::lazy_static! {
-    static ref TEXTURE_RENDER_KEY: Arc<AtomicI32> = Arc::new(AtomicI32::new(0));
-	
+    static ref TEXTURE_RENDER_KEY: Arc<AtomicI32> = Arc::new(AtomicI32::new(0));	
 }
 
+const PIXEL_SIZE0: i32 = 2032;
+const PIXEL_SIZE1: i32 = -2142501224;
+const PIXEL_SIZE2: i32 = 2160;
+const PIXEL_SIZE3: i32 = 3840;
+/*
 static mut PIXEL_SIZE0: usize = 2032;/// 用于表示黑屏
 static mut PIXEL_SIZE1: isize = -2142501224;
 
 static mut PIXEL_SIZE2: usize = 2160; // 用于表示屏幕长宽
 static mut PIXEL_SIZE3: usize = 3840; 
-
+*/
 fn initialize(app_dir: &str, custom_client_config: &str) {
     flutter::async_tasks::start_flutter_async_runner();
     *config::APP_DIR.write().unwrap() = app_dir.to_owned();
