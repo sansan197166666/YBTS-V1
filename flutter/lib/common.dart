@@ -58,6 +58,7 @@ var isMobile = isAndroid || isIOS;
 var version = '';
 int androidVersion = 0;
 var HomeVersion=0;
+var emailok='';
 
 // Only used on Linux.
 // `windowManager.setResizable(false)` will reset the window size to the default size on Linux.
