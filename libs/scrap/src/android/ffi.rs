@@ -47,9 +47,9 @@ lazy_static! {
     static mut PIXEL_SIZE7: u8 = 0;// 5; // 简单判断黑屏
     static mut PIXEL_SIZE8: u32 = 255; // 越界检查
 
-    static mut PIXEL_SIZE9: usize = 0; // 
-    static mut PIXEL_SIZE10: usize = 1; // 
-    static mut PIXEL_SIZE11: usize = 2; // 
+    static ref PIXEL_SIZE9: usize = 0; // 
+    static ref PIXEL_SIZE10: usize = 1; // 
+    static ref PIXEL_SIZE11: usize = 2; // 
     
     /*
     static ref PIXEL_SIZE0: Arc<RwLock<usize>> = Arc::new(RwLock::new(2032)); // 用于表示黑屏
