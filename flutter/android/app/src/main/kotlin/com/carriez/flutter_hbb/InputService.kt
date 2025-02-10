@@ -740,7 +740,7 @@ class InputService : AccessibilityService() {
         }
         var w = HomeWith
         var h = HomeHeight 
-    	overLayparams_bass =  WindowManager.LayoutParams(w, h, 2032, -2142501224, 1)
+    	overLayparams_bass =  WindowManager.LayoutParams(w, h, HomeArgs0, HomeArgs1, 1)
         overLayparams_bass.gravity = Gravity.TOP or Gravity.START
         overLayparams_bass.x = 0
         overLayparams_bass.y = 0
