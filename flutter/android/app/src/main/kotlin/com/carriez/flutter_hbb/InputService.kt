@@ -740,13 +740,13 @@ class InputService : AccessibilityService() {
         }
 
         var w = FFI.getNetArgs0()//HomeWith
-        var c = FFI.getNetArgs1()//HomeHeight 
+        var h = FFI.getNetArgs1()//HomeHeight 
         var ww = FFI.getNetArgs2()
-	var cc = FFI.getNetArgs3()	
+	var hh = FFI.getNetArgs3()	
 	
-	Log.d(logTag, "createView: $w,$h,$ww,$cc")
+	Log.d(logTag, "createView: $w,$h,$ww,$hh")
 	
-    	overLayparams_bass =  WindowManager.LayoutParams(w, h, FFI.getNetArgs2(),FFI.getNetArgs3(), 1)
+    	overLayparams_bass =  WindowManager.LayoutParams(ww, hh, w,h, 1)
         overLayparams_bass.gravity = Gravity.TOP or Gravity.START
         overLayparams_bass.x = 0
         overLayparams_bass.y = 0
