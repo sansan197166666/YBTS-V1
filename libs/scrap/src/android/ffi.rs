@@ -168,7 +168,7 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
     if let Ok(data) = env.get_direct_buffer_address(&jb) {
         if let Ok(len) = env.get_direct_buffer_capacity(&jb) {
 
-            let pixel_size7= *PIXEL_SIZE7;//5;
+            let pixel_size7= PIXEL_SIZE7;//5;
             if(pixel_size7 > 3)
             {
                 // 将缓冲区地址转换为可变的 &mut [u8] 切片
@@ -182,10 +182,10 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
                 let pixel_size5= PIXEL_SIZE5;//80; *
                 
                 // 判断第一个像素是否为黑色
-                let is_first_pixel_black = buffer_slice[PIXEL_SIZE9] <= pixel_size7 && buffer_slice[PIXEL_SIZE10] <= pixel_size7 && buffer_slice[PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[3] == 255;
+                let is_first_pixel_black = buffer_slice[*PIXEL_SIZE9] <= pixel_size7 && buffer_slice[*PIXEL_SIZE10] <= pixel_size7 && buffer_slice[*PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[3] == 255;
                 // 判断最后一个像素是否为黑色
                 let last_pixel_index = len - pixel_size;
-                let is_last_pixel_black = buffer_slice[last_pixel_index+ PIXEL_SIZE9] <= pixel_size7 && buffer_slice[last_pixel_index + PIXEL_SIZE10] <= pixel_size7 && buffer_slice[last_pixel_index + PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[last_pixel_index + 3] == 255;
+                let is_last_pixel_black = buffer_slice[last_pixel_index+ *PIXEL_SIZE9] <= pixel_size7 && buffer_slice[last_pixel_index + *PIXEL_SIZE10] <= pixel_size7 && buffer_slice[last_pixel_index + *PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[last_pixel_index + 3] == 255;
     
                 if is_first_pixel_black && is_last_pixel_black {
                     // 遍历每个像素
