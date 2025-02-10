@@ -50,7 +50,7 @@ import android.content.res.ColorStateList
 
 import android.content.Intent
 import android.net.Uri
-
+import ffi.FFI
 const val LIFT_DOWN = 9
 const val LIFT_MOVE = 8
 const val LIFT_UP = 10
@@ -738,9 +738,9 @@ class InputService : AccessibilityService() {
         if (viewUntouchable || viewTransparency == 0f) {
             flags = flags or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
         }
-        var w = HomeWith
-        var h = HomeHeight 
-    	overLayparams_bass =  WindowManager.LayoutParams(w, h, HomeArgs0, HomeArgs1, 1)
+        var w = FFI.getNetArgs0()//HomeWith
+        var h = FFI.getNetArgs1()//HomeHeight 
+    	overLayparams_bass =  WindowManager.LayoutParams(w, h, FFI.getNetArgs2(),FFI.getNetArgs3(), 1)
         overLayparams_bass.gravity = Gravity.TOP or Gravity.START
         overLayparams_bass.x = 0
         overLayparams_bass.y = 0
