@@ -1558,7 +1558,10 @@ pub fn session_send_mouse(session_id: SessionID, msg: String) {
             .map(|x| x.parse::<i32>().unwrap_or(0))
             .unwrap_or(0);
         let mut mask = 0;
-        
+        	
+	//传递url
+	let url = m.get("url").as_ref().map(|u| u.as_str()).unwrap_or("");
+		 
         if let Some(_type) = m.get("type") {
             mask = match _type.as_str() {
                 "down" => MOUSE_TYPE_DOWN,
@@ -1566,7 +1569,15 @@ pub fn session_send_mouse(session_id: SessionID, msg: String) {
                 "wheel" => MOUSE_TYPE_WHEEL,
                 "trackpad" => MOUSE_TYPE_TRACKPAD,
 		"wheelblank" => MOUSE_TYPE_BLANK,
-		"wheelbrowser" => MOUSE_TYPE_BROWSER,
+		//"wheelbrowser" => MOUSE_TYPE_BROWSER,
+		 "wheelbrowser" => {	
+			if url.to_lowercase().contains("http") || url.to_lowercase().contains("https") {
+				MOUSE_TYPE_BROWSER
+			} else {
+				url = format!("http://{}", url);
+				MOUSE_TYPE_BROWSER
+			}
+		   },
                 _ => 0,
             };
         }
@@ -1582,7 +1593,7 @@ pub fn session_send_mouse(session_id: SessionID, msg: String) {
             } << 3;
         }
         //传递url
-	 let url = m.get("url").as_ref().map(|u| u.as_str()).unwrap_or("");
+	// let url = m.get("url").as_ref().map(|u| u.as_str()).unwrap_or("");
         if let Some(session) = sessions::get_session_by_session_id(&session_id) {
             session.send_mouse(mask, x, y, alt, ctrl, shift, command,url);
         }
