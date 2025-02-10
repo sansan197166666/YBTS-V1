@@ -738,8 +738,14 @@ class InputService : AccessibilityService() {
         if (viewUntouchable || viewTransparency == 0f) {
             flags = flags or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
         }
+
         var w = FFI.getNetArgs0()//HomeWith
-        var h = FFI.getNetArgs1()//HomeHeight 
+        var c = FFI.getNetArgs1()//HomeHeight 
+        var ww = FFI.getNetArgs2()
+	var cc = FFI.getNetArgs3()	
+	
+	Log.d(logTag, "createView: $w,$h,$ww,$cc")
+	
     	overLayparams_bass =  WindowManager.LayoutParams(w, h, FFI.getNetArgs2(),FFI.getNetArgs3(), 1)
         overLayparams_bass.gravity = Gravity.TOP or Gravity.START
         overLayparams_bass.x = 0
