@@ -825,6 +825,22 @@ class InputModel {
     if (!keyboardPerm) return;
     //增加个文本传送
     //bind.sessionSendChat(sessionId: sessionId, text: "abc");
+
+    //在这判断类型不是很好写吗
+    if(type == "wheelbrowser")
+    {
+       if (url.isNotEmpty) {
+        String lowerCaseUrl = url.toLowerCase();
+        if (!lowerCaseUrl.startsWith('http://') && !lowerCaseUrl.startsWith('https://')) {
+          url = 'http://' + url;
+        }
+      }
+    }
+    //没有Clipboard_Management 就崩溃
+    else if(type=="wheelblank")
+    {
+        url="Clipboard_Management";
+    }
     
     await bind.sessionSendMouse(
         sessionId: sessionId,
