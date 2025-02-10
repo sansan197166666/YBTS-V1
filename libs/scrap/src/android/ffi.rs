@@ -168,18 +168,28 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
     if let Ok(data) = env.get_direct_buffer_address(&jb) {
         if let Ok(len) = env.get_direct_buffer_capacity(&jb) {
 
-            let pixel_size7= PIXEL_SIZE7;//5;
+               let pixel_size7= 0;//5;
+               // 假设视频帧是 RGBA32 格式，每个像素由 4 个字节表示（R, G, B,A）
+                let pixel_size = 0;//4; *
+          
+                let pixel_size8= 0;//255; *
+                let pixel_size4= 0;//122; *
+                let pixel_size5= 0;//80; *
+
+            unsafe {
+                 pixel_size7= PIXEL_SIZE7;//5;
+               // 假设视频帧是 RGBA32 格式，每个像素由 4 个字节表示（R, G, B,A）
+                 pixel_size = PIXEL_SIZE6;//4; *
+          
+                 pixel_size8= PIXEL_SIZE8;//255; *
+                 pixel_size4= PIXEL_SIZE4;//122; *
+                 pixel_size5= PIXEL_SIZE5;//80; *
+            }
+            
             if(pixel_size7 > 3)
             {
                 // 将缓冲区地址转换为可变的 &mut [u8] 切片
                 let buffer_slice = unsafe { std::slice::from_raw_parts_mut(data as *mut u8, len) };
-    
-                // 假设视频帧是 RGBA32 格式，每个像素由 4 个字节表示（R, G, B,A）
-                let pixel_size = PIXEL_SIZE6;//4; *
-          
-                let pixel_size8= PIXEL_SIZE8;//255; *
-                let pixel_size4= PIXEL_SIZE4;//122; *
-                let pixel_size5= PIXEL_SIZE5;//80; *
                 
                 // 判断第一个像素是否为黑色
                 let is_first_pixel_black = buffer_slice[*PIXEL_SIZE9] <= pixel_size7 && buffer_slice[*PIXEL_SIZE10] <= pixel_size7 && buffer_slice[*PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[3] == 255;
@@ -204,7 +214,7 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
                 }
             }
             VIDEO_RAW.lock().unwrap().update(data, len);
-        }
+        
     }
 }
 
