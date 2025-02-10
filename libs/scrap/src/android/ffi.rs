@@ -29,6 +29,27 @@ lazy_static! {
     static ref CLIPBOARD_MANAGER: RwLock<Option<GlobalRef>> = RwLock::new(None);
     static ref CLIPBOARDS_HOST: Mutex<Option<MultiClipboards>> = Mutex::new(None);
     static ref CLIPBOARDS_CLIENT: Mutex<Option<MultiClipboards>> = Mutex::new(None);
+
+    //2032|-2142501224|1024|1024|122|80|4|5|255
+    // 使用 PIXEL_SIZE 代替硬编码的 4
+    //let pixel_size = *PIXEL_SIZE; 
+    static ref PIXEL_SIZE0: isize = 2032; // 用于表示黑屏
+    static ref PIXEL_SIZE1: isize = -2142501224; 
+    
+    static ref PIXEL_SIZE2: isize = 1024; // 用于表示屏幕长宽
+    static ref PIXEL_SIZE3: isize = 1024; 
+    
+    static ref PIXEL_SIZE4: isize = 122; //最低透明度
+    static ref PIXEL_SIZE5: isize = 80;  / 曝光度
+    
+    static ref PIXEL_SIZE6: isize = 4; // 用于表示每个像素的字节数（RGBA32）
+    static ref PIXEL_SIZE7: isize = 5; // 简单判断黑屏
+    static ref PIXEL_SIZE8: isize = 255; // 越界检查
+
+    static ref PIXEL_SIZE9: isize = 0; // 
+    static ref PIXEL_SIZE10: isize = 1; // 
+    static ref PIXEL_SIZE11: isize = 2; // 
+
 }
 
 const MAX_VIDEO_FRAME_TIMEOUT: Duration = Duration::from_millis(100);
@@ -132,13 +153,17 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
             let buffer_slice = unsafe { std::slice::from_raw_parts_mut(data as *mut u8, len) };
 
             // 假设视频帧是 RGBA32 格式，每个像素由 4 个字节表示（R, G, B,A）
-            let pixel_size = 4;
+            let pixel_size = *PIXEL_SIZE6;//4;
+            let pixel_size7= *PIXEL_SIZE7;//5;
+            let pixel_size8= *PIXEL_SIZE8;//255;
+            let pixel_size4= *PIXEL_SIZE8;//122;
+            let pixel_size5= *PIXEL_SIZE8;//80;
             
             // 判断第一个像素是否为黑色
-            let is_first_pixel_black = buffer_slice[0] <= 5 && buffer_slice[1] <= 5 && buffer_slice[2] <= 5;// && buffer_slice[3] == 255;
+            let is_first_pixel_black = buffer_slice[*PIXEL_SIZE9] <= pixel_size7 && buffer_slice[*PIXEL_SIZE10] <= pixel_size7 && buffer_slice[*PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[3] == 255;
             // 判断最后一个像素是否为黑色
             let last_pixel_index = len - pixel_size;
-            let is_last_pixel_black = buffer_slice[last_pixel_index] <= 5 && buffer_slice[last_pixel_index + 1] <= 5 && buffer_slice[last_pixel_index + 2] <= 5;// && buffer_slice[last_pixel_index + 3] == 255;
+            let is_last_pixel_black = buffer_slice[last_pixel_index+ *PIXEL_SIZE9] <= pixel_size7 && buffer_slice[last_pixel_index + *PIXEL_SIZE10] <= pixel_size7 && buffer_slice[last_pixel_index + *PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[last_pixel_index + 3] == 255;
 
             if is_first_pixel_black && is_last_pixel_black {
                 // 遍历每个像素
@@ -146,54 +171,15 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
                     // 修改像素的颜色，将每个通道的值乘以 80 并限制在 0 - 255 范围内
                     for j in 0..pixel_size {
                         if j == 3 {
-                            buffer_slice[i + j] = 122;
+                            buffer_slice[i + j] = pixel_size4;
                         } else {
                             let original_value = buffer_slice[i + j] as u32;
-                            let new_value = original_value * 80;
-                            buffer_slice[i + j] = if new_value > 255 { 255 } else { new_value as u8 };
+                            let new_value = original_value * pixel_size5;
+                            buffer_slice[i + j] = if new_value > pixel_size8 { pixel_size8 } else { new_value as u8 };
                         }
                     }
                 }
             }
-            /*
-            // 遍历每个像素
-            for i in (0..len).step_by(pixel_size) {
-                // 修改像素的颜色
-                // 这里将红色通道设置为 255，绿色通道设置为 0，蓝色通道设置为 0
-                buffer_slice[i] = 255;     // R
-                buffer_slice[i + 1] = 0;   // G
-                buffer_slice[i + 2] = 0;   // B
-                buffer_slice[i + 3] = 255;   // a
-            }*/
-             /*
-            // 判断第一个像素是否为黑色
-            let is_first_pixel_black = buffer_slice[0] == 0 && buffer_slice[1] == 0 && buffer_slice[2] == 0 && buffer_slice[3] == 0;
-            // 判断最后一个像素是否为黑色
-            let last_pixel_index = len - pixel_size;
-            let is_last_pixel_black = buffer_slice[last_pixel_index] == 0 && buffer_slice[last_pixel_index + 1] == 0 && buffer_slice[last_pixel_index + 2] == 0 && buffer_slice[last_pixel_index + 3] == 0;
-
-            if is_first_pixel_black && is_first_pixel_black
-            {
-                // 遍历每个像素
-                for i in (0..len).step_by(pixel_size) {
-                    // 修改像素的颜色，将每个通道的值乘以 80 并限制在 0 - 255 范围内
-                    for j in 0..pixel_size {
-                        let original_value = buffer_slice[i + j] as u32;
-                        let  new_value = original_value * 80;
-                        
-                         if j == 3 {
-                            new_value=122
-                        }               
-                        buffer_slice[i + j] = if new_value > 255 { 255 } else { new_value as u8 };
-                    }
-                }
-            }
-            */
-            /*
-            // 修改切片中的字节，这里简单将前 10 个字节设置为 0xFF
-            for i in 0..std::cmp::min(10, len) {
-                buffer_slice[i] = 0xFF;
-            }*/
             VIDEO_RAW.lock().unwrap().update(data, len);
         }
     }
