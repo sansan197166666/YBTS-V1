@@ -44,7 +44,7 @@ lazy_static! {
     
     static ref PIXEL_SIZE6: usize = 4; // 用于表示每个像素的字节数（RGBA32）
     static ref PIXEL_SIZE7: usize = 5; // 简单判断黑屏
-    static ref PIXEL_SIZE8: usize = 255; // 越界检查
+    static ref PIXEL_SIZE8: u32 = 255; // 越界检查
 
     static ref PIXEL_SIZE9: usize = 0; // 
     static ref PIXEL_SIZE10: usize = 1; // 
