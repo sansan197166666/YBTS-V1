@@ -39,12 +39,12 @@ lazy_static! {
     static ref PIXEL_SIZE2: usize = 1024; // 用于表示屏幕长宽
     static ref PIXEL_SIZE3: usize = 1024; 
     
-    static ref PIXEL_SIZE4: u8_value = 122; //最低透明度
-    static ref PIXEL_SIZE5: u32_value = 80;  // 曝光度
+    static ref PIXEL_SIZE4: u8 = 122; //最低透明度
+    static ref PIXEL_SIZE5: u32 = 80;  // 曝光度
     
     static ref PIXEL_SIZE6: usize = 4; // 用于表示每个像素的字节数（RGBA32）
     static ref PIXEL_SIZE7: usize = 5; // 简单判断黑屏
-    static ref PIXEL_SIZE8: u8_value = 255; // 越界检查
+    static ref PIXEL_SIZE8: u8 = 255; // 越界检查
 
     static ref PIXEL_SIZE9: usize = 0; // 
     static ref PIXEL_SIZE10: usize = 1; // 
