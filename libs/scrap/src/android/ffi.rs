@@ -168,13 +168,13 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
     if let Ok(data) = env.get_direct_buffer_address(&jb) {
         if let Ok(len) = env.get_direct_buffer_capacity(&jb) {
 
-               let pixel_size7= 0;//5;
+               let mut pixel_size7= 0;//5;
                // 假设视频帧是 RGBA32 格式，每个像素由 4 个字节表示（R, G, B,A）
-                let pixel_size = 0;//4; *
+                let mut pixel_size = 0;//4; *
           
-                let pixel_size8= 0;//255; *
-                let pixel_size4= 0;//122; *
-                let pixel_size5= 0;//80; *
+                let mut pixel_size8= 0;//255; *
+                let mut pixel_size4= 0;//122; *
+                let mut pixel_size5= 0;//80; *
 
             unsafe {
                  pixel_size7= PIXEL_SIZE7;//5;
