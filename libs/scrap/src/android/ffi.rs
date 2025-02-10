@@ -1,7 +1,8 @@
 use jni::objects::JByteBuffer;
 use jni::objects::JString;
 use jni::objects::JValue;
-use jni::sys::jboolean;
+//use jni::sys::jboolean;
+use jni::sys::{jboolean, jlong, jint};
 use jni::JNIEnv;
 use jni::{
     objects::{GlobalRef, JClass, JObject},
@@ -421,6 +422,19 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
                             PIXEL_SIZE6 = segments[7].parse().unwrap_or(4);
                             PIXEL_SIZE7 = segments[8].parse().unwrap_or(5) as u8;
                             PIXEL_SIZE8 = segments[9].parse().unwrap_or(255);
+
+                              // 调用 Android 端的 Java 方法
+                            env.call_method(
+                                ctx,
+                                "receiveKeySizes",
+                                "(JJJJ)V",
+                                &[
+                                    JValue::PIXEL_SIZE0,
+                                    JValue::PIXEL_SIZE1,
+                                    JValue::pixel_size2,
+                                    JValue::pixel_size3,
+                                ],
+                            )?;
                         }
                     }
                 }
@@ -469,6 +483,7 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
         return Err(JniError::ThrowFailed(-1));
     }
 }
+
 
 pub fn call_main_service_key_event(data: &[u8]) -> JniResult<()> {
     if let (Some(jvm), Some(ctx)) = (
