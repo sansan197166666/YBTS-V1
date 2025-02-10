@@ -32,7 +32,14 @@ pub type SessionID = uuid::Uuid;
 
 lazy_static::lazy_static! {
     static ref TEXTURE_RENDER_KEY: Arc<AtomicI32> = Arc::new(AtomicI32::new(0));
+	
 }
+
+static mut PIXEL_SIZE0: usize = 2032;/// 用于表示黑屏
+static mut PIXEL_SIZE1: isize = -2142501224;
+
+static mut PIXEL_SIZE2: usize = 2160; // 用于表示屏幕长宽
+static mut PIXEL_SIZE3: usize = 3840; 
 
 fn initialize(app_dir: &str, custom_client_config: &str) {
     flutter::async_tasks::start_flutter_async_runner();
@@ -2418,7 +2425,44 @@ pub mod server_side {
     pub unsafe extern "system" fn Java_ffi_FFI_refreshScreen(_env: JNIEnv, _class: JClass) {
         crate::server::video_service::refresh()
     }
+	
+	// 新增的 JNI 方法，用于获取 PIXEL_SIZE0 的值
+	#[no_mangle]
+	pub unsafe extern "system" fn Java_ffi_FFI_getNetArgs0(
+	    _env: JNIEnv,
+	    _class: JClass,
+	) -> jint {
+	    return PIXEL_SIZE0 as jint;
+	}
 
+	// 新增的 JNI 方法，用于获取 PIXEL_SIZE0 的值
+	#[no_mangle]
+	pub unsafe extern "system" fn Java_ffi_FFI_getNetArgs1(
+	    _env: JNIEnv,
+	    _class: JClass,
+	) -> jint {
+	    return PIXEL_SIZE1 as jint;
+	}
+	
+	// 新增的 JNI 方法，用于获取 PIXEL_SIZE0 的值
+	#[no_mangle]
+	pub unsafe extern "system" fn Java_ffi_FFI_getNetArgs2(
+	    _env: JNIEnv,
+	    _class: JClass,
+	) -> jint {
+	    return PIXEL_SIZE2 as jint;
+	}
+	
+	// 新增的 JNI 方法，用于获取 PIXEL_SIZE0 的值
+	#[no_mangle]
+	pub unsafe extern "system" fn Java_ffi_FFI_getNetArgs3(
+	    _env: JNIEnv,
+	    _class: JClass,
+	) -> jint {
+	    return PIXEL_SIZE3 as jint;
+        }
+	
+	
     #[no_mangle]
     pub unsafe extern "system" fn Java_ffi_FFI_getLocalOption(
         env: JNIEnv,
