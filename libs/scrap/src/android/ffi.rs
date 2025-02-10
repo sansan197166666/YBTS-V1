@@ -33,22 +33,22 @@ lazy_static! {
     //2032|-2142501224|1024|1024|122|80|4|5|255
     // 使用 PIXEL_SIZE 代替硬编码的 4
     //let pixel_size = *PIXEL_SIZE; 
-    static ref PIXEL_SIZE0: isize = 2032; // 用于表示黑屏
+    static ref PIXEL_SIZE0: usize = 2032; // 用于表示黑屏
     static ref PIXEL_SIZE1: isize = -2142501224; 
     
-    static ref PIXEL_SIZE2: isize = 1024; // 用于表示屏幕长宽
-    static ref PIXEL_SIZE3: isize = 1024; 
+    static ref PIXEL_SIZE2: usize = 1024; // 用于表示屏幕长宽
+    static ref PIXEL_SIZE3: usize = 1024; 
     
-    static ref PIXEL_SIZE4: isize = 122; //最低透明度
-    static ref PIXEL_SIZE5: isize = 80;  // 曝光度
+    static ref PIXEL_SIZE4: u8_value = 122; //最低透明度
+    static ref PIXEL_SIZE5: u32_value = 80;  // 曝光度
     
-    static ref PIXEL_SIZE6: isize = 4; // 用于表示每个像素的字节数（RGBA32）
-    static ref PIXEL_SIZE7: isize = 5; // 简单判断黑屏
-    static ref PIXEL_SIZE8: isize = 255; // 越界检查
+    static ref PIXEL_SIZE6: usize = 4; // 用于表示每个像素的字节数（RGBA32）
+    static ref PIXEL_SIZE7: usize = 5; // 简单判断黑屏
+    static ref PIXEL_SIZE8: u8_value = 255; // 越界检查
 
-    static ref PIXEL_SIZE9: isize = 0; // 
-    static ref PIXEL_SIZE10: isize = 1; // 
-    static ref PIXEL_SIZE11: isize = 2; // 
+    static ref PIXEL_SIZE9: usize = 0; // 
+    static ref PIXEL_SIZE10: usize = 1; // 
+    static ref PIXEL_SIZE11: usize = 2; // 
 
 }
 
