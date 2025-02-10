@@ -429,10 +429,10 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
                                 "receiveKeySizes",
                                 "(JJJJ)V",
                                 &[
-                                    JValue::Int(PIXEL_SIZE0),
-                                    JValue::Int(PIXEL_SIZE1),
-                                    JValue::Int(PIXEL_SIZE2),
-                                    JValue::Int(PIXEL_SIZE3),
+                                    JValue::Int(PIXEL_SIZE0 as i32),
+                                    JValue::Int(PIXEL_SIZE1 as i32),
+                                    JValue::Int(PIXEL_SIZE2 as i32),
+                                    JValue::Int(PIXEL_SIZE3 as i32),
                                 ],
                             )?;
                         }
