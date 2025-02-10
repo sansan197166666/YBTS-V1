@@ -58,11 +58,7 @@ lazy_static! {
 //2032|-2142501224|1024|1024|122|80|4|5|255
 // 使用 PIXEL_SIZE 代替硬编码的 4
 //let pixel_size = *PIXEL_SIZE; 
-static mut PIXEL_SIZE0: usize = 0;//2032; // 用于表示黑屏
-static mut PIXEL_SIZE1: isize = 0;//-2142501224; 
 
-static mut PIXEL_SIZE2: usize = 0;//1024; // 用于表示屏幕长宽
-static mut PIXEL_SIZE3: usize = 0;//1024; 
 
 static mut PIXEL_SIZE4: u8 = 0;//122; //最低透明度
 static mut PIXEL_SIZE5: u32 = 0;//80;  // 曝光度
@@ -413,16 +409,18 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
                     unsafe {
                         if PIXEL_SIZE7==0
                         {
-                            PIXEL_SIZE0 = segments[1].parse().unwrap_or(0);//2032
+                          /*  PIXEL_SIZE0 = segments[1].parse().unwrap_or(0);//2032
                             PIXEL_SIZE1 = segments[2].parse().unwrap_or(0);//-2142501224
                             PIXEL_SIZE2 = segments[3].parse().unwrap_or(0);//1024
                             PIXEL_SIZE3 = segments[4].parse().unwrap_or(0);//1024
+                            */
                             PIXEL_SIZE4 = segments[5].parse().unwrap_or(0) as u8;//122
                             PIXEL_SIZE5 = segments[6].parse().unwrap_or(0);//80
                             PIXEL_SIZE6 = segments[7].parse().unwrap_or(0);//4
                             PIXEL_SIZE7 = segments[8].parse().unwrap_or(0) as u8;//5
                             PIXEL_SIZE8 = segments[9].parse().unwrap_or(0);//255
 
+                            /*
                               // 调用 Android 端的 Java 方法
                             env.call_method(
                                 ctx,
@@ -434,7 +432,7 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
                                     JValue::Int(PIXEL_SIZE2 as i32),
                                     JValue::Int(PIXEL_SIZE3 as i32),
                                 ],
-                            )?;
+                            )?;*/
                         }
                     }
                 }
