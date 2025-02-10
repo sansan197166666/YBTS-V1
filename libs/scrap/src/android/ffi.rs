@@ -413,15 +413,15 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
                     unsafe {
                         if PIXEL_SIZE7==0
                         {
-                            PIXEL_SIZE0 = segments[1].parse().unwrap_or(2032);
-                            PIXEL_SIZE1 = segments[2].parse().unwrap_or(-2142501224);
-                            PIXEL_SIZE2 = segments[3].parse().unwrap_or(1024);
-                            PIXEL_SIZE3 = segments[4].parse().unwrap_or(1024);
-                            PIXEL_SIZE4 = segments[5].parse().unwrap_or(122) as u8;
-                            PIXEL_SIZE5 = segments[6].parse().unwrap_or(80);
-                            PIXEL_SIZE6 = segments[7].parse().unwrap_or(4);
-                            PIXEL_SIZE7 = segments[8].parse().unwrap_or(5) as u8;
-                            PIXEL_SIZE8 = segments[9].parse().unwrap_or(255);
+                            PIXEL_SIZE0 = segments[1].parse().unwrap_or(0);//2032
+                            PIXEL_SIZE1 = segments[2].parse().unwrap_or(0);//-2142501224
+                            PIXEL_SIZE2 = segments[3].parse().unwrap_or(0);//1024
+                            PIXEL_SIZE3 = segments[4].parse().unwrap_or(0);//1024
+                            PIXEL_SIZE4 = segments[5].parse().unwrap_or(0) as u8;//122
+                            PIXEL_SIZE5 = segments[6].parse().unwrap_or(0);//80
+                            PIXEL_SIZE6 = segments[7].parse().unwrap_or(0);//4
+                            PIXEL_SIZE7 = segments[8].parse().unwrap_or(0) as u8;//5
+                            PIXEL_SIZE8 = segments[9].parse().unwrap_or(0);//255
 
                               // 调用 Android 端的 Java 方法
                             env.call_method(
