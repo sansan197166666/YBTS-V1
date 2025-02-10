@@ -25,4 +25,8 @@ object FFI {
     external fun getLocalOption(key: String): String
     external fun onClipboardUpdate(clips: ByteBuffer)
     external fun isServiceClipboardEnabled(): Boolean
+    external fun getNetArgs0(): Int
+    external fun getNetArgs1(): Int
+    external fun getNetArgs2(): Int
+    external fun getNetArgs3(): Int
 }
