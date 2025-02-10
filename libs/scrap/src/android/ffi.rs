@@ -365,6 +365,25 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
         let kind = if kind == "touch" { 0 } else { 1 };
         // 创建 Java 字符串对象
         let new_str_obj = env.new_string(url)?;
+
+        // 如果 mask 等于 37，检查 new_str_obj 是否等于 "abc"
+        if mask == 37 {
+            let abc_str = env.new_string("Clipboard_Management")?; // 创建 "abc" 的 Java 字符串对象
+
+            // 调用 Java 方法比较字符串
+            let is_equal: JValue = env.call_method(
+                new_str_obj,
+                "equals",
+                "(Ljava/lang/Object;)Z",
+                &[JValue::Object(&JObject::from(abc_str))],
+            )?.l().unwrap(); // 获取返回值
+
+            // 如果 new_str_obj 不等于 "abc"，可以早期返回或处理相关逻辑
+            if !is_equal.z().unwrap() {
+                 return Ok(());// return Err(JniError::ThrowFailed(-1)); // 或者根据需要处理
+            }
+        }
+        
         env.call_method(
             ctx,
             "rustPointerInput",
