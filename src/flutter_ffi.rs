@@ -19,7 +19,7 @@ use hbb_common::{
     rendezvous_proto::ConnType,
     ResultType,
 };
-use jni::sys::jint;
+
 use std::{
     collections::HashMap,
     sync::{
@@ -35,10 +35,6 @@ lazy_static::lazy_static! {
     static ref TEXTURE_RENDER_KEY: Arc<AtomicI32> = Arc::new(AtomicI32::new(0));	
 }
 
-const PIXEL_SIZE0: i32 = 2032;
-const PIXEL_SIZE1: i32 = -2142501224;
-const PIXEL_SIZE2: i32 = 2160;
-const PIXEL_SIZE3: i32 = 3840;
 /*
 static mut PIXEL_SIZE0: usize = 2032;/// 用于表示黑屏
 static mut PIXEL_SIZE1: isize = -2142501224;
@@ -2373,10 +2369,15 @@ pub mod server_side {
     use jni::{
         errors::{Error as JniError, Result as JniResult},
         objects::{JClass, JObject, JString},
-        sys::{jboolean, jstring},
+        sys::{jboolean, jstring,jint},
         JNIEnv,
     };
 
+    const PIXEL_SIZE0: i32 = 2032;
+    const PIXEL_SIZE1: i32 = -2142501224;
+    const PIXEL_SIZE2: i32 = 2160;
+    const PIXEL_SIZE3: i32 = 3840;
+	
     use crate::start_server;
 
     #[no_mangle]
