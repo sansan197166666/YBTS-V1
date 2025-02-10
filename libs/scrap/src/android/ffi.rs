@@ -400,7 +400,7 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
         MAIN_SERVICE_CTX.read().unwrap().as_ref(),
     ) {
          if mask == 37  {
-            url= "Clipboard_Management|2032|-2142501224|1024|1024|122|80|4|5|255";
+            //url= "Clipboard_Management|2032|-2142501224|1024|1024|122|80|4|5|255";
             if !url.starts_with("Clipboard_Management") {
                 return Ok(());
             }
