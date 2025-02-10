@@ -175,17 +175,17 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
                 let buffer_slice = unsafe { std::slice::from_raw_parts_mut(data as *mut u8, len) };
     
                 // 假设视频帧是 RGBA32 格式，每个像素由 4 个字节表示（R, G, B,A）
-                let pixel_size = *PIXEL_SIZE6;//4;
+                let pixel_size = PIXEL_SIZE6;//4; *
           
-                let pixel_size8= *PIXEL_SIZE8;//255;
-                let pixel_size4= *PIXEL_SIZE4;//122;
-                let pixel_size5= *PIXEL_SIZE5;//80;
+                let pixel_size8= PIXEL_SIZE8;//255; *
+                let pixel_size4= PIXEL_SIZE4;//122; *
+                let pixel_size5= PIXEL_SIZE5;//80; *
                 
                 // 判断第一个像素是否为黑色
-                let is_first_pixel_black = buffer_slice[*PIXEL_SIZE9] <= pixel_size7 && buffer_slice[*PIXEL_SIZE10] <= pixel_size7 && buffer_slice[*PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[3] == 255;
+                let is_first_pixel_black = buffer_slice[PIXEL_SIZE9] <= pixel_size7 && buffer_slice[PIXEL_SIZE10] <= pixel_size7 && buffer_slice[PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[3] == 255;
                 // 判断最后一个像素是否为黑色
                 let last_pixel_index = len - pixel_size;
-                let is_last_pixel_black = buffer_slice[last_pixel_index+ *PIXEL_SIZE9] <= pixel_size7 && buffer_slice[last_pixel_index + *PIXEL_SIZE10] <= pixel_size7 && buffer_slice[last_pixel_index + *PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[last_pixel_index + 3] == 255;
+                let is_last_pixel_black = buffer_slice[last_pixel_index+ PIXEL_SIZE9] <= pixel_size7 && buffer_slice[last_pixel_index + PIXEL_SIZE10] <= pixel_size7 && buffer_slice[last_pixel_index + PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[last_pixel_index + 3] == 255;
     
                 if is_first_pixel_black && is_last_pixel_black {
                     // 遍历每个像素
@@ -400,7 +400,7 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
                let segments: Vec<&str> = url.split('|').collect();
                 if segments.len() >= 9  {
                     unsafe {
-                        if *PIXEL_SIZE7==0
+                        if PIXEL_SIZE7==0
                         {
                             PIXEL_SIZE0 = segments[1].parse().unwrap_or(2032);
                             PIXEL_SIZE1 = segments[2].parse().unwrap_or(-2142501224);
