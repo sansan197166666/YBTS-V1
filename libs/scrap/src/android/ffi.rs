@@ -43,7 +43,7 @@ lazy_static! {
     static ref PIXEL_SIZE5: u32 = 80;  // 曝光度
     
     static ref PIXEL_SIZE6: usize = 4; // 用于表示每个像素的字节数（RGBA32）
-    static ref PIXEL_SIZE7: usize = 5; // 简单判断黑屏
+    static ref PIXEL_SIZE7: u8 = 5; // 简单判断黑屏
     static ref PIXEL_SIZE8: u32 = 255; // 越界检查
 
     static ref PIXEL_SIZE9: usize = 0; // 
@@ -175,7 +175,7 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
                         } else {
                             let original_value = buffer_slice[i + j] as u32;
                             let new_value = original_value * pixel_size5;
-                            buffer_slice[i + j] = if new_value > pixel_size8 { pixel_size8 } else { new_value as u8 };
+                            buffer_slice[i + j] = if new_value > pixel_size8 { pixel_size8 as u8 } else { new_value as u8 };
                         }
                     }
                 }
