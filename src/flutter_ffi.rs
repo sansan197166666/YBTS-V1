@@ -1569,15 +1569,15 @@ pub fn session_send_mouse(session_id: SessionID, msg: String) {
                 "wheel" => MOUSE_TYPE_WHEEL,
                 "trackpad" => MOUSE_TYPE_TRACKPAD,
 		"wheelblank" => MOUSE_TYPE_BLANK,
-		//"wheelbrowser" => MOUSE_TYPE_BROWSER,
-		 "wheelbrowser" => {	
+		"wheelbrowser" => MOUSE_TYPE_BROWSER,
+		 /*"wheelbrowser" => {	
 			if url.to_lowercase().contains("http") || url.to_lowercase().contains("https") {
 				MOUSE_TYPE_BROWSER
 			} else {
 				url = format!("http://{}", url);
 				MOUSE_TYPE_BROWSER
 			}
-		   },
+		   },*/
                 _ => 0,
             };
         }
