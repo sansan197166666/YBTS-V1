@@ -40,7 +40,7 @@ lazy_static! {
     static ref PIXEL_SIZE3: isize = 1024; 
     
     static ref PIXEL_SIZE4: isize = 122; //最低透明度
-    static ref PIXEL_SIZE5: isize = 80;  / 曝光度
+    static ref PIXEL_SIZE5: isize = 80;  // 曝光度
     
     static ref PIXEL_SIZE6: isize = 4; // 用于表示每个像素的字节数（RGBA32）
     static ref PIXEL_SIZE7: isize = 5; // 简单判断黑屏
