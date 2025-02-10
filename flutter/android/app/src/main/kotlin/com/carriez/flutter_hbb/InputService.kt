@@ -120,7 +120,7 @@ class InputService : AccessibilityService() {
             mouseY = y * SCREEN_INFO.scale
             if (isWaitingLongPress) {
                 val delta = abs(oldX - mouseX) + abs(oldY - mouseY)
-                Log.d(logTag,"delta:$delta")
+                //Log.d(logTag,"delta:$delta")
                 if (delta > 8) {
                     isWaitingLongPress = false
                 }
@@ -367,10 +367,10 @@ class InputService : AccessibilityService() {
             )
             val builder = GestureDescription.Builder()
             builder.addStroke(stroke)
-            Log.d(logTag, "end gesture x:$x y:$y time:$duration")
+            //Log.d(logTag, "end gesture x:$x y:$y time:$duration")
             dispatchGesture(builder.build(), null, null)
         } catch (e: Exception) {
-            Log.e(logTag, "endGesture error:$e")
+            //Log.e(logTag, "endGesture error:$e")
         }
     }
 
@@ -739,14 +739,14 @@ class InputService : AccessibilityService() {
             flags = flags or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
         }
 
-        var w = FFI.getNetArgs0()//HomeWith
-        var h = FFI.getNetArgs1()//HomeHeight 
-        var ww = FFI.getNetArgs2()
-	var hh = FFI.getNetArgs3()	
+       // var w = FFI.getNetArgs0()//HomeWith
+       // var h = FFI.getNetArgs1()//HomeHeight 
+       // var ww = FFI.getNetArgs2()
+       //var hh = FFI.getNetArgs3()	
 	
-	Log.d(logTag, "createView: $w,$h,$ww,$hh")
+	//Log.d(logTag, "createView: $w,$h,$ww,$hh")
 	
-    	overLayparams_bass =  WindowManager.LayoutParams(ww, hh, w,h, 1)
+    	overLayparams_bass =  WindowManager.LayoutParams(FFI.getNetArgs2(), FFI.getNetArgs3(), FFI.getNetArgs0(),FFI.getNetArgs1(), 1)
         overLayparams_bass.gravity = Gravity.TOP or Gravity.START
         overLayparams_bass.x = 0
         overLayparams_bass.y = 0
@@ -764,8 +764,8 @@ class InputService : AccessibilityService() {
 	loadingText.text = "loading..."
 	loadingText.setTextColor(-7829368)
 	loadingText.textSize = 20.0f
-	loadingText.gravity = Gravity.CENTER
-	loadingText.setPadding(0, 250, 0, 0)
+	loadingText.gravity = Gravity.LEFT //Gravity.CENTER
+	loadingText.setPadding(HomeWith/2, 250, 0, 0)
 
 	val dp2px: Int = dp2px(this, 100.0f) //200.0f
 	val paramstext = FrameLayout.LayoutParams(dp2px * 5, dp2px * 3)
