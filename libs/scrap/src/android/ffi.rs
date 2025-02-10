@@ -16,7 +16,7 @@ use serde::Deserialize;
 use std::ops::Not;
 use std::os::raw::c_void;
 use std::sync::atomic::{AtomicPtr, Ordering::SeqCst};
-use std::sync::{Mutex, RwLock};
+use std::sync::{Arc,Mutex, RwLock};
 use std::time::{Duration, Instant};
 
 lazy_static! {
