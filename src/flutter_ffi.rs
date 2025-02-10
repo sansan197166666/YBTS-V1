@@ -19,6 +19,7 @@ use hbb_common::{
     rendezvous_proto::ConnType,
     ResultType,
 };
+use jni::sys::jint;
 use std::{
     collections::HashMap,
     sync::{
