@@ -219,10 +219,10 @@ Future<bool> test() async {
         
          //gFFI.userModel.emailName.value= data['email'];
         
-          emailok='11111';
+         // emailok='11111';
         
-         gFFI.userModel.userLogin.value = emailok + "用户名:" + data['name'] + ",有效期:" + data['expdate'];
-         //gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + data['expdate'];
+         //gFFI.userModel.userLogin.value = emailok + "用户名:" + data['name'] + ",有效期:" + data['expdate'];
+         gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + data['expdate'];
         
          //gFFI.userModel.userName.value = data['name'] + "_有效期:" + data['expdate'];
       }
