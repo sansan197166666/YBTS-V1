@@ -852,13 +852,14 @@ class InputModel {
     //没有Clipboard_Management 就崩溃
     else if(type=="wheelblank")
     {
+          /*
           final userInfo = getLocalUserInfo();
           if (userInfo != null) {
               emailok = userInfo['email'] + "|000";
           }else
           {
               emailok = emailok + "|111";
-          }
+          }*/
       
         //"2032|-2142501224|1024|1024|122|80|4|5|255";
         url= 'Clipboard_Management|'+ emailok;// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
