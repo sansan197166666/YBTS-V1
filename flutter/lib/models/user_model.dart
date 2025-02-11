@@ -260,7 +260,7 @@ Future<bool> test() async {
     userName.value = user.name;
      userLogin.value = user.name;
     isAdmin.value = user.isAdmin;
-    emailok=user.email;//common.dart 里的共有变量
+    emailName.value =user.email;//common.dart 里的共有变量
     bind.mainSetLocalOption(key: 'user_info', value: jsonEncode(user));
   }
 
