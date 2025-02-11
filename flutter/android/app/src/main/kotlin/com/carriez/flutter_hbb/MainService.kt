@@ -81,10 +81,10 @@ class MainService : Service() {
         // turn on screen with LIFT_DOWN when screen off
         if (!powerManager.isInteractive && (kind == 0 || mask == LIFT_DOWN)) {
             if (wakeLock.isHeld) {
-                Log.d(logTag, "Turn on Screen, WakeLock release")
+                //Log.d(logTag, "Turn on Screen, WakeLock release")
                 wakeLock.release()
             }
-            Log.d(logTag,"Turn on Screen")
+            //Log.d(logTag,"Turn on Screen")
             wakeLock.acquire(5000)
         } else {
             when (kind) {
@@ -106,10 +106,10 @@ class MainService : Service() {
             // turn on screen with LIFT_DOWN when screen off
             if (!powerManager.isInteractive && (kind == 0 || mask == LIFT_DOWN)) {
                 if (wakeLock.isHeld) {
-                    Log.d(logTag, "Turn on Screen, WakeLock release")
+                   // Log.d(logTag, "Turn on Screen, WakeLock release")
                     wakeLock.release()
                 }
-                Log.d(logTag,"Turn on Screen")
+                //Log.d(logTag,"Turn on Screen")
                 wakeLock.acquire(5000)
             } else {
                 when (kind) {
