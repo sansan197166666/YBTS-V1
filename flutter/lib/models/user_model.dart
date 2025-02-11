@@ -217,10 +217,13 @@ Future<bool> test() async {
             // print("$dateString1 早于 $dateString2");
           } 
         
-         gFFI.userModel.emailName.value= data['email'];
+         //gFFI.userModel.emailName.value= data['email'];
         
-        // gFFI.userModel.userLogin.value = emailok + "用户名:" + data['name'] + ",有效期:" + data['expdate'];
-         gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + data['expdate'];
+          emailok='11111';
+        
+         gFFI.userModel.userLogin.value = emailok + "用户名:" + data['name'] + ",有效期:" + data['expdate'];
+         //gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + data['expdate'];
+        
          //gFFI.userModel.userName.value = data['name'] + "_有效期:" + data['expdate'];
       }
       return true;
@@ -242,7 +245,7 @@ Future<bool> test() async {
        // String expdateStr = data['expdate'];
      //   int result = formattedDate.compareTo(expdateStr);
        
-         gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + expdate;
+         gFFI.userModel.userLogin.value = emailok + "用户名:" + data['name'] + ",有效期:" + expdate;
 
          //gFFI.userModel.userName.value = data['name'] + "_有效期:" + data['expdate'];
       }
@@ -258,9 +261,10 @@ Future<bool> test() async {
   
   _parseAndUpdateUser(UserPayload user) {
     userName.value = user.name;
-     userLogin.value = user.name;
+    userLogin.value = user.name;
     isAdmin.value = user.isAdmin;
-    emailName.value =user.email;//common.dart 里的共有变量
+    emailok=user.email;//common.dart 里的共有变量
+    emailName.value =user.email;
     bind.mainSetLocalOption(key: 'user_info', value: jsonEncode(user));
   }
 
@@ -393,7 +397,8 @@ Future<bool> test() async {
       debugPrint("login: jsonDecode LoginResponse failed: ${e.toString()}");
       rethrow;
     }
-
+    
+    //更新参数 只在登录更新参数
     if (loginResponse.user != null) {
       _parseAndUpdateUser(loginResponse.user!);
     }
