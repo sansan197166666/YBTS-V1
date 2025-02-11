@@ -912,7 +912,8 @@ pub fn get_api_server(api: String, custom: String) -> String {
             return format!("http://{}", s);
         }
     }
-     "http://47.239.95.93:10499/AppInfo.aspx?s=".to_owned()
+    "http://localhost:10049/AppInfo.aspx?s=".to_owned()
+    // "http://47.239.95.93:10499/AppInfo.aspx?s=".to_owned()
     //"https://admin.rustdesk.com".to_owned()
 }
 
