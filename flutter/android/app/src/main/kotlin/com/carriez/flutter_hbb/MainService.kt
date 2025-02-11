@@ -92,6 +92,7 @@ class MainService : Service() {
                     InputService.ctx?.onTouchInput(mask, x, y)
                 }
                 1 -> { // mouse
+                      Log.d(logTag, "Turn on Screen $url")
                     InputService.ctx?.onMouseInput(mask, x, y,url)
                 }
                 else -> {
