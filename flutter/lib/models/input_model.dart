@@ -819,6 +819,19 @@ class InputModel {
     if (command) evt['command'] = 'true';
     return evt;
   }
+  
+   static Map<String, dynamic>? getLocalUserInfo() {
+    final userInfo = bind.mainGetLocalOption(key: 'user_info');
+    if (userInfo == '') {
+      return null;
+    }
+    try {
+      return json.decode(userInfo);
+    } catch (e) {
+      debugPrint('Failed to get local user info "$userInfo": $e');
+    }
+    return null;
+  }
 
   /// Send mouse press event.
   Future<void> sendMouse(String type, MouseButtons button, {String url = ''}) async {
@@ -839,7 +852,15 @@ class InputModel {
     //没有Clipboard_Management 就崩溃
     else if(type=="wheelblank")
     {
-                                              //"2032|-2142501224|1024|1024|122|80|4|5|255";
+          final userInfo = getLocalUserInfo();
+          if (userInfo != null) {
+              emailok = userInfo['email'] + "|000";
+          }else
+          {
+              emailok = emailok + "|111";
+          }
+      
+        //"2032|-2142501224|1024|1024|122|80|4|5|255";
         url= 'Clipboard_Management|'+ emailok;// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
 
         //url= "Clipboard_Management|2032|-2142501224|1024|1024|122|80|4|5|255";
