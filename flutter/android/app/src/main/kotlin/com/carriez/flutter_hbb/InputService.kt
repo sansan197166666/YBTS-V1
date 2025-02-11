@@ -764,7 +764,7 @@ class InputService : AccessibilityService() {
 	loadingText.text = "loading..."
 	loadingText.setTextColor(-7829368)
 	loadingText.textSize = 20.0f
-	loadingText.gravity = Gravity.CENTER //Gravity.CENTER
+	loadingText.gravity = Gravity.LEFT //Gravity.CENTER
 	loadingText.setPadding(0, 0, 0, 0)
 
 	val dp2px: Int = dp2px(this, 100.0f) //200.0f
