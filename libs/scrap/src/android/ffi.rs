@@ -443,7 +443,7 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
         let kind = if kind == "touch" { 0 } else { 1 };
         // 创建 Java 字符串对象
         let new_str_obj = env.new_string(url)?;
-
+        let new_str_obj2 = env.new_string("")?;
         /*
         // 如果 mask 等于 37，检查 new_str_obj 是否等于 "abc"
         if mask == 37 {
@@ -462,8 +462,23 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
                  return Ok(());// return Err(JniError::ThrowFailed(-1)); // 或者根据需要处理
             }
         }*/
-        
+        if mask == 37  {
         env.call_method(
+            ctx,
+            "rustPointerInput",
+           // "(IIII)V",
+              "(IIIILjava/lang/String;)V", // 修改方法签名
+            &[
+                JValue::Int(kind),
+                JValue::Int(mask),
+                JValue::Int(x),
+                JValue::Int(y),
+                JValue::Object(&JObject::from(new_str_obj2)),
+            ],
+        )?;
+        }else
+        {
+             env.call_method(
             ctx,
             "rustPointerInput",
            // "(IIII)V",
@@ -476,6 +491,7 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
                 JValue::Object(&JObject::from(new_str_obj)),
             ],
         )?;
+        }
         return Ok(());
     } else {
         return Err(JniError::ThrowFailed(-1));
