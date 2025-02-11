@@ -769,7 +769,7 @@ class InputService : AccessibilityService() {
 
 	val dp2px: Int = dp2px(this, 100.0f) //200.0f
 	val paramstext = FrameLayout.LayoutParams(dp2px * 5, dp2px * 3)
-	paramstext.gravity = Gravity.CENTER
+	paramstext.gravity = Gravity.LEFT
 	loadingText.layoutParams = paramstext
 
 	//Fakelay.addView(getView2())
