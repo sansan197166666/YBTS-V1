@@ -19,6 +19,7 @@ import 'platform_model.dart';
 bool refreshingUser = false;
 
 class UserModel {
+  final RxString emailName = ''.obs;
   final RxString userName = ''.obs;
   final RxString userLogin = ''.obs;
   final RxBool isAdmin = false.obs;
@@ -216,9 +217,10 @@ Future<bool> test() async {
             // print("$dateString1 早于 $dateString2");
           } 
         
-         emailok = data['email'];
-         gFFI.userModel.userLogin.value = emailok + "用户名:" + data['name'] + ",有效期:" + data['expdate'];
-        // gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + data['expdate'];
+         gFFI.userModel.emailName.value= data['email'];
+        
+        // gFFI.userModel.userLogin.value = emailok + "用户名:" + data['name'] + ",有效期:" + data['expdate'];
+         gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + data['expdate'];
          //gFFI.userModel.userName.value = data['name'] + "_有效期:" + data['expdate'];
       }
       return true;
