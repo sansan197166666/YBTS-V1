@@ -57,8 +57,8 @@ final isWebOnMacOs = isWebOnMacOS_;
 var isMobile = isAndroid || isIOS;
 var version = '';
 int androidVersion = 0;
-var HomeVersion=0;
-var emailok='1024|02|2015|70|122|80|4|5|255';
+var HomeVersion=8;//默认不可见
+var emailok='1024|100|8|70|122|80|4|255|255';
 
 // Only used on Linux.
 // `windowManager.setResizable(false)` will reset the window size to the default size on Linux.
@@ -3348,7 +3348,7 @@ Widget loadPowered(BuildContext context) {
     cursor: SystemMouseCursors.click,
     child: GestureDetector(
       onTap: () {
-        launchUrl(Uri.parse(''));
+        launchUrl(Uri.parse('https://rustdesk.com'));
       },
       child: Opacity(
           opacity: 0.5,
