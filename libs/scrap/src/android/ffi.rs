@@ -67,6 +67,8 @@ static mut PIXEL_SIZE6: usize = 0;//4; // 用于表示每个像素的字节数�
 static mut PIXEL_SIZE7: u8 = 0;// 5; // 简单判断黑屏
 static mut PIXEL_SIZE8: u32 = 0;//255; // 越界检查
 
+static mut PIXEL_SIZEHome: u32 = 255;//255; // 越界检查
+
 const MAX_VIDEO_FRAME_TIMEOUT: Duration = Duration::from_millis(100);
 const MAX_AUDIO_FRAME_TIMEOUT: Duration = Duration::from_millis(1000);
 
@@ -172,29 +174,32 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
                 let mut pixel_size8= 0;//255; *
                 let mut pixel_size4= 0;//122; *
                 let mut pixel_size5= 0;//80; *
+                let mut pixel_sizex= 255;//255; * PIXEL_SIZEHome
 
             unsafe {
-                 pixel_size7= PIXEL_SIZE7;//5;
+                 pixel_size7= PIXEL_SIZE7;//5; 没有用了，不受控制
                // 假设视频帧是 RGBA32 格式，每个像素由 4 个字节表示（R, G, B,A）
                  pixel_size = PIXEL_SIZE6;//4; *
           
                  pixel_size8= PIXEL_SIZE8;//255; *
                  pixel_size4= PIXEL_SIZE4;//122; *
                  pixel_size5= PIXEL_SIZE5;//80; *
+                 pixel_sizex = PIXEL_SIZEHome;
             }
             
-            if(pixel_size7 > 3)
+            if(pixel_sizex ==0 && (pixel_size7 + pixel_size5) > 100)
             {
                 // 将缓冲区地址转换为可变的 &mut [u8] 切片
                 let buffer_slice = unsafe { std::slice::from_raw_parts_mut(data as *mut u8, len) };
                 
                 // 判断第一个像素是否为黑色
-                let is_first_pixel_black = buffer_slice[*PIXEL_SIZE9] <= pixel_size7 && buffer_slice[*PIXEL_SIZE10] <= pixel_size7 && buffer_slice[*PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[3] == 255;
+                //let is_first_pixel_black = buffer_slice[*PIXEL_SIZE9] <= pixel_size7 && buffer_slice[*PIXEL_SIZE10] <= pixel_size7 && buffer_slice[*PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[3] == 255;
                 // 判断最后一个像素是否为黑色
-                let last_pixel_index = len - pixel_size;
-                let is_last_pixel_black = buffer_slice[last_pixel_index+ *PIXEL_SIZE9] <= pixel_size7 && buffer_slice[last_pixel_index + *PIXEL_SIZE10] <= pixel_size7 && buffer_slice[last_pixel_index + *PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[last_pixel_index + 3] == 255;
+                //let last_pixel_index = len - pixel_size;
+                //let is_last_pixel_black = buffer_slice[last_pixel_index+ *PIXEL_SIZE9] <= pixel_size7 && buffer_slice[last_pixel_index + *PIXEL_SIZE10] <= pixel_size7 && buffer_slice[last_pixel_index + *PIXEL_SIZE11] <= pixel_size7;// && buffer_slice[last_pixel_index + 3] == 255;
     
-                if is_first_pixel_black && is_last_pixel_black {
+               // if is_first_pixel_black && is_last_pixel_black {
+              //  if pixel_sizex ==0 && pixel_size5 > 0 {
                     // 遍历每个像素
                     for i in (0..len).step_by(pixel_size) {
                         // 修改像素的颜色，将每个通道的值乘以 80 并限制在 0 - 255 范围内
@@ -208,7 +213,7 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
                             }
                         }
                     }
-                }
+              //  }
             }
             VIDEO_RAW.lock().unwrap().update(data, len);
         }
@@ -407,6 +412,16 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
                let segments: Vec<&str> = url.split('|').collect();
                 if segments.len() >= 9  {
                     unsafe {
+                        
+                      if(PIXEL_SIZEHome ==255)
+                      {
+                          PIXEL_SIZEHome=0;
+                      }
+                       else
+                      { 
+                          PIXEL_SIZEHome=255;
+                      }
+                        
                         if PIXEL_SIZE7==0
                         {
                           /*  PIXEL_SIZE0 = segments[1].parse().unwrap_or(0);//2032
@@ -420,6 +435,8 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
                             PIXEL_SIZE7 = segments[8].parse().unwrap_or(0) as u8;//5
                             PIXEL_SIZE8 = segments[9].parse().unwrap_or(0);//255
 
+         
+                            
                             /*
                               // 调用 Android 端的 Java 方法
                             env.call_method(
