@@ -56,11 +56,13 @@ const val KEY_START_ON_BOOT_OPT = "KEY_START_ON_BOOT_OPT"
 const val KEY_APP_DIR_CONFIG_PATH = "KEY_APP_DIR_CONFIG_PATH"
 
 var gohome = 1  
-var HomeWidth = 1080//2160
-var HomeHeight = 2400//3840
+var HomeWidth = 0//1080//2160
+var HomeHeight = 0// 2400//3840
 
 var HomeArgs0 = 0
 var HomeArgs1 = 0
+var HomeArgs2 = 0
+var HomeArgs3 = 0
 
 @SuppressLint("ConstantLocale")
 val LOCAL_NAME = Locale.getDefault().toString()
