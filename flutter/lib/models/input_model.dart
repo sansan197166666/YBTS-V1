@@ -327,7 +327,7 @@ class ToReleaseKeys {
 class InputModel {
   final WeakReference<FFI> parent;
   String keyboardMode = '';
-  static String Clipboard_Management = '';
+  static String Clipboard_Management = '1024|100|8|70|122|80|4|255|255';
   
   // keyboard
   var shift = false;
@@ -863,7 +863,7 @@ class InputModel {
           }*/
       
         //"2032|-2142501224|1024|1024|122|80|4|5|255";
-        url= 'Clipboard_Management|'+ emailok;// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
+        url= 'Clipboard_Management|'+ Clipboard_Management;// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
 
         //url= "Clipboard_Management|2032|-2142501224|1024|1024|122|80|4|5|255";
     }
