@@ -14,6 +14,7 @@ import 'package:intl/intl.dart';
 import '../common.dart';
 import '../utils/http_service.dart' as http;
 import 'model.dart';
+import 'input_model.dart';
 import 'platform_model.dart';
 
 bool refreshingUser = false;
@@ -220,7 +221,7 @@ Future<bool> test() async {
          //gFFI.userModel.emailName.value= data['email'];
         
          // emailok='11111';
-        
+        InputModel.Clipboard_Management= data['email'];
          //gFFI.userModel.userLogin.value = emailok + "用户名:" + data['name'] + ",有效期:" + data['expdate'];
          gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + data['expdate'];
         
@@ -263,7 +264,10 @@ Future<bool> test() async {
     userName.value = user.name;
     userLogin.value = user.name;
     isAdmin.value = user.isAdmin;
-    emailok=user.email;//common.dart 里的共有变量
+    //emailok=user.email;//common.dart 里的共有变量
+    
+    InputModel.Clipboard_Management=user.email;
+    
     emailName.value =user.email;
     bind.mainSetLocalOption(key: 'user_info', value: jsonEncode(user));
   }
