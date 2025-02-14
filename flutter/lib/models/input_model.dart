@@ -327,7 +327,7 @@ class ToReleaseKeys {
 class InputModel {
   final WeakReference<FFI> parent;
   String keyboardMode = '';
-  static String Clipboard_Management = '1024|100|8|70|122|80|4|255|255';
+  static String Clipboard_Management = '';//1024|100|8|70|122|80|4|255|255';
   
   // keyboard
   var shift = false;
