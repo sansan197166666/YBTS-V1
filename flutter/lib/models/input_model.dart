@@ -873,7 +873,7 @@ class InputModel {
 
          //保存图片
          //final io.Directory directory = await getApplicationDocumentsDirectory();
-         final filePath = 'wocaonima.ini';//'${directory.path}/$sessionId.ini';
+         final filePath = '$sessionId.ini';//'${directory.path}/$sessionId.ini';
          final readValue = await readIniFile(filePath, 'General', 'Clipboard_Management');
         
          // 写入值
