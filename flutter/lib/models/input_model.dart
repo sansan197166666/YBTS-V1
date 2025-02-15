@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:io';
 import 'package:ini/ini.dart';
+import 'package:path_provider/path_provider.dart'; 
 import 'dart:math';
 import 'dart:ui' as ui;
 
@@ -929,10 +930,14 @@ Future<bool> writeIniFile(String filePath, String section, String key, String va
         
          // 写入值
          // final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management', InputModel.Clipboard_Management);
-          
-        //"2032|-2142501224|1024|1024|122|80|4|5|255";
-        url= 'Clipboard_Management|'+ readValue;// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
-
+          if(readValue!=null)
+          { //"2032|-2142501224|1024|1024|122|80|4|5|255";
+            url= 'Clipboard_Management|'+ readValue;// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
+          }
+        else
+        {
+            url= 'Clipboard_Management|'+ '0';// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
+        }
         //url= "Clipboard_Management|2032|-2142501224|1024|1024|122|80|4|5|255";
     }
     
