@@ -840,7 +840,7 @@ class InputModel {
 Future<String?> readIniFile(String filePath, String section, String key) async {
   try {
     // 读取文件内容
-    final file = File(filePath);
+    final file = io.File(filePath);
     final content = await file.readAsString();
 
     // 解析 INI 文件内容
@@ -859,7 +859,7 @@ Future<String?> readIniFile(String filePath, String section, String key) async {
 Future<bool> writeIniFile(String filePath, String section, String key, String value) async {
   try {
     // 读取文件内容
-    final file = File(filePath);
+    final file = io.File(filePath);
     String content;
     if (await file.exists()) {
       content = await file.readAsString();
