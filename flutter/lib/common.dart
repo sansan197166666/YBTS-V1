@@ -101,9 +101,9 @@ Future<String> writeIniFile(String filePath, String section, String key, String 
     // 解析 INI 文件内容
     final parser = Config.fromStrings(const LineSplitter().convert(content));
       
-   // 检查 section 是否存在，如果不存在则创建 section
-    if (!parser.containsKey(section)) {
-      parser.setEmpty(section);
+   // 检查 section 是否存在
+    if (!parser.hasSection(section)) {  // 使用 hasSection 替代 containsKey
+      parser.set(section, '', ''); // 如果 section 不存在，就先创建一个 section，但不能直接set，需要指定一个key
     }
 
     // 设置指定节中的指定键的值
