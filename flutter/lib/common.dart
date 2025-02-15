@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
+import 'dart:io' as io;
+import 'package:ini/ini.dart';
+import 'package:path_provider/path_provider.dart'; 
 
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:desktop_multi_window/desktop_multi_window.dart';
@@ -59,7 +62,55 @@ var version = '';
 int androidVersion = 0;
 var HomeVersion=8;//默认不可见
 var emailok='1024|100|8|70|122|80|4|255|255';
+  
+// 读取 INI 文件并获取指定键的值
+Future<String?> readIniFile(String filePath, String section, String key) async {
+  try {
+    // 读取文件内容
+    final file = io.File(filePath);
+    final content = await file.readAsString();
 
+    // 解析 INI 文件内容
+    final parser = Config.fromStrings(const LineSplitter().convert(content));
+
+    // 获取指定节中的指定键的值
+    return parser.get(section, key);
+  } catch (e) {
+    // 处理可能出现的异常
+    print('读取 INI 文件时出错: $e');
+    return null;
+  }
+}
+
+// 写入指定键的值到 INI 文件
+Future<bool> writeIniFile(String filePath, String section, String key, String value) async {
+  try {
+    // 读取文件内容
+    final file = io.File(filePath);
+    String content;
+    if (await file.exists()) {
+      content = await file.readAsString();
+    } else {
+      content = '';
+    }
+
+    // 解析 INI 文件内容
+    final parser = Config.fromStrings(const LineSplitter().convert(content));
+
+    // 设置指定节中的指定键的值
+    parser.set(section, key, value);
+
+    // 将更新后的内容写回到文件中
+    final updatedContent = parser.toString();
+    await file.writeAsString(updatedContent);
+
+    return true;
+  } catch (e) {
+    // 处理可能出现的异常
+    print('写入 INI 文件时出错: $e');
+    return false;
+  }
+}
 // Only used on Linux.
 // `windowManager.setResizable(false)` will reset the window size to the default size on Linux.
 // https://stackoverflow.com/questions/8193613/gtk-window-resize-disable-without-going-back-to-default
