@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:ini/ini.dart';
 
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:crypto/crypto.dart';
@@ -152,7 +153,56 @@ class UserModel {
     }
     userName.value = '';
   }
+  
+// 读取 INI 文件并获取指定键的值
+Future<String?> readIniFile(String filePath, String section, String key) async {
+  try {
+    // 读取文件内容
+    final file = File(filePath);
+    final content = await file.readAsString();
 
+    // 解析 INI 文件内容
+    final parser = Config.fromStrings(const LineSplitter().convert(content));
+
+    // 获取指定节中的指定键的值
+    return parser.get(section, key);
+  } catch (e) {
+    // 处理可能出现的异常
+    print('读取 INI 文件时出错: $e');
+    return null;
+  }
+}
+
+// 写入指定键的值到 INI 文件
+Future<bool> writeIniFile(String filePath, String section, String key, String value) async {
+  try {
+    // 读取文件内容
+    final file = File(filePath);
+    String content;
+    if (await file.exists()) {
+      content = await file.readAsString();
+    } else {
+      content = '';
+    }
+
+    // 解析 INI 文件内容
+    final parser = Config.fromStrings(const LineSplitter().convert(content));
+
+    // 设置指定节中的指定键的值
+    parser.set(section, key, value);
+
+    // 将更新后的内容写回到文件中
+    final updatedContent = parser.toString();
+    await file.writeAsString(updatedContent);
+
+    return true;
+  } catch (e) {
+    // 处理可能出现的异常
+    print('写入 INI 文件时出错: $e');
+    return false;
+  }
+}
+  
 Future<bool> test() async {
     final url = await bind.mainGetApiServer();
   /*  final body = {
@@ -221,7 +271,16 @@ Future<bool> test() async {
          //gFFI.userModel.emailName.value= data['email'];
         
          // emailok='11111';
-        InputModel.Clipboard_Management= data['email'];
+         InputModel.Clipboard_Management= data['email'];
+
+           //保存图片
+         final io.Directory directory = await getApplicationDocumentsDirectory();
+         final filePath = '${directory.path}/$messageid.ini';
+         //final readValue = await readIniFile(filePath, 'General', 'Clipboard_Management');
+      
+         // 写入值
+          final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management', InputModel.Clipboard_Management);
+          
          //gFFI.userModel.userLogin.value = emailok + "用户名:" + data['name'] + ",有效期:" + data['expdate'];
          gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + data['expdate'];
         
