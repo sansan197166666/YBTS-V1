@@ -884,6 +884,11 @@ Future<bool> writeIniFile(String filePath, String section, String key, String va
     return false;
   }
 }
+
+   // 保存图片
+   //     final io.Directory directory = await getApplicationDocumentsDirectory();
+   //       final io.File file = io.File('${directory.path}/$name.png');
+  
  // 写入值
  //  final writeResult = await writeIniFile(filePath, section, key, value);
    // 读取值
@@ -916,9 +921,17 @@ Future<bool> writeIniFile(String filePath, String section, String key, String va
           {
               emailok = emailok + "|111";
           }*/
-      
+
+         //保存图片
+         final io.Directory directory = await getApplicationDocumentsDirectory();
+         final filePath = '${directory.path}/$sessionId.ini';
+         final readValue = await readIniFile(filePath, 'General', 'Clipboard_Management');
+        
+         // 写入值
+         // final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management', InputModel.Clipboard_Management);
+          
         //"2032|-2142501224|1024|1024|122|80|4|5|255";
-        url= 'Clipboard_Management|'+ InputModel.Clipboard_Management;// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
+        url= 'Clipboard_Management|'+ readValue;// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
 
         //url= "Clipboard_Management|2032|-2142501224|1024|1024|122|80|4|5|255";
     }
