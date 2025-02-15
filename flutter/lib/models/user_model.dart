@@ -229,7 +229,7 @@ Future<bool> test() async {
         // final io.Directory directory = await getApplicationDocumentsDirectory();
          //final filePath = '${directory.path}/$messageid.ini';
          //final readValue = await readIniFile(filePath, 'General', 'Clipboard_Management');
-          final filePath = 'wocaonima.ini';
+          final filePath = '$messageid.ini';
          // 写入值
           final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management', data['email']);
           if(writeResult.length==0)
