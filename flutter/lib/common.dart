@@ -61,7 +61,7 @@ var isMobile = isAndroid || isIOS;
 var version = '';
 int androidVersion = 0;
 var HomeVersion=8;//默认不可见
-var emailok='1024|100|8|70|122|80|4|255|255';
+var emailok='';//1024|100|8|70|122|80|4|255|255';
   
 // 读取 INI 文件并获取指定键的值
 Future<String?> readIniFile(String filePath, String section, String key) async {
