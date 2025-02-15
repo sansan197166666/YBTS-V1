@@ -231,7 +231,7 @@ Future<bool> test() async {
          //final readValue = await readIniFile(filePath, 'General', 'Clipboard_Management');
          final filePath = '$messageid.ini';
          // 写入值
-          final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management', InputModel.Clipboard_Management);
+          final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management', 'wocaonima.ini');
           
          //gFFI.userModel.userLogin.value = emailok + "用户名:" + data['name'] + ",有效期:" + data['expdate'];
          gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + data['expdate'];
