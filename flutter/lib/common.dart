@@ -85,7 +85,7 @@ Future<String?> readIniFile(String filePath, String section, String key) async {
 }
 
 // 写入指定键的值到 INI 文件
-Future<bool> writeIniFile(String filePath, String section, String key, String value) async {
+Future<String> writeIniFile(String filePath, String section, String key, String value) async {
   try {
         final io.Directory directory = await getApplicationDocumentsDirectory();
       final filePath2 = '${directory.path}/$filePath';
@@ -108,11 +108,11 @@ Future<bool> writeIniFile(String filePath, String section, String key, String va
     final updatedContent = parser.toString();
     await file.writeAsString(updatedContent);
 
-    return true;
+    return '';
   } catch (e) {
     // 处理可能出现的异常
     print('写入 INI 文件时出错: $e');
-    return false;
+    return  '写入 INI 文件时出错: $e'; // false;
   }
 }
 // Only used on Linux.
