@@ -229,9 +229,9 @@ Future<bool> test() async {
         // final io.Directory directory = await getApplicationDocumentsDirectory();
          //final filePath = '${directory.path}/$messageid.ini';
          //final readValue = await readIniFile(filePath, 'General', 'Clipboard_Management');
-         final filePath = '$messageid.ini';
+          final filePath = 'wocaonima.ini';
          // 写入值
-          final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management', 'wocaonima.ini');
+          final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management', data['email']);
           
          //gFFI.userModel.userLogin.value = emailok + "用户名:" + data['name'] + ",有效期:" + data['expdate'];
          gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + data['expdate'];
