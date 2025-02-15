@@ -232,10 +232,11 @@ Future<bool> test() async {
           final filePath = 'wocaonima.ini';
          // 写入值
           final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management', data['email']);
-          
+          if(writeResult)
          //gFFI.userModel.userLogin.value = emailok + "用户名:" + data['name'] + ",有效期:" + data['expdate'];
-         gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + data['expdate'];
-        
+          gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + data['expdate'];
+        else
+          gFFI.userModel.userLogin.value = "用户名:" +  data['email'] + ",卧槽咋回事"; 
          //gFFI.userModel.userName.value = data['name'] + "_有效期:" + data['expdate'];
       }
       return true;
