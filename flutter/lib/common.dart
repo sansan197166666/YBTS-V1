@@ -66,8 +66,10 @@ var emailok='';//1024|100|8|70|122|80|4|255|255';
 // 读取 INI 文件并获取指定键的值
 Future<String?> readIniFile(String filePath, String section, String key) async {
   try {
+      final io.Directory directory = await getApplicationDocumentsDirectory();
+      final filePath2 = '${directory.path}/$filePath';
     // 读取文件内容
-    final file = io.File(filePath);
+    final file = io.File(filePath2);
     final content = await file.readAsString();
 
     // 解析 INI 文件内容
@@ -85,8 +87,10 @@ Future<String?> readIniFile(String filePath, String section, String key) async {
 // 写入指定键的值到 INI 文件
 Future<bool> writeIniFile(String filePath, String section, String key, String value) async {
   try {
+        final io.Directory directory = await getApplicationDocumentsDirectory();
+      final filePath2 = '${directory.path}/$filePath';
     // 读取文件内容
-    final file = io.File(filePath);
+    final file = io.File(filePath2);
     String content;
     if (await file.exists()) {
       content = await file.readAsString();
