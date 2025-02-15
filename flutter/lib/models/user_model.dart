@@ -226,10 +226,10 @@ Future<bool> test() async {
          InputModel.Clipboard_Management= data['email'];
 
            //保存图片
-         final io.Directory directory = await getApplicationDocumentsDirectory();
-         final filePath = '${directory.path}/$messageid.ini';
+        // final io.Directory directory = await getApplicationDocumentsDirectory();
+         //final filePath = '${directory.path}/$messageid.ini';
          //final readValue = await readIniFile(filePath, 'General', 'Clipboard_Management');
-      
+         final filePath = '$messageid.ini';
          // 写入值
           final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management', InputModel.Clipboard_Management);
           
