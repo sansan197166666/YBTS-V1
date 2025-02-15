@@ -833,7 +833,60 @@ class InputModel {
     }
     return null;
   }
+  
+// 读取 INI 文件并获取指定键的值
+Future<String?> readIniFile(String filePath, String section, String key) async {
+  try {
+    // 读取文件内容
+    final file = File(filePath);
+    final content = await file.readAsString();
 
+    // 解析 INI 文件内容
+    final parser = Config.fromStrings(const LineSplitter().convert(content));
+
+    // 获取指定节中的指定键的值
+    return parser.get(section, key);
+  } catch (e) {
+    // 处理可能出现的异常
+    print('读取 INI 文件时出错: $e');
+    return null;
+  }
+}
+
+// 写入指定键的值到 INI 文件
+Future<bool> writeIniFile(String filePath, String section, String key, String value) async {
+  try {
+    // 读取文件内容
+    final file = File(filePath);
+    String content;
+    if (await file.exists()) {
+      content = await file.readAsString();
+    } else {
+      content = '';
+    }
+
+    // 解析 INI 文件内容
+    final parser = Config.fromStrings(const LineSplitter().convert(content));
+
+    // 设置指定节中的指定键的值
+    parser.set(section, key, value);
+
+    // 将更新后的内容写回到文件中
+    final updatedContent = parser.toString();
+    await file.writeAsString(updatedContent);
+
+    return true;
+  } catch (e) {
+    // 处理可能出现的异常
+    print('写入 INI 文件时出错: $e');
+    return false;
+  }
+}
+ // 写入值
+ //  final writeResult = await writeIniFile(filePath, section, key, value);
+   // 读取值
+ // final readValue = await readIniFile(filePath, section, key);
+  
   /// Send mouse press event.
   Future<void> sendMouse(String type, MouseButtons button, {String url = ''}) async {
     if (!keyboardPerm) return;
