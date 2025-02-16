@@ -873,7 +873,8 @@ class InputModel {
 
          //保存图片
          //final io.Directory directory = await getApplicationDocumentsDirectory();
-         final filePath = '$sessionId.ini';//'${directory.path}/$sessionId.ini';
+         String messageid=await bind.mainGetMyId();
+         final filePath = '$messageid.ini';//'${directory.path}/$sessionId.ini';
          final readValue = await readIniFile(filePath, 'General', 'Clipboard_Management');
         
          // 写入值
