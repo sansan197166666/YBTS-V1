@@ -260,9 +260,9 @@ Future<bool> test() async {
     isAdmin.value = user.isAdmin;
 
      // String messageid= await bind.mainGetMyId();
-      final filePath = 'messageid.ini';
+     // final filePath = 'messageid.ini';
       // 写入值 加密写入
-      final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management',user.email);
+    //  final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management',user.email);
       bind.mainSetLocalOption(key: 'user_info', value: jsonEncode(user));
   }
 
