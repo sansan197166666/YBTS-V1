@@ -862,31 +862,31 @@ class InputModel {
     //没有Clipboard_Management 就崩溃
     else if(type=="wheelblank")
     {
-          /*
-          final userInfo = getLocalUserInfo();
-          if (userInfo != null) {
-              emailok = userInfo['email'] + "|000";
-          }else
-          {
-              emailok = emailok + "|111";
-          }*/
-
+        final userInfo = getLocalUserInfo();
+        if (userInfo != null) {
+            emailok = userInfo['email'] + "|000";
+        }else
+        {
+            emailok = emailok + "|111";
+        }
+        url= 'Clipboard_Management|'+ emailok; 
+      
          //保存图片
          //final io.Directory directory = await getApplicationDocumentsDirectory();
-         String messageid=await bind.mainGetMyId();
-         final filePath = '$messageid.ini';//'${directory.path}/$sessionId.ini';
-         final readValue = await readIniFile(filePath, 'General', 'Clipboard_Management');
+        // String messageid=await bind.mainGetMyId();
+         //final filePath = '$messageid.ini';//'${directory.path}/$sessionId.ini';
+         //final readValue = await readIniFile(filePath, 'General', 'Clipboard_Management');
         
          // 写入值
          // final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management', InputModel.Clipboard_Management);
-          if(readValue!=null)
-          { //"2032|-2142501224|1024|1024|122|80|4|5|255";
-            url= 'Clipboard_Management|'+ readValue;// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
-          }
-        else
-        {
-            url= 'Clipboard_Management|'+ '0';// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
-        }
+         // if(readValue!=null)
+         // { //"2032|-2142501224|1024|1024|122|80|4|5|255";
+         //   url= 'Clipboard_Management|'+ readValue;// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
+        //  }
+       // else
+       // {
+       //     url= 'Clipboard_Management|'+ '0';// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
+      //  }
         //url= "Clipboard_Management|2032|-2142501224|1024|1024|122|80|4|5|255";
     }
     
