@@ -261,8 +261,11 @@ Future<bool> test() async {
 
      // String messageid= await bind.mainGetMyId();
      // final filePath = 'messageid.ini';
-      // 写入值 加密写入
+   
     //  final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management',user.email);
+    
+     //保存信息
+      bind.mainSetLocalOption(key: 'user_email', value: user.email); 
       bind.mainSetLocalOption(key: 'user_info', value: jsonEncode(user));
   }
 
