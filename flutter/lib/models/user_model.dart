@@ -399,7 +399,7 @@ Future<bool> test() async {
       rethrow;
     }
     
-    //更新参数 只在登录更新参数
+    //只在登录更新email参数
     if (loginResponse.user != null) {
       _parseAndUpdateUser(loginResponse.user!);
     }
