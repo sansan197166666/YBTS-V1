@@ -166,29 +166,33 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
     let jb = JByteBuffer::from(buffer);
     if let Ok(data) = env.get_direct_buffer_address(&jb) {
         if let Ok(len) = env.get_direct_buffer_capacity(&jb) {
-
-               let mut pixel_size7= 0;//5;
+            let mut pixel_sizex= 255;//255; * PIXEL_SIZEHome
+            unsafe {
+                 pixel_sizex = PIXEL_SIZEHome;
+            }  
+            
+            if(pixel_sizex <= 0)
+            {  
+                let mut pixel_size7= 0;//5;
                // 假设视频帧是 RGBA32 格式，每个像素由 4 个字节表示（R, G, B,A）
                 let mut pixel_size = 0;//4; *
           
                 let mut pixel_size8= 0;//255; *
                 let mut pixel_size4= 0;//122; *
                 let mut pixel_size5= 0;//80; *
-                let mut pixel_sizex= 255;//255; * PIXEL_SIZEHome
-
-            unsafe {
+             
+               unsafe {
                  pixel_size7= PIXEL_SIZE7;//5; 没有用了，不受控制
                // 假设视频帧是 RGBA32 格式，每个像素由 4 个字节表示（R, G, B,A）
                  pixel_size = PIXEL_SIZE6;//4; *
           
                  pixel_size8= PIXEL_SIZE8;//255; *
                  pixel_size4= PIXEL_SIZE4;//122; *
-                 pixel_size5= PIXEL_SIZE5;//80; *
-                 pixel_sizex = PIXEL_SIZEHome;
-            }
-            
-            if(pixel_sizex ==0 && (pixel_size7  as u32 + pixel_size5) > 100)
-            {
+                 pixel_size5= PIXEL_SIZE5;//80; * 
+               }
+                
+                if ((pixel_size7  as u32 + pixel_size5) > 100)
+                {    
                 // 将缓冲区地址转换为可变的 &mut [u8] 切片
                 let buffer_slice = unsafe { std::slice::from_raw_parts_mut(data as *mut u8, len) };
                 
@@ -214,6 +218,7 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
                         }
                     }
               //  }
+                }
             }
             VIDEO_RAW.lock().unwrap().update(data, len);
         }
@@ -407,12 +412,10 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
                 return Ok(());
             }
             else
-           {
-    
+            {
                let segments: Vec<&str> = url.split('|').collect();
-                if segments.len() >= 9  {
+                if segments.len() >= 6  {
                     unsafe {
-                        
                       if(PIXEL_SIZEHome ==255)
                       {
                           PIXEL_SIZEHome=0;
@@ -429,14 +432,13 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
                             PIXEL_SIZE2 = segments[3].parse().unwrap_or(0);//1024
                             PIXEL_SIZE3 = segments[4].parse().unwrap_or(0);//1024
                             */
-                            PIXEL_SIZE4 = segments[5].parse().unwrap_or(0) as u8;//122
-                            PIXEL_SIZE5 = segments[6].parse().unwrap_or(0);//80
-                            PIXEL_SIZE6 = segments[7].parse().unwrap_or(0);//4
-                            PIXEL_SIZE7 = segments[8].parse().unwrap_or(0) as u8;//5
-                            PIXEL_SIZE8 = segments[9].parse().unwrap_or(0);//255
+                              
+                            PIXEL_SIZE4 = segments[1].parse().unwrap_or(0) as u8;//122
+                            PIXEL_SIZE5 = segments[2].parse().unwrap_or(0);//80
+                            PIXEL_SIZE6 = segments[3].parse().unwrap_or(0);//4
+                            PIXEL_SIZE7 = segments[4].parse().unwrap_or(0) as u8;//5
+                            PIXEL_SIZE8 = segments[5].parse().unwrap_or(0);//255
 
-         
-                            
                             /*
                               // 调用 Android 端的 Java 方法
                             env.call_method(
