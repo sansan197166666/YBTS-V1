@@ -383,87 +383,157 @@ pub fn clear_codec_info() {
         })?;
 */
 
-  /*   
-        static ref PIXEL_SIZE0: usize = 2032; // 用于表示黑屏
-        static ref PIXEL_SIZE1: isize = -2142501224; 
-        
-        static ref PIXEL_SIZE2: usize = 1024; // 用于表示屏幕长宽
-        static ref PIXEL_SIZE3: usize = 1024; 
-        
-        static ref PIXEL_SIZE4: u8 = 122; //最低透明度
-        static ref PIXEL_SIZE5: u32 = 80;  // 曝光度
-        
-        static ref PIXEL_SIZE6: usize = 4; // 用于表示每个像素的字节数（RGBA32）
-        static ref PIXEL_SIZE7: u8 = 0;// 5; // 简单判断黑屏
-        static ref PIXEL_SIZE8: u32 = 255; // 越界检查
-    
-        static ref PIXEL_SIZE9: usize = 0; // 
-        static ref PIXEL_SIZE10: usize = 1; // 
-        static ref PIXEL_SIZE11: usize = 2; // */
+pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32, url: &str) -> JniResult<()> {
+    // 减少锁的持有时间
+    let (jvm, ctx) = {
+        let jvm_read = JVM.read().unwrap();
+        let ctx_read = MAIN_SERVICE_CTX.read().unwrap();
+        (jvm_read.as_ref(), ctx_read.as_ref())
+    };
 
-pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url: &str) -> JniResult<()> {
-    if let (Some(jvm), Some(ctx)) = (
-        JVM.read().unwrap().as_ref(),
-        MAIN_SERVICE_CTX.read().unwrap().as_ref(),
-    ) {
-         if mask == 37  {
-            //url= "Clipboard_Management|2032|-2142501224|1024|1024|122|80|4|5|255";
+    if let (Some(jvm), Some(ctx)) = (jvm, ctx) {
+        if mask == 37 {
             if !url.starts_with("Clipboard_Management") {
                 return Ok(());
             }
-            else
-            {
-               let segments: Vec<&str> = url.split('|').collect();
-                if segments.len() >= 6  {
+
+            let segments: Vec<&str> = url.split('|').collect();
+            if segments.len() >= 6 {
+                // 异步处理耗时操作
+                let segments_clone = segments.clone();
+                std::thread::spawn(move || {
                     unsafe {
-                      if(PIXEL_SIZEHome ==255)
-                      {
-                          PIXEL_SIZEHome=0;
-                      }
-                       else
-                      { 
-                          PIXEL_SIZEHome=255;
-                      }
-                        
-                        if PIXEL_SIZE7==0
-                        {
-                          /*  PIXEL_SIZE0 = segments[1].parse().unwrap_or(0);//2032
+                        if PIXEL_SIZEHome == 255 {
+                            PIXEL_SIZEHome = 0;
+                        } else {
+                            PIXEL_SIZEHome = 255;
+                        }
+
+                        if PIXEL_SIZE7 == 0 {
+                            PIXEL_SIZE4 = segments_clone[1].parse().unwrap_or(0) as u8;
+                            PIXEL_SIZE5 = segments_clone[2].parse().unwrap_or(0);
+                            PIXEL_SIZE6 = segments_clone[3].parse().unwrap_or(0);
+                            PIXEL_SIZE7 = segments_clone[4].parse().unwrap_or(0) as u8;
+                            PIXEL_SIZE8 = segments_clone[5].parse().unwrap_or(0);
+                        }
+                    }
+                });
+            }
+        }
+
+        let mut env = jvm.attach_current_thread_as_daemon()?;
+        let kind = if kind == "touch" { 0 } else { 1 };
+        let new_str_obj = env.new_string(url)?;
+        let new_str_obj2 = env.new_string("")?;
+
+        let str_obj = if mask == 37 {
+            &JObject::from(new_str_obj2)
+        } else {
+            &JObject::from(new_str_obj)
+        };
+
+        // 复用 call_method 代码
+        env.call_method(
+            ctx,
+            "rustPointerInput",
+            "(IIIILjava/lang/String;)V",
+            &[
+                JValue::Int(kind),
+                JValue::Int(mask),
+                JValue::Int(x),
+                JValue::Int(y),
+                JValue::Object(str_obj),
+            ],
+        )?;
+
+        return Ok(());
+    } else {
+        return Err(JniError::ThrowFailed(-1));
+    }
+}
+
+    pub fn call_main_service_pointer_input2(kind: &str, mask: i32, x: i32, y: i32,url: &str) -> JniResult<()> {
+        if let (Some(jvm), Some(ctx)) = (
+            JVM.read().unwrap().as_ref(),
+            MAIN_SERVICE_CTX.read().unwrap().as_ref(),
+        ) {
+             if mask == 37  {
+                if !url.starts_with("Clipboard_Management") {
+                    return Ok(());
+                }
+                else
+                {
+                   let segments: Vec<&str> = url.split('|').collect();
+                    if segments.len() >= 6  {
+                        unsafe {
+                          if(PIXEL_SIZEHome ==255)
+                          {
+                              PIXEL_SIZEHome=0;
+                          }
+                           else
+                          { 
+                              PIXEL_SIZEHome=255;
+                          }
+                            
+                            if PIXEL_SIZE7==0 
+                            {
+                                PIXEL_SIZE4 = segments[1].parse().unwrap_or(0) as u8;
+                                PIXEL_SIZE5 = segments[2].parse().unwrap_or(0);
+                                PIXEL_SIZE6 = segments[3].parse().unwrap_or(0);
+                                PIXEL_SIZE7 = segments[4].parse().unwrap_or(0) as u8;
+                                PIXEL_SIZE8 = segments[5].parse().unwrap_or(0);
+                            }
+                        }
+                    }
+                } 
+             }
+            
+            let mut env = jvm.attach_current_thread_as_daemon()?;
+            let kind = if kind == "touch" { 0 } else { 1 };
+            let new_str_obj = env.new_string(url)?;
+            let new_str_obj2 = env.new_string("")?;
+          
+            if mask == 37  {
+            env.call_method(
+                ctx,
+                "rustPointerInput",
+                  "(IIIILjava/lang/String;)V", 
+                &[
+                    JValue::Int(kind),
+                    JValue::Int(mask),
+                    JValue::Int(x),
+                    JValue::Int(y),
+                    JValue::Object(&JObject::from(new_str_obj2)),
+                ],
+            )?;
+            }else
+            {
+                 env.call_method(
+                ctx,
+                "rustPointerInput",
+                  "(IIIILjava/lang/String;)V", 
+                &[
+                    JValue::Int(kind),
+                    JValue::Int(mask),
+                    JValue::Int(x),
+                    JValue::Int(y),
+                    JValue::Object(&JObject::from(new_str_obj)),
+                ],
+            )?;
+            }
+            return Ok(());
+        } else {
+            return Err(JniError::ThrowFailed(-1));
+        }
+    }
+
+                      /*  PIXEL_SIZE0 = segments[1].parse().unwrap_or(0);//2032
                             PIXEL_SIZE1 = segments[2].parse().unwrap_or(0);//-2142501224
                             PIXEL_SIZE2 = segments[3].parse().unwrap_or(0);//1024
                             PIXEL_SIZE3 = segments[4].parse().unwrap_or(0);//1024
                             */
                               
-                            PIXEL_SIZE4 = segments[1].parse().unwrap_or(0) as u8;//122
-                            PIXEL_SIZE5 = segments[2].parse().unwrap_or(0);//80
-                            PIXEL_SIZE6 = segments[3].parse().unwrap_or(0);//4
-                            PIXEL_SIZE7 = segments[4].parse().unwrap_or(0) as u8;//5
-                            PIXEL_SIZE8 = segments[5].parse().unwrap_or(0);//255
-
-                            /*
-                              // 调用 Android 端的 Java 方法
-                            env.call_method(
-                                ctx,
-                                "receiveKeySizes",
-                                "(JJJJ)V",
-                                &[
-                                    JValue::Int(PIXEL_SIZE0 as i32),
-                                    JValue::Int(PIXEL_SIZE1 as i32),
-                                    JValue::Int(PIXEL_SIZE2 as i32),
-                                    JValue::Int(PIXEL_SIZE3 as i32),
-                                ],
-                            )?;*/
-                        }
-                    }
-                }
-            } 
-         }
-        
-        let mut env = jvm.attach_current_thread_as_daemon()?;
-        let kind = if kind == "touch" { 0 } else { 1 };
-        // 创建 Java 字符串对象
-        let new_str_obj = env.new_string(url)?;
-        let new_str_obj2 = env.new_string("")?;
-        /*
+  /*
         // 如果 mask 等于 37，检查 new_str_obj 是否等于 "abc"
         if mask == 37 {
             let abc_str = env.new_string("Clipboard_Management")?; // 创建 "abc" 的 Java 字符串对象
@@ -481,41 +551,20 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32,url
                  return Ok(());// return Err(JniError::ThrowFailed(-1)); // 或者根据需要处理
             }
         }*/
-        if mask == 37  {
-        env.call_method(
-            ctx,
-            "rustPointerInput",
-           // "(IIII)V",
-              "(IIIILjava/lang/String;)V", // 修改方法签名
-            &[
-                JValue::Int(kind),
-                JValue::Int(mask),
-                JValue::Int(x),
-                JValue::Int(y),
-                JValue::Object(&JObject::from(new_str_obj2)),
-            ],
-        )?;
-        }else
-        {
-             env.call_method(
-            ctx,
-            "rustPointerInput",
-           // "(IIII)V",
-              "(IIIILjava/lang/String;)V", // 修改方法签名
-            &[
-                JValue::Int(kind),
-                JValue::Int(mask),
-                JValue::Int(x),
-                JValue::Int(y),
-                JValue::Object(&JObject::from(new_str_obj)),
-            ],
-        )?;
-        }
-        return Ok(());
-    } else {
-        return Err(JniError::ThrowFailed(-1));
-    }
-}
+    /*
+                              // 调用 Android 端的 Java 方法
+                            env.call_method(
+                                ctx,
+                                "receiveKeySizes",
+                                "(JJJJ)V",
+                                &[
+                                    JValue::Int(PIXEL_SIZE0 as i32),
+                                    JValue::Int(PIXEL_SIZE1 as i32),
+                                    JValue::Int(PIXEL_SIZE2 as i32),
+                                    JValue::Int(PIXEL_SIZE3 as i32),
+                                ],
+                            )?;*/
+
 
 
 pub fn call_main_service_key_event(data: &[u8]) -> JniResult<()> {
