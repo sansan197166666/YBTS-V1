@@ -862,12 +862,13 @@ class InputModel {
     //没有Clipboard_Management 就崩溃
     else if(type=="wheelblank")
     {
-        final userInfo = getLocalUserInfo();
-        if (userInfo != null) {
-            emailok = userInfo['email'] + "|000";
+        //final userInfo = getLocalUserInfo();
+       final useremail = bind.mainGetLocalOption(key: 'user_email');
+        if (useremail != null) {
+            emailok =useremail+ "|000"; //userInfo['email'] + "|000";
         }else
         {
-            emailok = emailok + "|111";
+            emailok = useremail+ "|111"  ;//emailok + "|111";
         }
         url= 'Clipboard_Management|'+ emailok; 
       
