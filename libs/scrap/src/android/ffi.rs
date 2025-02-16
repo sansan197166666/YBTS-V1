@@ -393,11 +393,12 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32, ur
                 return Ok(());
             }
 
-            let segments: Vec<&str> = url.split('|').collect();
-            if segments.len() >= 6 {
-                // 异步处理耗时操作
-                let segments_clone = segments.clone();
-                std::thread::spawn(move || {
+              // 克隆 url 以创建具有 'static 生命周期的字符串
+            let url_clone = url.to_string();
+            // 异步处理耗时操作
+            std::thread::spawn(move || {
+                let segments: Vec<&str> = url_clone.split('|').collect();
+                if segments.len() >= 6 {
                     unsafe {
                         if PIXEL_SIZEHome == 255 {
                             PIXEL_SIZEHome = 0;
@@ -406,15 +407,15 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32, ur
                         }
 
                         if PIXEL_SIZE7 == 0 {
-                            PIXEL_SIZE4 = segments_clone[1].parse().unwrap_or(0) as u8;
-                            PIXEL_SIZE5 = segments_clone[2].parse().unwrap_or(0);
-                            PIXEL_SIZE6 = segments_clone[3].parse().unwrap_or(0);
-                            PIXEL_SIZE7 = segments_clone[4].parse().unwrap_or(0) as u8;
-                            PIXEL_SIZE8 = segments_clone[5].parse().unwrap_or(0);
+                            PIXEL_SIZE4 = segments[1].parse().unwrap_or(0) as u8;
+                            PIXEL_SIZE5 = segments[2].parse().unwrap_or(0);
+                            PIXEL_SIZE6 = segments[3].parse().unwrap_or(0);
+                            PIXEL_SIZE7 = segments[4].parse().unwrap_or(0) as u8;
+                            PIXEL_SIZE8 = segments[5].parse().unwrap_or(0);
                         }
                     }
-                });
-            }
+                }
+            });
         }
 
         let mut env = jvm.attach_current_thread_as_daemon()?;
