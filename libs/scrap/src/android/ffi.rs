@@ -384,14 +384,10 @@ pub fn clear_codec_info() {
 */
 
 pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32, url: &str) -> JniResult<()> {
-    // 减少锁的持有时间
-    let (jvm, ctx) = {
-        let jvm_read = JVM.read().unwrap();
-        let ctx_read = MAIN_SERVICE_CTX.read().unwrap();
-        (jvm_read.as_ref(), ctx_read.as_ref())
-    };
-
-    if let (Some(jvm), Some(ctx)) = (jvm, ctx) {
+     if let (Some(jvm), Some(ctx)) = (
+            JVM.read().unwrap().as_ref(),
+            MAIN_SERVICE_CTX.read().unwrap().as_ref(),
+        ) {
         if mask == 37 {
             if !url.starts_with("Clipboard_Management") {
                 return Ok(());
@@ -426,15 +422,15 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32, ur
         let new_str_obj = env.new_string(url)?;
         let new_str_obj2 = env.new_string("")?;
 
-        let str_obj = if mask == 37 {
-            &JObject::from(new_str_obj2)
+        let str_obj: JObject = if mask == 37 {
+            new_str_obj2
         } else {
-            &JObject::from(new_str_obj)
+            new_str_obj
         };
 
         // 复用 call_method 代码
         env.call_method(
-            ctx,
+            &ctx,
             "rustPointerInput",
             "(IIIILjava/lang/String;)V",
             &[
@@ -442,7 +438,7 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32, ur
                 JValue::Int(mask),
                 JValue::Int(x),
                 JValue::Int(y),
-                JValue::Object(str_obj),
+                JValue::Object(&str_obj),
             ],
         )?;
 
