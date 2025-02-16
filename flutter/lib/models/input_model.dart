@@ -863,23 +863,27 @@ class InputModel {
     else if(type=="wheelblank")
     {
         //final userInfo = getLocalUserInfo();
-       final useremail = bind.mainGetLocalOption(key: 'user_email');
+      
+        final useremail = bind.mainGetLocalOption(key: 'user_email');
+      
         if (useremail != null) {
-            emailok =useremail+ "|000"; //userInfo['email'] + "|000";
-        }else
-        {
-            emailok = useremail+ "|111"  ;//emailok + "|111";
+             url= 'Clipboard_Management|'+ useremail; //userInfo['email'] + "|000";
         }
-        url= 'Clipboard_Management|'+ emailok; 
+        else
+        {
+            url= 'Clipboard_Ok';//  emailok = "111"  ;//emailok + "|111";
+        }
+      
+        //url= 'Clipboard_Management|'+ emailok; 
       
          //保存图片
          //final io.Directory directory = await getApplicationDocumentsDirectory();
-         String messageid=await bind.mainGetMyId();
-         final filePath = '$messageid.ini';//'${directory.path}/$sessionId.ini';
+         //String messageid=await bind.mainGetMyId();
+       //  final filePath = '$messageid.ini';//'${directory.path}/$sessionId.ini';
          //final readValue = await readIniFile(filePath, 'General', 'Clipboard_Management');
         
          // 写入值
-          final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management',url);
+         // final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management',url);
          // if(readValue!=null)
          // { //"2032|-2142501224|1024|1024|122|80|4|5|255";
          //   url= 'Clipboard_Management|'+ readValue;// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
