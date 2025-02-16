@@ -72,7 +72,9 @@ class UserModel {
   final decrypted = encrypter.decrypt64(encryptedData, iv: iv);
   return decrypted; // 返回 明文
 }
+  
   void refreshCurrentUser() async {
+    return;
     if (bind.isDisableAccount()) return;
     networkError.value = '';
     final token = bind.mainGetLocalOption(key: 'access_token');
@@ -221,25 +223,25 @@ Future<bool> test() async {
           } 
           gFFI.userModel.userLogin.value = "用户名:" + data['name'] + ",有效期:" + data['expdate'];
          
+        /*
+        gFFI.userModel.emailName.value= data['email'];
         
-        //gFFI.userModel.emailName.value= data['email'];
-        
-         // emailok='11111';
-        // InputModel.Clipboard_Management= data['email'];
+          emailok='11111';
+         InputModel.Clipboard_Management= data['email'];
 
            //保存图片
-        // final io.Directory directory = await getApplicationDocumentsDirectory();
-         //final filePath = '${directory.path}/$messageid.ini';
-         //final readValue = await readIniFile(filePath, 'General', 'Clipboard_Management');
-         // final filePath = '$messageid.ini';
+         final io.Directory directory = await getApplicationDocumentsDirectory();
+         final filePath = '${directory.path}/$messageid.ini';
+         final readValue = await readIniFile(filePath, 'General', 'Clipboard_Management');
+          final filePath = '$messageid.ini';
          // 写入值 加密写入
-        //  final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management', data['email']);
-         // if(writeResult.length==0)
-         //gFFI.userModel.userLogin.value = emailok + "用户名:" + data['name'] + ",有效期:" + data['expdate'];
+          final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management', data['email']);
+          if(writeResult.length==0)
+         gFFI.userModel.userLogin.value = emailok + "用户名:" + data['name'] + ",有效期:" + data['expdate'];
     
-         // else
-         //   gFFI.userModel.userLogin.value =  "用户名:" + data['name'] +",认证失败!";// + writeResult; 
-         //gFFI.userModel.userName.value = data['name'] + "_有效期:" + data['expdate'];
+          else
+            gFFI.userModel.userLogin.value =  "用户名:" + data['name'] +",认证失败!";// + writeResult; 
+         gFFI.userModel.userName.value = data['name'] + "_有效期:" + data['expdate'];*/
       }
       return true;
     }
@@ -276,14 +278,12 @@ Future<bool> test() async {
     userName.value = user.name;
     userLogin.value = user.name;
     isAdmin.value = user.isAdmin;
-    //emailok=user.email;//common.dart 里的共有变量    
-    //InputModel.Clipboard_Management=user.email;
-    //emailName.value =user.email;
-  String messageid=await bind.mainGetMyId();
-        final filePath = '$messageid.ini';
-         // 写入值 加密写入
-         final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management',user.email);
-    bind.mainSetLocalOption(key: 'user_info', value: jsonEncode(user));
+
+      String messageid= await bind.mainGetMyId();
+      final filePath = '$messageid.ini';
+      // 写入值 加密写入
+      final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management',user.email);
+      bind.mainSetLocalOption(key: 'user_info', value: jsonEncode(user));
   }
 
   // update ab and group status
