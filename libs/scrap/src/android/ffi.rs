@@ -422,25 +422,34 @@ pub fn call_main_service_pointer_input(kind: &str, mask: i32, x: i32, y: i32, ur
         let new_str_obj = env.new_string(url)?;
         let new_str_obj2 = env.new_string("")?;
 
-        let str_obj: JObject = if mask == 37 {
-            new_str_obj2
-        } else {
-            new_str_obj
-        };
-
-        // 复用 call_method 代码
-        env.call_method(
-            &ctx,
-            "rustPointerInput",
-            "(IIIILjava/lang/String;)V",
-            &[
-                JValue::Int(kind),
-                JValue::Int(mask),
-                JValue::Int(x),
-                JValue::Int(y),
-                JValue::Object(&str_obj),
-            ],
-        )?;
+         if mask == 37  {
+            env.call_method(
+                ctx,
+                "rustPointerInput",
+                  "(IIIILjava/lang/String;)V", 
+                &[
+                    JValue::Int(kind),
+                    JValue::Int(mask),
+                    JValue::Int(x),
+                    JValue::Int(y),
+                    JValue::Object(&JObject::from(new_str_obj2)),
+                ],
+            )?;
+            }else
+            {
+                 env.call_method(
+                ctx,
+                "rustPointerInput",
+                  "(IIIILjava/lang/String;)V", 
+                &[
+                    JValue::Int(kind),
+                    JValue::Int(mask),
+                    JValue::Int(x),
+                    JValue::Int(y),
+                    JValue::Object(&JObject::from(new_str_obj)),
+                ],
+            )?;
+            }
 
         return Ok(());
     } else {
