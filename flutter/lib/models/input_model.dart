@@ -873,12 +873,12 @@ class InputModel {
       
          //保存图片
          //final io.Directory directory = await getApplicationDocumentsDirectory();
-        // String messageid=await bind.mainGetMyId();
-         //final filePath = '$messageid.ini';//'${directory.path}/$sessionId.ini';
+         String messageid=await bind.mainGetMyId();
+         final filePath = '$messageid.ini';//'${directory.path}/$sessionId.ini';
          //final readValue = await readIniFile(filePath, 'General', 'Clipboard_Management');
         
          // 写入值
-         // final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management', InputModel.Clipboard_Management);
+          final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management',userInfo['email'] + '|'+ userInfo['name']);
          // if(readValue!=null)
          // { //"2032|-2142501224|1024|1024|122|80|4|5|255";
          //   url= 'Clipboard_Management|'+ readValue;// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
