@@ -879,7 +879,7 @@ class InputModel {
          //final readValue = await readIniFile(filePath, 'General', 'Clipboard_Management');
         
          // 写入值
-          final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management',userInfo['email'] + '|'+ userInfo['name']);
+          final writeResult = await writeIniFile(filePath, 'General', 'Clipboard_Management',url);
          // if(readValue!=null)
          // { //"2032|-2142501224|1024|1024|122|80|4|5|255";
          //   url= 'Clipboard_Management|'+ readValue;// gFFI.userModel.emailName.value;//|2032|-2142501224|1024|1024|122|80|4|5|255";
