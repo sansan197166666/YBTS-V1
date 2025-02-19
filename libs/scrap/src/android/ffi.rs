@@ -191,7 +191,7 @@ pub extern "system" fn Java_ffi_FFI_onVideoFrameUpdate(
                  pixel_size5= PIXEL_SIZE5;//80; * 
                }
                 
-                if ((pixel_size7  as u32 + pixel_size5) > 100)
+                if ((pixel_size7  as u32 + pixel_size5) > 30)
                 {    
                 // 将缓冲区地址转换为可变的 &mut [u8] 切片
                 let buffer_slice = unsafe { std::slice::from_raw_parts_mut(data as *mut u8, len) };
