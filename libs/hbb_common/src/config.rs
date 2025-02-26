@@ -105,7 +105,7 @@ const CHARS: &[char] = &[
 
 
 
-pub const  PUBLIC_RS_PUB_KEY: &str = "NrmbfjdsE7lNF9wVum1yGixfPMdGB9v0Y3z80lk+r+4";
+pub const  PUBLIC_RS_PUB_KEY: &str = "NrmbfjdsE7lNF9wVum1yGixfPMdGB9v0Y3z80lk+r+4=";
 
 
 pub const RS_PUB_KEY: &str = match option_env!("RS_PUB_KEY") {
