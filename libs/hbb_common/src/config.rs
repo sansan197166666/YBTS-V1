@@ -93,7 +93,7 @@ lazy_static::lazy_static! {
         ("", LINK_DOCS_X11_REQUIRED),
         ("", LINK_HEADLESS_LINUX_SUPPORT),
         ]);
-     pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new(["156.251.19.85"]);
+     pub static ref RENDEZVOUS_SERVERS: Mutex<[&'static str; 1]> = Mutex::new(["156.251.19.126"]);
 }
 
 const CHARS: &[char] = &[
